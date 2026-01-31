@@ -66,6 +66,9 @@ jobs:
       - name: Copy CNAME for custom domain
         run: cp CNAME web/public/CNAME
 
+      - name: Add .nojekyll to bypass Jekyll processing
+        run: touch web/public/.nojekyll
+
       - name: Upload scan results
         uses: actions/upload-artifact@v4
         with:
