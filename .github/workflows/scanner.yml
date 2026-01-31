@@ -37,6 +37,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Create data directories
+        run: mkdir -p data web/public
+
       - name: Load positions database
         uses: actions/cache@v4
         with:
