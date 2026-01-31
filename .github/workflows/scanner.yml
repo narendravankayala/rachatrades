@@ -63,6 +63,9 @@ jobs:
       - name: Generate website
         run: python -m src.web.generate
 
+      - name: Copy CNAME for custom domain
+        run: cp CNAME web/public/CNAME
+
       - name: Upload scan results
         uses: actions/upload-artifact@v4
         with:
