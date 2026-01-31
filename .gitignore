@@ -1,7 +1,10 @@
-# Data files
-data/
+# Data files (output directory only)
+/data/
 *.db
-*.json
+!src/data/
+
+# JSON output files
+/data/*.json
 
 # Python
 __pycache__/
