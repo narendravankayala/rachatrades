@@ -1,0 +1,80 @@
+name: Market Scanner
+
+on:
+  # Run every 10 minutes during market hours (9:30 AM - 4:00 PM ET)
+  # GitHub Actions uses UTC, so 9:30 AM ET = 14:30 UTC (EST) or 13:30 UTC (EDT)
+  # We'll run from 13:30 to 21:00 UTC to cover both EST and EDT
+  schedule:
+    - cron: '30,40,50 13 * * 1-5'   # 9:30, 9:40, 9:50 AM ET
+    - cron: '0,10,20,30,40,50 14-20 * * 1-5'  # 10:00 AM - 4:50 PM ET
+    - cron: '0 21 * * 1-5'          # Market close 4:00 PM ET
+
+  # Manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no trades executed)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Load positions database
+        uses: actions/cache@v4
+        with:
+          path: data/positions.db
+          key: positions-${{ github.run_id }}
+          restore-keys: |
+            positions-
+
+      - name: Run market scan
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
+            python -m src.main --force --dry-run
+          else
+            python -m src.main --force
+          fi
+
+      - name: Generate website
+        run: python -m src.web.generate
+
+      - name: Upload scan results
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-results-${{ github.run_id }}
+          path: |
+            data/latest_scan.json
+            data/positions.db
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/public
+          publish_branch: gh-pages
+
+      - name: Commit updated database
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/positions.db data/latest_scan.json || true
+          git diff --staged --quiet || git commit -m "Update positions after scan [skip ci]"
+          git push || true

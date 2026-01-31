@@ -1,0 +1,18 @@
+# Core dependencies
+yfinance>=0.2.36
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Scheduling
+schedule>=1.2.0
+exchange-calendars>=4.2.0
+pytz>=2023.3
+
+# Web generation
+jinja2>=3.1.0
+
+# Database
+# Using built-in sqlite3
+
+# Development
+python-dotenv>=1.0.0
