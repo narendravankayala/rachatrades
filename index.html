@@ -453,7 +453,7 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
-                <div class="stat-value neutral">0</div>
+                <div class="stat-value neutral">1</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Total Trades</div>
@@ -482,11 +482,20 @@
             </div>
             
             
-            <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📊</div>
-                    <p>No new signals in the latest scan. Waiting for optimal entry conditions.</p>
+            <div class="signal-grid">
+                
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
+                    <div class="signal-info">
+                        <h3>PSA</h3>
+                        <p class="signal-reason">BUY: All conditions met - EMA Cloud bullish, Price above cloud, MFI oversold, Williams %R oversold</p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$278.27</div>
+                    </div>
                 </div>
+                
+                
             </div>
             
         </section>
@@ -501,10 +510,22 @@
             
             
             <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📭</div>
-                    <p>No open positions. Scanner is monitoring for entry signals.</p>
+                <div class="table-header">
+                    <div>Ticker</div>
+                    <div>Entry Price</div>
+                    <div>Entry Time</div>
+                    <div>Status</div>
+                    <div>Reason</div>
                 </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">PSA</div>
+                    <div>$278.27</div>
+                    <div>Feb 03, 14:00</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: All conditions met - EMA Cloud bullish, Price above cloud, MFI oversold, Williams %R oversold</div>
+                </div>
+                
             </div>
             
         </section>
@@ -536,7 +557,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-03T18:32:18.593950 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-03T19:00:21.438200 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
