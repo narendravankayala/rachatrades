@@ -457,19 +457,19 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">25</div>
+                <div class="stat-value positive">22</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">38</div>
+                <div class="stat-value neutral">31</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
-                <div class="stat-value negative">35</div>
+                <div class="stat-value negative">45</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
-                <div class="stat-value neutral">0</div>
+                <div class="stat-value neutral">2</div>
             </div>
         </section>
 
@@ -509,29 +509,39 @@
             
             <div class="signal-grid">
                 
-                
-                
-                <div class="signal-card sell">
-                    <div class="signal-type sell">SELL</div>
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
                     <div class="signal-info">
-                        <h3>AAPL</h3>
-                        <p class="signal-reason">SELL: Zone changed to FLAT</p>
+                        <h3>V <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: shallow pullback + WR=-83</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: SHALLOW | 
+                            MFI: 46 | 
+                            WR: -83
+                        </p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$274.99</div>
+                        <div class="price">$332.27</div>
                     </div>
                 </div>
                 
-                <div class="signal-card sell">
-                    <div class="signal-type sell">SELL</div>
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
                     <div class="signal-info">
-                        <h3>CRM</h3>
-                        <p class="signal-reason">SELL: Zone changed to FLAT</p>
+                        <h3>INTC <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: shallow pullback + WR=-94</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: SHALLOW | 
+                            MFI: 47 | 
+                            WR: -94
+                        </p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$197.92</div>
+                        <div class="price">$49.39</div>
                     </div>
                 </div>
+                
+                
                 
                 
             </div>
@@ -548,10 +558,30 @@
             
             
             <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📭</div>
-                    <p>No open positions. Scanner is monitoring for entry signals.</p>
+                <div class="table-header">
+                    <div>Ticker</div>
+                    <div>Entry Price</div>
+                    <div>Entry Time</div>
+                    <div>Status</div>
+                    <div>Reason</div>
                 </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">INTC</div>
+                    <div>$49.39</div>
+                    <div>Feb 05, 09:59</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: shallow pullback + WR=-94</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">V</div>
+                    <div>$332.27</div>
+                    <div>Feb 05, 09:59</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: shallow pullback + WR=-83</div>
+                </div>
+                
             </div>
             
         </section>
@@ -617,7 +647,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-05T14:36:55.178941 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-05T14:59:03.709381 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
