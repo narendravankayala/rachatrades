@@ -457,19 +457,19 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">43</div>
+                <div class="stat-value positive">37</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">36</div>
+                <div class="stat-value neutral">33</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
-                <div class="stat-value negative">19</div>
+                <div class="stat-value negative">28</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
-                <div class="stat-value neutral">1</div>
+                <div class="stat-value neutral">2</div>
             </div>
         </section>
 
@@ -507,11 +507,107 @@
             </div>
             
             
-            <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📊</div>
-                    <p>No new signals in the latest scan. Waiting for optimal entry conditions.</p>
+            <div class="signal-grid">
+                
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
+                    <div class="signal-info">
+                        <h3>VZ <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: shallow pullback + WR=-85</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: SHALLOW | 
+                            MFI: 25 | 
+                            WR: -85
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$47.17</div>
+                    </div>
                 </div>
+                
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>MSFT <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought WR=-6</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: NONE | 
+                            MFI: 62 | 
+                            WR: -6
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$398.13</div>
+                    </div>
+                </div>
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>ADBE <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought WR=-13 + shallow rally</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: SHALLOW | 
+                            MFI: 76 | 
+                            WR: -13
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$270.60</div>
+                    </div>
+                </div>
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>V <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought WR=-18</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: NONE | 
+                            MFI: 36 | 
+                            WR: -18
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$330.46</div>
+                    </div>
+                </div>
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>GS <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought WR=-7 + shallow rally</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: SHALLOW | 
+                            MFI: 60 | 
+                            WR: -7
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$895.19</div>
+                    </div>
+                </div>
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>NFLX <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought MFI=98 WR=-0</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: NONE | 
+                            MFI: 98 | 
+                            WR: -0
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$81.07</div>
+                    </div>
+                </div>
+                
+                
+                
             </div>
             
         </section>
@@ -532,6 +628,14 @@
                     <div>Entry Time</div>
                     <div>Status</div>
                     <div>Reason</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">VZ</div>
+                    <div>$47.17</div>
+                    <div>Feb 05, 14:45</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: shallow pullback + WR=-85</div>
                 </div>
                 
                 <div class="table-row">
@@ -757,7 +861,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-05T19:27:49.665130 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-05T19:45:37.004570 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
