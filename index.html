@@ -252,6 +252,8 @@
 
         .signal-card.buy { border-left: 3px solid var(--green); }
         .signal-card.sell { border-left: 3px solid var(--red); }
+        .signal-card.short { border-left: 3px solid var(--red); }
+        .signal-card.cover { border-left: 3px solid var(--green); }
         .signal-card.hold { border-left: 3px solid var(--yellow); }
 
         .signal-type {
@@ -265,6 +267,8 @@
 
         .signal-type.buy { background: var(--green-bg); color: var(--green); }
         .signal-type.sell { background: var(--red-bg); color: var(--red); }
+        .signal-type.short { background: var(--red-bg); color: var(--red); }
+        .signal-type.cover { background: var(--green-bg); color: var(--green); }
         .signal-type.hold { background: var(--yellow-bg); color: var(--yellow); }
 
         .signal-info h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
@@ -435,26 +439,41 @@
             </a>
             <div class="nav-status">
                 <div class="status-dot"></div>
-                <span>Auto-scanning every 15 min</span>
+                <span>MTF Scan: 10-min + 1-min</span>
             </div>
         </div>
     </nav>
 
     <main class="container">
         <section class="hero">
-            <h1>Autonomous Stock Signals</h1>
-            <p>AI-powered scanner monitoring top 100 US stocks using our proprietary algorithm for high-probability trading setups.</p>
+            <h1>Rashemator MTF Signals</h1>
+            <p>Multi-timeframe EMA cloud scanner monitoring top 100 US stocks. Buy pullbacks in LONG zones with oscillator confirmation.</p>
             <div class="strategy-badge">
                 <span>Strategy:</span>
-                <code>Proprietary Multi-Indicator System</code>
+                <code>50/120 + 80/90 + 340/500 EMA Clouds + MFI + Williams %R</code>
             </div>
         </section>
 
         <section class="stats-grid">
             <div class="stat-card">
-                <div class="stat-label">Open Positions</div>
-                <div class="stat-value neutral">0</div>
+                <div class="stat-label">LONG Zone</div>
+                <div class="stat-value positive">22</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-label">FLAT Zone</div>
+                <div class="stat-value neutral">54</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">SHORT Zone</div>
+                <div class="stat-value negative">22</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Open Positions</div>
+                <div class="stat-value neutral">2</div>
+            </div>
+        </section>
+
+        <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Trades</div>
                 <div class="stat-value neutral">1</div>
@@ -471,6 +490,12 @@
                     $1.64
                 </div>
             </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg P&L</div>
+                <div class="stat-value positive">
+                    $1.64
+                </div>
+            </div>
         </section>
 
         <section class="signals-section">
@@ -482,11 +507,43 @@
             </div>
             
             
-            <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📊</div>
-                    <p>No new signals in the latest scan. Waiting for optimal entry conditions.</p>
+            <div class="signal-grid">
+                
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
+                    <div class="signal-info">
+                        <h3>AAPL <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: shallow pullback + WR=-96</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: SHALLOW | 
+                            MFI: 41 | 
+                            WR: -96
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$276.46</div>
+                    </div>
                 </div>
+                
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
+                    <div class="signal-info">
+                        <h3>CRM <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: shallow pullback + WR=-94</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: SHALLOW | 
+                            MFI: 31 | 
+                            WR: -94
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$199.37</div>
+                    </div>
+                </div>
+                
+                
+                
+                
             </div>
             
         </section>
@@ -501,10 +558,30 @@
             
             
             <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📭</div>
-                    <p>No open positions. Scanner is monitoring for entry signals.</p>
+                <div class="table-header">
+                    <div>Ticker</div>
+                    <div>Entry Price</div>
+                    <div>Entry Time</div>
+                    <div>Status</div>
+                    <div>Reason</div>
                 </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">CRM</div>
+                    <div>$199.37</div>
+                    <div>Feb 05, 08:53</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: shallow pullback + WR=-94</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">AAPL</div>
+                    <div>$276.46</div>
+                    <div>Feb 05, 08:53</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: shallow pullback + WR=-96</div>
+                </div>
+                
             </div>
             
         </section>
@@ -550,7 +627,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-04T21:07:35.136872 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-05T13:53:57.675993 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
