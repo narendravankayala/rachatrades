@@ -252,6 +252,8 @@
 
         .signal-card.buy { border-left: 3px solid var(--green); }
         .signal-card.sell { border-left: 3px solid var(--red); }
+        .signal-card.short { border-left: 3px solid var(--red); }
+        .signal-card.cover { border-left: 3px solid var(--green); }
         .signal-card.hold { border-left: 3px solid var(--yellow); }
 
         .signal-type {
@@ -265,6 +267,8 @@
 
         .signal-type.buy { background: var(--green-bg); color: var(--green); }
         .signal-type.sell { background: var(--red-bg); color: var(--red); }
+        .signal-type.short { background: var(--red-bg); color: var(--red); }
+        .signal-type.cover { background: var(--green-bg); color: var(--green); }
         .signal-type.hold { background: var(--yellow-bg); color: var(--yellow); }
 
         .signal-info h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
@@ -435,26 +439,41 @@
             </a>
             <div class="nav-status">
                 <div class="status-dot"></div>
-                <span>Auto-scanning every 15 min</span>
+                <span>MTF Scan: 10-min + 1-min</span>
             </div>
         </div>
     </nav>
 
     <main class="container">
         <section class="hero">
-            <h1>Autonomous Stock Signals</h1>
-            <p>AI-powered scanner monitoring top 100 US stocks using our proprietary algorithm for high-probability trading setups.</p>
+            <h1>Rashemator MTF Signals</h1>
+            <p>Multi-timeframe EMA cloud scanner monitoring top 100 US stocks. Buy pullbacks in LONG zones with oscillator confirmation.</p>
             <div class="strategy-badge">
                 <span>Strategy:</span>
-                <code>Proprietary Multi-Indicator System</code>
+                <code>50/120 + 80/90 + 340/500 EMA Clouds + MFI + Williams %R</code>
             </div>
         </section>
 
         <section class="stats-grid">
             <div class="stat-card">
+                <div class="stat-label">LONG Zone</div>
+                <div class="stat-value positive">{{ zone_counts.LONG|default(0) }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">FLAT Zone</div>
+                <div class="stat-value neutral">{{ zone_counts.FLAT|default(0) }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">SHORT Zone</div>
+                <div class="stat-value negative">{{ zone_counts.SHORT|default(0) }}</div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
                 <div class="stat-value neutral">{{ stats.open_positions }}</div>
             </div>
+        </section>
+
+        <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Trades</div>
                 <div class="stat-value neutral">{{ stats.total_trades }}</div>
@@ -471,6 +490,12 @@
                     ${{ "%.2f"|format(stats.total_pnl) }}
                 </div>
             </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg P&L</div>
+                <div class="stat-value {% if stats.avg_pnl >= 0 %}positive{% else %}negative{% endif %}">
+                    ${{ "%.2f"|format(stats.avg_pnl|default(0)) }}
+                </div>
+            </div>
         </section>
 
         <section class="signals-section">
@@ -481,14 +506,36 @@
                 </h2>
             </div>
             
-            {% if scan.buys or scan.sells %}
+            {% if scan.buys or scan.shorts or scan.sells or scan.covers %}
             <div class="signal-grid">
                 {% for signal in scan.buys %}
                 <div class="signal-card buy">
                     <div class="signal-type buy">BUY</div>
                     <div class="signal-info">
-                        <h3>{{ signal.ticker }}</h3>
+                        <h3>{{ signal.ticker }} <span style="font-size: 0.7em; color: var(--green);">{{ signal.zone|default('LONG') }}</span></h3>
                         <p class="signal-reason">{{ signal.reason }}</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: {{ signal.pullback_type|default('—') }} | 
+                            MFI: {{ "%.0f"|format(signal.mfi|default(0)) }} | 
+                            WR: {{ "%.0f"|format(signal.williams_r|default(0)) }}
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">${{ "%.2f"|format(signal.price) }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% for signal in scan.shorts %}
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>{{ signal.ticker }} <span style="font-size: 0.7em; color: var(--red);">{{ signal.zone|default('SHORT') }}</span></h3>
+                        <p class="signal-reason">{{ signal.reason }}</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: {{ signal.rally_type|default('—') }} | 
+                            MFI: {{ "%.0f"|format(signal.mfi|default(0)) }} | 
+                            WR: {{ "%.0f"|format(signal.williams_r|default(0)) }}
+                        </p>
                     </div>
                     <div class="signal-price">
                         <div class="price">${{ "%.2f"|format(signal.price) }}</div>
@@ -498,6 +545,18 @@
                 {% for signal in scan.sells %}
                 <div class="signal-card sell">
                     <div class="signal-type sell">SELL</div>
+                    <div class="signal-info">
+                        <h3>{{ signal.ticker }}</h3>
+                        <p class="signal-reason">{{ signal.reason }}</p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">${{ "%.2f"|format(signal.price) }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% for signal in scan.covers %}
+                <div class="signal-card cover">
+                    <div class="signal-type cover">COVER</div>
                     <div class="signal-info">
                         <h3>{{ signal.ticker }}</h3>
                         <p class="signal-reason">{{ signal.reason }}</p>

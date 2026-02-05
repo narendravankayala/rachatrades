@@ -1,6 +1,13 @@
-"""Main scanner - orchestrates the entire scanning pipeline."""
+"""
+Main scanner - orchestrates the Rashemator MTF scanning pipeline.
+
+Uses multi-timeframe analysis:
+- 10-min charts for trend/zone detection
+- 1-min charts for entry timing and oscillator confirmation
+"""
 
 import argparse
+import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -43,7 +50,7 @@ def run_scan(
     dry_run: bool = False,
 ) -> dict:
     """
-    Run a single scan of the universe.
+    Run a single scan of the universe using Rashemator MTF strategy.
 
     Args:
         db_path: Path to the positions database
@@ -53,7 +60,7 @@ def run_scan(
         Dictionary with scan results
     """
     logger.info("=" * 60)
-    logger.info("Starting market scan...")
+    logger.info("Starting Rashemator MTF scan...")
     logger.info(f"Time: {datetime.now(ET).strftime('%Y-%m-%d %H:%M:%S %Z')}")
     logger.info(f"Market hours: {is_market_hours()}")
     logger.info("=" * 60)
@@ -70,17 +77,19 @@ def run_scan(
     logger.info(f"Scanning {len(universe)} stocks...")
     logger.info(f"Currently holding {len(open_positions)} positions: {open_positions}")
 
-    # Fetch data for all tickers
-    logger.info("Fetching 15-minute data...")
-    data = provider.get_batch_ohlcv(universe, interval="15m", period="5d")
-    logger.info(f"Got data for {len(data)} tickers")
+    # Fetch MTF data (10-min + 1-min) for all tickers
+    logger.info("Fetching multi-timeframe data (10-min + 1-min)...")
+    mtf_data = provider.get_batch_mtf_ohlcv(universe)
+    logger.info(f"Got MTF data for {len(mtf_data)} tickers")
 
     # Run strategy on all tickers
-    results = strategy.scan_universe(data, open_positions)
+    results = strategy.scan_universe_mtf(mtf_data, open_positions)
 
     # Process signals
     buys = []
     sells = []
+    shorts = []
+    covers = []
     holds = []
 
     for result in results:
@@ -103,9 +112,23 @@ def run_scan(
                     timestamp=datetime.now(ET),
                     reason=result.reason,
                 )
+        
+        elif result.signal == Signal.SHORT:
+            shorts.append(result)
+            # Note: PositionTracker would need short position support
+            # For now, just track them in output
+        
+        elif result.signal == Signal.COVER:
+            covers.append(result)
+            # Note: PositionTracker would need short position support
 
-        elif result.signal == Signal.HOLD:
+        elif result.signal == Signal.HOLD or result.signal == Signal.HOLD_SHORT:
             holds.append(result)
+
+    # Count zones
+    zone_counts = {"LONG": 0, "SHORT": 0, "FLAT": 0}
+    for result in results:
+        zone_counts[result.zone.value] = zone_counts.get(result.zone.value, 0) + 1
 
     # Update daily summary
     if not dry_run:
@@ -117,15 +140,25 @@ def run_scan(
     # Log summary
     logger.info("")
     logger.info("=" * 60)
-    logger.info("SCAN COMPLETE")
+    logger.info("RASHEMATOR SCAN COMPLETE")
     logger.info("=" * 60)
+    logger.info(f"Zone Distribution: LONG={zone_counts['LONG']} | FLAT={zone_counts['FLAT']} | SHORT={zone_counts['SHORT']}")
+    logger.info("")
     logger.info(f"New BUY signals: {len(buys)}")
     for b in buys:
         logger.info(f"  📈 {b.ticker} @ ${b.price:.2f} - {b.reason}")
 
+    logger.info(f"New SHORT signals: {len(shorts)}")
+    for s in shorts:
+        logger.info(f"  📉 {s.ticker} @ ${s.price:.2f} - {s.reason}")
+
     logger.info(f"SELL signals: {len(sells)}")
     for s in sells:
-        logger.info(f"  📉 {s.ticker} @ ${s.price:.2f} - {s.reason}")
+        logger.info(f"  💰 {s.ticker} @ ${s.price:.2f} - {s.reason}")
+
+    logger.info(f"COVER signals: {len(covers)}")
+    for c in covers:
+        logger.info(f"  🔄 {c.ticker} @ ${c.price:.2f} - {c.reason}")
 
     logger.info(f"HOLD positions: {len(holds)}")
     logger.info("")
@@ -138,10 +171,56 @@ def run_scan(
 
     return {
         "timestamp": datetime.now(ET).isoformat(),
-        "buys": [{"ticker": r.ticker, "price": r.price, "reason": r.reason} for r in buys],
-        "sells": [{"ticker": r.ticker, "price": r.price, "reason": r.reason} for r in sells],
-        "holds": [{"ticker": r.ticker, "price": r.price} for r in holds],
+        "buys": [
+            {
+                "ticker": r.ticker, 
+                "price": r.price, 
+                "reason": r.reason,
+                "zone": r.zone.value,
+                "pullback_type": r.pullback_type.value,
+                "mfi": r.mfi_value,
+                "williams_r": r.williams_r_value,
+            } 
+            for r in buys
+        ],
+        "shorts": [
+            {
+                "ticker": r.ticker, 
+                "price": r.price, 
+                "reason": r.reason,
+                "zone": r.zone.value,
+                "rally_type": r.rally_type.value,
+                "mfi": r.mfi_value,
+                "williams_r": r.williams_r_value,
+            } 
+            for r in shorts
+        ],
+        "sells": [
+            {
+                "ticker": r.ticker, 
+                "price": r.price, 
+                "reason": r.reason,
+            } 
+            for r in sells
+        ],
+        "covers": [
+            {
+                "ticker": r.ticker, 
+                "price": r.price, 
+                "reason": r.reason,
+            } 
+            for r in covers
+        ],
+        "holds": [
+            {
+                "ticker": r.ticker, 
+                "price": r.price,
+                "zone": r.zone.value,
+            } 
+            for r in holds
+        ],
         "stats": stats,
+        "zone_counts": zone_counts,
     }
 
 
@@ -175,7 +254,6 @@ def main():
     results = run_scan(db_path=args.db, dry_run=args.dry_run)
 
     # Save results to JSON for website generation
-    import json
     output_path = Path("data/latest_scan.json")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as f:

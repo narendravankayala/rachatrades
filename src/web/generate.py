@@ -51,6 +51,7 @@ def generate_website(
         open_positions=open_positions,
         closed_positions=closed_positions[:20],  # Last 20
         stats=stats,
+        zone_counts=scan_data.get("zone_counts", {"LONG": 0, "FLAT": 0, "SHORT": 0}),
         generated_at=datetime.now().isoformat(),
     )
 
