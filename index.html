@@ -457,11 +457,11 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">22</div>
+                <div class="stat-value positive">27</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">31</div>
+                <div class="stat-value neutral">26</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
@@ -476,24 +476,24 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Trades</div>
-                <div class="stat-value neutral">3</div>
+                <div class="stat-value neutral">4</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Win Rate</div>
                 <div class="stat-value negative">
-                    33.3%
+                    25.0%
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Total P&L</div>
                 <div class="stat-value negative">
-                    $-1.28
+                    $-2.69
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Avg P&L</div>
                 <div class="stat-value negative">
-                    $-0.43
+                    $-0.67
                 </div>
             </div>
         </section>
@@ -512,36 +512,63 @@
                 <div class="signal-card buy">
                     <div class="signal-type buy">BUY</div>
                     <div class="signal-info">
-                        <h3>V <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
-                        <p class="signal-reason">BUY: shallow pullback + WR=-83</p>
+                        <h3>NFLX <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: midpoint pullback + WR=-97</p>
                         <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
-                            Pullback: SHALLOW | 
-                            MFI: 46 | 
-                            WR: -83
+                            Pullback: MIDPOINT | 
+                            MFI: 31 | 
+                            WR: -97
                         </p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$332.27</div>
+                        <div class="price">$81.80</div>
                     </div>
                 </div>
                 
-                <div class="signal-card buy">
-                    <div class="signal-type buy">BUY</div>
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
                     <div class="signal-info">
-                        <h3>INTC <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
-                        <p class="signal-reason">BUY: shallow pullback + WR=-94</p>
+                        <h3>TSLA <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought WR=-13</p>
                         <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
-                            Pullback: SHALLOW | 
-                            MFI: 47 | 
-                            WR: -94
+                            Rally: NONE | 
+                            MFI: 53 | 
+                            WR: -13
                         </p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$49.39</div>
+                        <div class="price">$391.33</div>
+                    </div>
+                </div>
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>LLY <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: overbought WR=-8</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Rally: NONE | 
+                            MFI: 56 | 
+                            WR: -8
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$1041.84</div>
                     </div>
                 </div>
                 
                 
+                <div class="signal-card sell">
+                    <div class="signal-type sell">SELL</div>
+                    <div class="signal-info">
+                        <h3>INTC</h3>
+                        <p class="signal-reason">SELL: Zone changed to SHORT, 50/120 cloud bearish</p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$47.97</div>
+                    </div>
+                </div>
                 
                 
             </div>
@@ -567,11 +594,11 @@
                 </div>
                 
                 <div class="table-row">
-                    <div class="ticker-cell">INTC</div>
-                    <div>$49.39</div>
-                    <div>Feb 05, 09:59</div>
+                    <div class="ticker-cell">NFLX</div>
+                    <div>$81.80</div>
+                    <div>Feb 05, 10:21</div>
                     <div><span class="status-badge open">HOLDING</span></div>
-                    <div class="signal-reason">BUY: shallow pullback + WR=-94</div>
+                    <div class="signal-reason">BUY: midpoint pullback + WR=-97</div>
                 </div>
                 
                 <div class="table-row">
@@ -602,6 +629,16 @@
                     <div>Exit</div>
                     <div>P&L</div>
                     <div>Exit Reason</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">INTC</div>
+                    <div>$49.39</div>
+                    <div>$47.97</div>
+                    <div class="pnl-negative">
+                        $-1.42 (-2.9%)
+                    </div>
+                    <div class="signal-reason">SELL: Zone changed to SHORT, 50/120 cloud bearish</div>
                 </div>
                 
                 <div class="table-row">
@@ -647,7 +684,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-05T14:59:03.709381 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-05T15:21:19.056203 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
