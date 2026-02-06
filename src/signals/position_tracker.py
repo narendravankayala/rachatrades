@@ -87,6 +87,13 @@ class PositionTracker:
                 ON positions(status)
             """)
 
+            # Migrate old DB: add position_type column if missing
+            cursor = conn.execute("PRAGMA table_info(positions)")
+            columns = {row[1] for row in cursor.fetchall()}
+            if "position_type" not in columns:
+                conn.execute("ALTER TABLE positions ADD COLUMN position_type TEXT NOT NULL DEFAULT 'LONG'")
+                logger.info("Migrated DB: added position_type column")
+
             # Create daily summary table
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS daily_summary (
