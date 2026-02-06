@@ -419,6 +419,7 @@ class PositionTracker:
                         id=row["id"],
                         ticker=row["ticker"],
                         status=PositionStatus(row["status"]),
+                        position_type=PositionType(row.get("position_type", "LONG") or "LONG"),
                         entry_time=datetime.fromisoformat(row["entry_time"]),
                         entry_price=row["entry_price"],
                         quantity=row["quantity"],
