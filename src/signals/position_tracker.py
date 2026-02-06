@@ -355,12 +355,16 @@ class PositionTracker:
 
             positions = []
             for row in cursor.fetchall():
+                try:
+                    pos_type = PositionType(row["position_type"])
+                except (KeyError, IndexError):
+                    pos_type = PositionType.LONG
                 positions.append(
                     Position(
                         id=row["id"],
                         ticker=row["ticker"],
                         status=PositionStatus(row["status"]),
-                        position_type=PositionType(row.get("position_type", "LONG") or "LONG"),
+                        position_type=pos_type,
                         entry_time=datetime.fromisoformat(row["entry_time"]),
                         entry_price=row["entry_price"],
                         quantity=row["quantity"],
@@ -414,12 +418,16 @@ class PositionTracker:
 
             positions = []
             for row in cursor.fetchall():
+                try:
+                    pos_type = PositionType(row["position_type"])
+                except (KeyError, IndexError):
+                    pos_type = PositionType.LONG
                 positions.append(
                     Position(
                         id=row["id"],
                         ticker=row["ticker"],
                         status=PositionStatus(row["status"]),
-                        position_type=PositionType(row.get("position_type", "LONG") or "LONG"),
+                        position_type=pos_type,
                         entry_time=datetime.fromisoformat(row["entry_time"]),
                         entry_price=row["entry_price"],
                         quantity=row["quantity"],
