@@ -1,24 +1,33 @@
 # rachatrades
 
-Autonomous stock market scanner using EMA Cloud + MFI + Williams %R strategy.
+Autonomous stock market scanner powered by the **Rashemator EMA Cloud Strategy** — a multi-timeframe cloud flip system on 10-minute candles with trend filtering.
+
+Live dashboard: [rachatrades.com](https://rachatrades.com)
 
 ## Features
 
-- 📊 Scans top 100 US stocks by market cap every 10 minutes
-- 🎯 Multi-indicator strategy: EMA Cloud (5/12), MFI, Williams %R
-- 📈 Automatic position tracking with P&L calculation
-- 🌐 Live dashboard at [rachatrades.com](https://rachatrades.com)
-- ⚡ Fully autonomous via GitHub Actions (zero cost)
+- 📊 Scans ~100 US stocks by market cap every 10 minutes during market hours
+- ☁️ Rashemator Cloud Flip Strategy: 5/12 EMA cloud flips with 34/50 trend filter
+- 📈 Long & short position tracking with P&L calculation (SQLite)
+- 📧 Real-time email alerts on BUY / SELL / SHORT / COVER signals
+- 🌐 Auto-generated dashboard at [rachatrades.com](https://rachatrades.com)
+- ⚡ Fully autonomous via GitHub Actions — zero cost to operate
+- 🧩 Agent-based architecture — pluggable strategies for future expansion
 
-## Strategy
+## Strategy — Rashemator Cloud Flip
 
-**BUY** when:
-- EMA 5 crosses above EMA 12 (bullish cloud)
-- Price is above the cloud
-- MFI is oversold (< 20)
-- Williams %R is oversold (< -80)
+All analysis runs on **true 10-minute candles** (1-min data resampled from yfinance).
 
-**SELL** when any condition reverses.
+| Signal | Condition |
+|--------|-----------|
+| **BUY** | 5/12 EMA cloud flips bullish **AND** 34/50 major cloud is bullish |
+| **SELL** | 5/12 EMA cloud flips bearish |
+| **SHORT** | 5/12 EMA cloud flips bearish **AND** 34/50 major cloud is bearish |
+| **COVER** | 5/12 EMA cloud flips bullish |
+
+The **34/50 major cloud** acts as a trend filter — you only go long in uptrends and short in downtrends.
+
+Oscillators (MFI 14, Williams %R 14) provide additional confirmation context.
 
 ## Quick Start
 
@@ -26,29 +35,56 @@ Autonomous stock market scanner using EMA Cloud + MFI + Williams %R strategy.
 # Install dependencies
 pip install -r requirements.txt
 
-# Run scanner (with --force for outside market hours)
-python -m src.main --force
+# Run scanner (--force to run outside market hours)
+python scripts/scan.py --force
+
+# Dry run (no positions opened/closed)
+python scripts/scan.py --force --dry-run
+
+# Analyze current market zones & opportunities
+python scripts/analyze.py
 
 # Generate website
-python -m src.web.generate
+python -m rachatrades.web.generate
 ```
 
 ## Architecture
 
 ```
-src/
-├── data/        # yfinance data provider
-├── indicators/  # EMA Cloud, MFI, Williams %R
-├── strategies/  # Strategy logic combining indicators
-├── signals/     # SQLite position tracker
-├── scanner/     # Stock universe (top 100)
-├── web/         # Static site generator
-└── main.py      # Entry point
+rachatrades/                  # Main package
+├── core/                     # Shared infrastructure
+│   ├── data/                 #   DataProvider (yfinance → 10min resampling)
+│   ├── indicators/           #   EMA Clouds, MFI, Williams %R
+│   └── signals/              #   PositionTracker (SQLite, long + short)
+├── agents/                   # Pluggable trading strategies
+│   ├── base.py               #   BaseAgent abstract class
+│   └── rashemator/           #   Rashemator cloud flip strategy
+├── scanner/                  # Stock universe (top ~100 by market cap)
+├── notifications/            # Email alerts (Gmail SMTP)
+└── web/                      # Static site generator (Jinja2)
+
+scripts/                      # Entry points
+├── scan.py                   #   Market scanner
+└── analyze.py                #   Market analysis tool
+
+docs/                         # Documentation
+├── vision.md                 #   Grand vision & roadmap
+└── strategies/               #   Strategy params & explainers
+
+tests/                        # Test suite
 ```
 
 ## Deployment
 
-The scanner runs automatically via GitHub Actions every 10 minutes during market hours. Results are published to GitHub Pages.
+The scanner runs automatically via **GitHub Actions** every 10 minutes during US market hours (9:30 AM – 4:00 PM ET, Mon–Fri). Results are published to GitHub Pages and trade alerts are emailed in real time.
+
+### Environment Variables (GitHub Secrets)
+
+| Secret | Description |
+|--------|-------------|
+| `SMTP_USER` | Gmail address for sending alerts |
+| `SMTP_PASSWORD` | Gmail app password |
+| `NOTIFY_EMAILS` | Comma-separated recipient emails |
 
 ## License
 
