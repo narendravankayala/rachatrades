@@ -457,19 +457,19 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">44</div>
+                <div class="stat-value positive">42</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">38</div>
+                <div class="stat-value neutral">41</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
-                <div class="stat-value negative">16</div>
+                <div class="stat-value negative">15</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
-                <div class="stat-value neutral">31</div>
+                <div class="stat-value neutral">32</div>
             </div>
         </section>
 
@@ -507,11 +507,38 @@
             </div>
             
             
-            <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📊</div>
-                    <p>No new signals in the latest scan. Waiting for optimal entry conditions.</p>
+            <div class="signal-grid">
+                
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
+                    <div class="signal-info">
+                        <h3>NFLX <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: 5/12 cloud flipped bullish (zone: LONG)</p>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            Pullback: — | 
+                            MFI: 51 | 
+                            WR: -48
+                        </p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$81.31</div>
+                    </div>
                 </div>
+                
+                
+                
+                <div class="signal-card sell">
+                    <div class="signal-type sell">SELL</div>
+                    <div class="signal-info">
+                        <h3>MU</h3>
+                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$387.47</div>
+                    </div>
+                </div>
+                
+                
             </div>
             
         </section>
@@ -532,6 +559,14 @@
                     <div>Entry Time</div>
                     <div>Status</div>
                     <div>Reason</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">NFLX</div>
+                    <div>$81.31</div>
+                    <div>Feb 06, 12:44</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: 5/12 cloud flipped bullish (zone: LONG)</div>
                 </div>
                 
                 <div class="table-row">
@@ -1017,7 +1052,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-06T17:21:44.125648 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-06T17:45:12.295852 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
