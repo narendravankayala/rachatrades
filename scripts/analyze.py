@@ -3,13 +3,19 @@ Analyze current market conditions using Rashemator MTF strategy.
 
 Shows zone classification, pullback opportunities, and oscillator readings.
 """
+import sys
 import warnings
+from pathlib import Path
+
 warnings.filterwarnings('ignore')
 
-from src.data import DataProvider
-from src.strategies import EMACloudStrategy, Signal
-from src.scanner import get_universe
-from src.indicators import Zone, PullbackType, RallyType
+# Ensure project root is on path when script is run directly
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from rachatrades.core.data import DataProvider
+from rachatrades.agents.rashemator import EMACloudStrategy, Signal
+from rachatrades.scanner import get_universe
+from rachatrades.core.indicators import Zone, PullbackType, RallyType
 
 
 def main():

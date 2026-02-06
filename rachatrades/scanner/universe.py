@@ -20,11 +20,11 @@ TOP_100_STOCKS = [
     # Tech (more)
     "CRM", "AMD", "INTC", "QCOM", "TXN", "IBM", "NOW", "INTU", "AMAT", "MU",
     # Communication
-    "DIS", "NFLX", "CMCSA", "VZ", "T", "TMUS", "CHTR", "EA", "ATVI", "WBD",
+    "DIS", "NFLX", "CMCSA", "VZ", "T", "TMUS", "CHTR", "EA", "WBD",
     # Real Estate & Utilities
     "AMT", "PLD", "CCI", "EQIX", "PSA", "NEE", "DUK", "SO", "D", "AEP",
     # Other
-    "SPGI", "BLK", "CB", "MMC", "PNC", "USB", "SCHW", "TFC", "COF", "AIG",
+    "SPGI", "BLK", "CB", "PNC", "USB", "SCHW", "TFC", "COF", "AIG",
 ]
 
 

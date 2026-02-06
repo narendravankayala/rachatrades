@@ -23,7 +23,7 @@ def generate_website(
         db_path: Path to positions database
         output_dir: Output directory for HTML files
     """
-    from src.signals import PositionTracker
+    from rachatrades.core.signals import PositionTracker
 
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)

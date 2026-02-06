@@ -1,4 +1,4 @@
-"""Signals module for position tracking."""
+"""Position tracking and portfolio management."""
 
 from .position_tracker import PositionTracker, Position, PositionStatus, PositionType
 

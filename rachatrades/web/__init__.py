@@ -1,4 +1,4 @@
-"""Web module for static site generation."""
+"""Web module for dashboard and static site generation."""
 
 from .generate import generate_website
 

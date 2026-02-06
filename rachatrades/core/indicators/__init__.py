@@ -1,7 +1,6 @@
-"""Technical indicators module."""
+"""Reusable technical indicators (EMA clouds, MFI, Williams %R, future: RSI, VWAP, etc.)."""
 
 from .ema_cloud import (
-    # New Rashemator MTF functions
     Zone,
     PullbackType,
     RallyType,
@@ -12,7 +11,6 @@ from .ema_cloud import (
     get_rashemator_signal_10min,
     get_rashemator_signal_1min,
     get_rashemator_signal_mtf,
-    # Legacy compatibility
     calculate_ema,
     calculate_ema_cloud,
     get_ema_cloud_signal,

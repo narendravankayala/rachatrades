@@ -24,7 +24,7 @@ from typing import Dict, List, Optional, Set
 
 import pandas as pd
 
-from src.indicators import (
+from rachatrades.core.indicators import (
     Zone,
     PullbackType,
     RallyType,
@@ -40,7 +40,7 @@ from src.indicators import (
     calculate_ema_cloud,
     get_ema_cloud_signal,
 )
-from src.data import MTFData
+from rachatrades.core.data import MTFData
 
 logger = logging.getLogger(__name__)
 
@@ -501,7 +501,7 @@ class EMACloudStrategy:
 if __name__ == "__main__":
     # Test the Rashemator strategy
     import yfinance as yf
-    from src.data import DataProvider
+    from rachatrades.core.data import DataProvider
 
     logging.basicConfig(level=logging.INFO)
 

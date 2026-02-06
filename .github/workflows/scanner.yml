@@ -59,13 +59,13 @@ jobs:
           NOTIFY_EMAILS: ${{ secrets.NOTIFY_EMAILS }}
         run: |
           if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
-            python -m src.main --force --dry-run
+            python scripts/scan.py --force --dry-run
           else
-            python -m src.main --force
+            python scripts/scan.py --force
           fi
 
       - name: Generate website
-        run: python -m src.web.generate
+        run: python -m rachatrades.web.generate
 
       - name: Copy CNAME for custom domain
         run: cp CNAME web/public/CNAME

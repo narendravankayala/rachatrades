@@ -1,7 +1,7 @@
 # Data files (output directory only)
 /data/
 *.db
-!src/data/
+!rachatrades/core/data/
 
 # JSON output files
 /data/*.json

@@ -11,16 +11,20 @@ Cloud flip system on 10-min candles:
 import argparse
 import json
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
 
+# Ensure project root is on path when script is run directly
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import pytz
 
-from src.data import DataProvider
-from src.notifications import EmailNotifier
-from src.scanner import get_universe
-from src.signals import PositionTracker
-from src.strategies import EMACloudStrategy, Signal, StrategyConfig
+from rachatrades.core.data import DataProvider
+from rachatrades.notifications import EmailNotifier
+from rachatrades.scanner import get_universe
+from rachatrades.core.signals import PositionTracker
+from rachatrades.agents.rashemator import EMACloudStrategy, Signal, StrategyConfig
 
 # Configure logging
 logging.basicConfig(

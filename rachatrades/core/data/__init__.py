@@ -1,4 +1,4 @@
-"""Data module for fetching market data."""
+"""Data providers for market data (yfinance, future: IBKR, Alpaca, etc.)."""
 
 from .provider import DataProvider, MTFData, get_provider
 
