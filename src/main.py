@@ -1,9 +1,11 @@
 """
-Main scanner - orchestrates the Rashemator MTF scanning pipeline.
+Main scanner - Rashemator Cloud Flip Strategy.
 
-Uses multi-timeframe analysis:
-- 10-min charts for trend/zone detection
-- 1-min charts for entry timing and oscillator confirmation
+Cloud flip system on 10-min candles:
+- BUY when 5/12 cloud flips bullish AND 34/50 major cloud is bullish
+- SELL when 5/12 cloud flips bearish
+- SHORT when 5/12 cloud flips bearish AND 34/50 major cloud is bearish
+- COVER when 5/12 cloud flips bullish
 """
 
 import argparse
@@ -15,6 +17,7 @@ from pathlib import Path
 import pytz
 
 from src.data import DataProvider
+from src.notifications import EmailNotifier
 from src.scanner import get_universe
 from src.signals import PositionTracker
 from src.strategies import EMACloudStrategy, Signal, StrategyConfig
@@ -50,7 +53,7 @@ def run_scan(
     dry_run: bool = False,
 ) -> dict:
     """
-    Run a single scan of the universe using Rashemator MTF strategy.
+    Run a single scan of the universe using Rashemator cloud flip strategy.
 
     Args:
         db_path: Path to the positions database
@@ -59,9 +62,11 @@ def run_scan(
     Returns:
         Dictionary with scan results
     """
+    scan_time = datetime.now(ET)
+    
     logger.info("=" * 60)
-    logger.info("Starting Rashemator MTF scan...")
-    logger.info(f"Time: {datetime.now(ET).strftime('%Y-%m-%d %H:%M:%S %Z')}")
+    logger.info("Starting Rashemator Cloud Flip scan...")
+    logger.info(f"Time: {scan_time.strftime('%Y-%m-%d %H:%M:%S %Z')}")
     logger.info(f"Market hours: {is_market_hours()}")
     logger.info("=" * 60)
 
@@ -69,21 +74,33 @@ def run_scan(
     provider = DataProvider(cache_minutes=5)
     tracker = PositionTracker(db_path)
     strategy = EMACloudStrategy()
+    notifier = EmailNotifier()
+
+    if notifier.is_configured:
+        logger.info("Email notifications: ENABLED")
+    else:
+        logger.info("Email notifications: DISABLED (set SMTP_USER, SMTP_PASSWORD, NOTIFY_EMAILS)")
 
     # Get universe and open positions
     universe = get_universe()
-    open_positions = tracker.get_open_tickers()
+    open_long_positions = tracker.get_open_tickers()
+    open_short_positions = tracker.get_open_short_tickers()
 
     logger.info(f"Scanning {len(universe)} stocks...")
-    logger.info(f"Currently holding {len(open_positions)} positions: {open_positions}")
+    logger.info(f"Open LONG positions ({len(open_long_positions)}): {open_long_positions}")
+    logger.info(f"Open SHORT positions ({len(open_short_positions)}): {open_short_positions}")
 
-    # Fetch MTF data (10-min + 1-min) for all tickers
-    logger.info("Fetching multi-timeframe data (10-min + 1-min)...")
+    # Fetch 1-min data and resample to true 10-min candles
+    logger.info("Fetching 1-min data and resampling to 10-min candles...")
     mtf_data = provider.get_batch_mtf_ohlcv(universe)
-    logger.info(f"Got MTF data for {len(mtf_data)} tickers")
+    logger.info(f"Got 10-min data for {len(mtf_data)} tickers")
 
     # Run strategy on all tickers
-    results = strategy.scan_universe_mtf(mtf_data, open_positions)
+    results = strategy.scan_universe_mtf(
+        mtf_data, 
+        open_long_positions,
+        short_positions=open_short_positions,
+    )
 
     # Process signals
     buys = []
@@ -95,34 +112,83 @@ def run_scan(
     for result in results:
         if result.signal == Signal.BUY:
             buys.append(result)
+            logger.info(f">>> BUY {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
             if not dry_run:
                 tracker.open_position(
                     ticker=result.ticker,
                     price=result.price,
-                    timestamp=datetime.now(ET),
+                    timestamp=scan_time,
                     reason=result.reason,
+                )
+                notifier.send_trade_alert(
+                    signal_type="BUY",
+                    ticker=result.ticker,
+                    price=result.price,
+                    reason=result.reason,
+                    zone=result.zone.value,
+                    timestamp=scan_time,
                 )
 
         elif result.signal == Signal.SELL:
             sells.append(result)
+            logger.info(f">>> SELL {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
             if not dry_run:
-                tracker.close_position(
+                closed = tracker.close_position(
                     ticker=result.ticker,
                     price=result.price,
-                    timestamp=datetime.now(ET),
+                    timestamp=scan_time,
                     reason=result.reason,
                 )
-        
+                pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
+                notifier.send_trade_alert(
+                    signal_type="SELL",
+                    ticker=result.ticker,
+                    price=result.price,
+                    reason=result.reason + pnl_info,
+                    zone=result.zone.value,
+                    timestamp=scan_time,
+                )
+
         elif result.signal == Signal.SHORT:
             shorts.append(result)
-            # Note: PositionTracker would need short position support
-            # For now, just track them in output
-        
+            logger.info(f">>> SHORT {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
+            if not dry_run:
+                tracker.open_short_position(
+                    ticker=result.ticker,
+                    price=result.price,
+                    timestamp=scan_time,
+                    reason=result.reason,
+                )
+                notifier.send_trade_alert(
+                    signal_type="SHORT",
+                    ticker=result.ticker,
+                    price=result.price,
+                    reason=result.reason,
+                    zone=result.zone.value,
+                    timestamp=scan_time,
+                )
+
         elif result.signal == Signal.COVER:
             covers.append(result)
-            # Note: PositionTracker would need short position support
+            logger.info(f">>> COVER {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
+            if not dry_run:
+                closed = tracker.close_short_position(
+                    ticker=result.ticker,
+                    price=result.price,
+                    timestamp=scan_time,
+                    reason=result.reason,
+                )
+                pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
+                notifier.send_trade_alert(
+                    signal_type="COVER",
+                    ticker=result.ticker,
+                    price=result.price,
+                    reason=result.reason + pnl_info,
+                    zone=result.zone.value,
+                    timestamp=scan_time,
+                )
 
-        elif result.signal == Signal.HOLD or result.signal == Signal.HOLD_SHORT:
+        elif result.signal in (Signal.HOLD, Signal.HOLD_SHORT):
             holds.append(result)
 
     # Count zones
@@ -132,33 +198,36 @@ def run_scan(
 
     # Update daily summary
     if not dry_run:
-        tracker.update_daily_summary(datetime.now(ET))
+        tracker.update_daily_summary(scan_time)
 
-    # Get stats
+    # Send scan summary email (only if there were signals)
     stats = tracker.get_stats()
+    if not dry_run:
+        notifier.send_scan_summary(buys, sells, shorts, covers, stats, zone_counts, scan_time)
 
     # Log summary
     logger.info("")
     logger.info("=" * 60)
-    logger.info("RASHEMATOR SCAN COMPLETE")
+    logger.info("RASHEMATOR CLOUD FLIP SCAN COMPLETE")
+    logger.info(f"Scan time: {scan_time.strftime('%Y-%m-%d %H:%M:%S %Z')}")
     logger.info("=" * 60)
     logger.info(f"Zone Distribution: LONG={zone_counts['LONG']} | FLAT={zone_counts['FLAT']} | SHORT={zone_counts['SHORT']}")
     logger.info("")
     logger.info(f"New BUY signals: {len(buys)}")
     for b in buys:
-        logger.info(f"  📈 {b.ticker} @ ${b.price:.2f} - {b.reason}")
+        logger.info(f"  BUY {b.ticker} @ ${b.price:.2f} - {b.reason}")
 
     logger.info(f"New SHORT signals: {len(shorts)}")
     for s in shorts:
-        logger.info(f"  📉 {s.ticker} @ ${s.price:.2f} - {s.reason}")
+        logger.info(f"  SHORT {s.ticker} @ ${s.price:.2f} - {s.reason}")
 
     logger.info(f"SELL signals: {len(sells)}")
     for s in sells:
-        logger.info(f"  💰 {s.ticker} @ ${s.price:.2f} - {s.reason}")
+        logger.info(f"  SELL {s.ticker} @ ${s.price:.2f} - {s.reason}")
 
     logger.info(f"COVER signals: {len(covers)}")
     for c in covers:
-        logger.info(f"  🔄 {c.ticker} @ ${c.price:.2f} - {c.reason}")
+        logger.info(f"  COVER {c.ticker} @ ${c.price:.2f} - {c.reason}")
 
     logger.info(f"HOLD positions: {len(holds)}")
     logger.info("")
@@ -170,14 +239,15 @@ def run_scan(
     logger.info("=" * 60)
 
     return {
-        "timestamp": datetime.now(ET).isoformat(),
+        "timestamp": scan_time.isoformat(),
+        "scan_time": scan_time.strftime("%Y-%m-%d %H:%M:%S ET"),
         "buys": [
             {
                 "ticker": r.ticker, 
                 "price": r.price, 
                 "reason": r.reason,
                 "zone": r.zone.value,
-                "pullback_type": r.pullback_type.value,
+                "time": scan_time.strftime("%H:%M:%S"),
                 "mfi": r.mfi_value,
                 "williams_r": r.williams_r_value,
             } 
@@ -189,7 +259,7 @@ def run_scan(
                 "price": r.price, 
                 "reason": r.reason,
                 "zone": r.zone.value,
-                "rally_type": r.rally_type.value,
+                "time": scan_time.strftime("%H:%M:%S"),
                 "mfi": r.mfi_value,
                 "williams_r": r.williams_r_value,
             } 
@@ -200,6 +270,7 @@ def run_scan(
                 "ticker": r.ticker, 
                 "price": r.price, 
                 "reason": r.reason,
+                "time": scan_time.strftime("%H:%M:%S"),
             } 
             for r in sells
         ],
@@ -208,6 +279,7 @@ def run_scan(
                 "ticker": r.ticker, 
                 "price": r.price, 
                 "reason": r.reason,
+                "time": scan_time.strftime("%H:%M:%S"),
             } 
             for r in covers
         ],

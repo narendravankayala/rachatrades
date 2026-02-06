@@ -1,19 +1,18 @@
 """
-Rashemator Strategy - Multi-Timeframe EMA Cloud System.
+Rashemator Strategy - 10-Minute EMA Cloud System.
 
-Uses 10-min for signal (trend/zone detection) and 1-min for entry (pullback + oscillator).
+Everything runs on 10-min candles (resampled from 1-min).
 
-Three EMA clouds per timeframe:
-- 10-min: 5/12 (trend), 8/9 (midpoint), 34/50 (major S/R)
-- 1-min:  50/120 (trend), 80/90 (midpoint), 340/500 (major S/R)
+Three EMA clouds on 10-min:
+- 5/12 (trend), 8/9 (midpoint), 34/50 (major S/R)
 
 Trade Zones:
-- LONG_ZONE: Price > trend cloud AND > major cloud → buy pullbacks
-- SHORT_ZONE: Price < trend cloud AND < major cloud → sell rips
+- LONG_ZONE: Price > 5/12 cloud AND > 34/50 cloud → buy pullbacks
+- SHORT_ZONE: Price < 5/12 cloud AND < 34/50 cloud → sell rips
 - FLAT_ZONE: Price between clouds → NO TRADE
 
 Entry Confirmation:
-- MFI < 20 OR Williams %R < -80 (tight oscillator filter)
+- MFI < 20 OR Williams %R < -80 (14-period on 10-min = 140 min lookback)
 - Pullback to cloud support detected
 - Candle closes back above cloud (reclaim)
 """
@@ -144,22 +143,19 @@ class StrategyResult:
 
 class EMACloudStrategy:
     """
-    Rashemator Multi-Timeframe Strategy.
+    Rashemator 10-Minute Strategy.
     
-    Uses 10-min charts for trend/zone detection and 1-min for entry timing.
+    All analysis on 10-min candles: zones, pullbacks, oscillators.
     
-    BUY when ALL conditions are met:
-    - LONG_ZONE: Price above both trend cloud (5/12 or 50/120) and major cloud (34/50 or 340/500)
-    - Pullback detected: Price touching trend or midpoint cloud
-    - Oscillator confirmation: MFI < 20 OR Williams %R < -80
-    - Reclaim: Candle closes back above cloud after dipping
+    BUY when 5/12 cloud flips bullish AND 34/50 major cloud is bullish (uptrend).
     
-    SELL when ANY condition triggers:
-    - Price closes below trend cloud (5/12 or 50/120)
-    - Zone changes to FLAT or SHORT
-    - MFI > 80 OR Williams %R > -20 (overbought)
+    SELL when 5/12 cloud flips bearish (crosses down).
     
-    NO TRADE when in FLAT_ZONE (between clouds).
+    SHORT when 5/12 cloud flips bearish AND 34/50 major cloud is bearish (downtrend).
+    
+    COVER when 5/12 cloud flips bullish (crosses up).
+    
+    34/50 major cloud = trend filter. 5/12 trend cloud = entry/exit timing.
     """
 
     def __init__(self, config: Optional[StrategyConfig] = None):
@@ -245,33 +241,28 @@ class EMACloudStrategy:
             StrategyResult with signal and indicator values
         """
         df_10m = mtf_data.df_10min
-        df_1m = mtf_data.df_1min
         
-        # Need at least 1-min data for entry
-        if df_1m is None or df_1m.empty or len(df_1m) < 500:
+        # Need at least 50 bars of 10-min data for 34/50 EMA stability
+        if df_10m is None or df_10m.empty or len(df_10m) < 50:
             return StrategyResult(
                 ticker=ticker,
                 signal=Signal.NO_POSITION,
                 price=0.0,
                 timestamp=pd.Timestamp.now(),
-                reason="Insufficient 1-min data (need 500+ bars for 340/500 EMA)",
+                reason="Insufficient 10-min data (need 50+ bars for 34/50 EMA)",
             )
         
-        # Calculate oscillators on 1-min (for entry timing)
-        df_1m_osc = self._calculate_oscillators(df_1m)
-        mfi_signal, williams_signal = self._get_oscillator_signals(df_1m_osc)
+        # Calculate oscillators on 10-min (14 period = 140 minutes)
+        df_10m_osc = self._calculate_oscillators(df_10m)
+        mfi_signal, williams_signal = self._get_oscillator_signals(df_10m_osc)
         
-        # Get Rashemator MTF signal
-        if df_10m is not None and not df_10m.empty and len(df_10m) >= 50:
-            rash_signal = get_rashemator_signal_mtf(df_10m, df_1m)
-        else:
-            # Fallback to 1-min only
-            rash_signal = get_rashemator_signal_1min(df_1m)
+        # Get Rashemator signal on 10-min
+        rash_signal = get_rashemator_signal_10min(df_10m)
         
-        # Get latest values
-        latest = df_1m.iloc[-1]
+        # Get latest values from 10-min
+        latest = df_10m.iloc[-1]
         current_price = float(latest["Close"])
-        current_time = df_1m.index[-1]
+        current_time = df_10m.index[-1]
         
         # Check oscillator confirmation (OR logic: MFI < 20 OR WR < -80)
         oscillator_confirms = self._check_oscillator_confirmation(mfi_signal, williams_signal)
@@ -327,20 +318,31 @@ class EMACloudStrategy:
         
         # Determine signal based on position state
         if has_open_position:
-            # Currently long - check for sell
+            # Currently long - sell when 5/12 flips bearish
             result = self._evaluate_sell(result, rash_signal, mfi_signal, williams_signal)
         elif has_short_position:
-            # Currently short - check for cover
+            # Currently short - cover when 5/12 flips bullish
             result = self._evaluate_cover(result, rash_signal, mfi_signal, williams_signal)
         else:
-            # No position - check for buy OR short entry
-            if rash_signal.zone == Zone.LONG:
-                result = self._evaluate_buy(result, rash_signal, oscillator_confirms)
-            elif rash_signal.zone == Zone.SHORT:
-                result = self._evaluate_short(result, rash_signal, overbought_confirms)
+            # No position - check for cloud flips with 34/50 trend filter
+            if rash_signal.cloud_5_12_cross_up:
+                # Only go LONG if 34/50 major cloud confirms uptrend
+                if rash_signal.cloud_34_50 and rash_signal.cloud_34_50.bullish:
+                    result = self._evaluate_buy(result, rash_signal, oscillator_confirms)
+                else:
+                    result.signal = Signal.NO_POSITION
+                    result.reason = "5/12 flipped bullish but 34/50 bearish - no long against downtrend"
+            elif rash_signal.cloud_5_12_cross_down:
+                # Only go SHORT if 34/50 major cloud confirms downtrend
+                if rash_signal.cloud_34_50 and rash_signal.cloud_34_50.bearish:
+                    result = self._evaluate_short(result, rash_signal, overbought_confirms)
+                else:
+                    result.signal = Signal.NO_POSITION
+                    result.reason = "5/12 flipped bearish but 34/50 bullish - no short against uptrend"
             else:
                 result.signal = Signal.NO_POSITION
-                result.reason = "FLAT ZONE: Price between clouds - no trade"
+                cloud_dir = "bearish" if rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bearish else "bullish"
+                result.reason = f"No cloud flip, 5/12 currently {cloud_dir}"
         
         return result
 
@@ -350,55 +352,16 @@ class EMACloudStrategy:
         rash_signal: RashematorSignal,
         oscillator_confirms: bool,
     ) -> StrategyResult:
-        """Evaluate BUY conditions."""
+        """Evaluate BUY conditions: 5/12 cloud flips bullish."""
         
-        # FLAT zone = NO TRADE (critical Rashemator rule)
-        if rash_signal.zone == Zone.FLAT:
-            result.signal = Signal.NO_POSITION
-            result.reason = "FLAT ZONE: Price between clouds - no trade"
-            return result
-        
-        # SHORT zone = no longs (we're long-only for now)
-        if rash_signal.zone == Zone.SHORT:
-            result.signal = Signal.NO_POSITION
-            result.reason = "SHORT ZONE: Bearish trend - no long entries"
-            return result
-        
-        # LONG zone - check for pullback entry
-        buy_conditions = {
-            "LONG_ZONE": rash_signal.zone == Zone.LONG,
-            "Pullback to cloud": rash_signal.pullback_1m or rash_signal.pullback_10m,
-            "Oscillator confirms": oscillator_confirms,
-        }
-        
-        # Reclaim is bonus, not required
-        if rash_signal.reclaim_detected:
-            buy_conditions["Cloud reclaim"] = True
-        
-        met = [k for k, v in buy_conditions.items() if v]
-        unmet = [k for k, v in buy_conditions.items() if not v]
-        
-        # BUY: LONG zone + Pullback + Oscillator (reclaim is bonus)
-        core_conditions = [
-            rash_signal.zone == Zone.LONG,
-            rash_signal.pullback_1m or rash_signal.pullback_10m,
-            oscillator_confirms,
-        ]
-        
-        if all(core_conditions):
+        # BUY entry: 5/12 cloud just flipped bullish
+        if rash_signal.cloud_5_12_cross_up:
             result.signal = Signal.BUY
-            pb_type = rash_signal.pullback_type.value.lower()
-            osc_detail = []
-            if result.mfi_oversold:
-                osc_detail.append(f"MFI={result.mfi_value:.0f}")
-            if result.williams_r_oversold:
-                osc_detail.append(f"WR={result.williams_r_value:.0f}")
-            result.reason = f"BUY: {pb_type} pullback + {' '.join(osc_detail)}"
-            if rash_signal.reclaim_detected:
-                result.reason += " + reclaim"
+            result.reason = f"BUY: 5/12 cloud flipped bullish (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.NO_POSITION
-            result.reason = f"LONG ZONE but missing: {', '.join(unmet)}"
+            cloud_state = "bullish" if rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bullish else "bearish"
+            result.reason = f"Waiting for 5/12 cloud flip, currently {cloud_state}"
         
         return result
 
@@ -409,32 +372,15 @@ class EMACloudStrategy:
         mfi_signal: dict,
         williams_signal: dict,
     ) -> StrategyResult:
-        """Evaluate SELL conditions."""
+        """Evaluate SELL conditions: 5/12 cloud flips bearish."""
         
-        sell_reasons = []
-        
-        # Zone changed to FLAT or SHORT
-        if rash_signal.zone == Zone.FLAT:
-            sell_reasons.append("Zone changed to FLAT")
-        elif rash_signal.zone == Zone.SHORT:
-            sell_reasons.append("Zone changed to SHORT")
-        
-        # Trend cloud turned bearish (50/120 on 1-min)
-        if rash_signal.cloud_50_120 and not rash_signal.cloud_50_120.bullish:
-            sell_reasons.append("50/120 cloud bearish")
-        
-        # Oscillator overbought (profit taking)
-        if mfi_signal["overbought"]:
-            sell_reasons.append(f"MFI overbought ({mfi_signal['value']:.0f})")
-        if williams_signal["overbought"]:
-            sell_reasons.append(f"Williams %R overbought ({williams_signal['value']:.0f})")
-        
-        if sell_reasons:
+        # SELL: 5/12 cloud just flipped bearish
+        if rash_signal.cloud_5_12_cross_down:
             result.signal = Signal.SELL
-            result.reason = "SELL: " + ", ".join(sell_reasons)
+            result.reason = f"SELL: 5/12 cloud flipped bearish (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.HOLD
-            result.reason = f"HOLD: {rash_signal.zone.value} zone, trend intact"
+            result.reason = f"HOLD: {rash_signal.zone.value} zone, 5/12 still bullish"
         
         return result
 
@@ -444,34 +390,16 @@ class EMACloudStrategy:
         rash_signal: RashematorSignal,
         overbought_confirms: bool,
     ) -> StrategyResult:
-        """Evaluate SHORT conditions: SHORT zone + overbought oscillators."""
+        """Evaluate SHORT conditions: 5/12 cloud flips bearish."""
         
-        # SHORT zone + overbought confirmation (rally/rejection are bonus)
-        short_conditions = {
-            "SHORT_ZONE": rash_signal.zone == Zone.SHORT,
-            "Oscillator confirms": overbought_confirms,
-        }
-        
-        met = [k for k, v in short_conditions.items() if v]
-        unmet = [k for k, v in short_conditions.items() if not v]
-        
-        # SHORT: SHORT zone + Overbought
-        if rash_signal.zone == Zone.SHORT and overbought_confirms:
+        # SHORT entry: 5/12 cloud just flipped bearish
+        if rash_signal.cloud_5_12_cross_down:
             result.signal = Signal.SHORT
-            osc_detail = []
-            if result.mfi_overbought:
-                osc_detail.append(f"MFI={result.mfi_value:.0f}")
-            if result.williams_r_overbought:
-                osc_detail.append(f"WR={result.williams_r_value:.0f}")
-            result.reason = f"SHORT: overbought {' '.join(osc_detail)}"
-            # Add rally/rejection info if present
-            if rash_signal.rally_1m or rash_signal.rally_10m:
-                result.reason += f" + {rash_signal.rally_type.value.lower()} rally"
-            if rash_signal.rejection_detected:
-                result.reason += " + rejection"
+            result.reason = f"SHORT: 5/12 cloud flipped bearish (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.NO_POSITION
-            result.reason = f"SHORT ZONE but missing: {', '.join(unmet)}"
+            cloud_state = "bearish" if rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bearish else "bullish"
+            result.reason = f"SHORT ZONE, 5/12 already {cloud_state} - waiting for flip"
         
         return result
 
@@ -482,32 +410,15 @@ class EMACloudStrategy:
         mfi_signal: dict,
         williams_signal: dict,
     ) -> StrategyResult:
-        """Evaluate COVER conditions (exit short position)."""
+        """Evaluate COVER conditions: 5/12 cloud flips bullish."""
         
-        cover_reasons = []
-        
-        # Zone changed to FLAT or LONG
-        if rash_signal.zone == Zone.FLAT:
-            cover_reasons.append("Zone changed to FLAT")
-        elif rash_signal.zone == Zone.LONG:
-            cover_reasons.append("Zone changed to LONG")
-        
-        # Trend cloud turned bullish (50/120 on 1-min)
-        if rash_signal.cloud_50_120 and rash_signal.cloud_50_120.bullish:
-            cover_reasons.append("50/120 cloud bullish")
-        
-        # Oscillator oversold (short profit taking)
-        if mfi_signal["oversold"]:
-            cover_reasons.append(f"MFI oversold ({mfi_signal['value']:.0f})")
-        if williams_signal["oversold"]:
-            cover_reasons.append(f"Williams %R oversold ({williams_signal['value']:.0f})")
-        
-        if cover_reasons:
+        # COVER: 5/12 cloud just flipped bullish
+        if rash_signal.cloud_5_12_cross_up:
             result.signal = Signal.COVER
-            result.reason = "COVER: " + ", ".join(cover_reasons)
+            result.reason = f"COVER: 5/12 cloud flipped bullish (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.HOLD_SHORT
-            result.reason = f"HOLD SHORT: {rash_signal.zone.value} zone, downtrend intact"
+            result.reason = f"HOLD SHORT: {rash_signal.zone.value} zone, 5/12 still bearish"
         
         return result
 
@@ -590,21 +501,19 @@ class EMACloudStrategy:
 if __name__ == "__main__":
     # Test the Rashemator strategy
     import yfinance as yf
+    from src.data import DataProvider
 
     logging.basicConfig(level=logging.INFO)
 
     strategy = EMACloudStrategy()
+    provider = DataProvider()
 
-    # Fetch MTF data (use 15m since yfinance doesn't support 10m)
-    print("Fetching AAPL data...")
-    ticker = yf.Ticker("AAPL")
-    df_10m = ticker.history(period="5d", interval="15m")
-    df_1m = ticker.history(period="7d", interval="1m")
+    # Fetch 1-min data and resample to true 10-min
+    print("Fetching AAPL data (1-min -> resample to 10-min)...")
+    mtf_data = provider.get_mtf_ohlcv("AAPL")
     
-    print(f"Got {len(df_10m)} 10-min bars, {len(df_1m)} 1-min bars")
-    
-    # Create MTFData
-    mtf_data = MTFData(ticker="AAPL", df_10min=df_10m, df_1min=df_1m)
+    if mtf_data.df_10min is not None:
+        print(f"Got {len(mtf_data.df_10min)} true 10-min bars")
     
     # Evaluate
     result = strategy.evaluate_mtf("AAPL", mtf_data, has_open_position=False)
@@ -620,17 +529,12 @@ if __name__ == "__main__":
     print(f"    8/9:   {'BULL' if result.cloud_8_9_bullish else 'BEAR'}")
     print(f"    34/50: {'BULL' if result.cloud_34_50_bullish else 'BEAR'}")
     print(f"    Aligned: {result.clouds_aligned_10m}")
-    print(f"    Pullback: {result.pullback_10m}")
-    print(f"\n  1-MIN CLOUDS:")
-    print(f"    50/120:  {'BULL' if result.cloud_50_120_bullish else 'BEAR'}")
-    print(f"    80/90:   {'BULL' if result.cloud_80_90_bullish else 'BEAR'}")
-    print(f"    340/500: {'BULL' if result.cloud_340_500_bullish else 'BEAR'}")
-    print(f"    Aligned: {result.clouds_aligned_1m}")
-    print(f"    Pullback: {result.pullback_1m} ({result.pullback_type.value})")
-    print(f"\n  OSCILLATORS:")
-    print(f"    MFI: {result.mfi_value:.1f} (Oversold: {result.mfi_oversold})")
-    print(f"    Williams %R: {result.williams_r_value:.1f} (Oversold: {result.williams_r_oversold})")
+    print(f"    Pullback: {result.pullback_10m} ({result.pullback_type.value})")
+    print(f"    Reclaim: {result.reclaim_detected}")
+    print(f"\n  OSCILLATORS (14-period on 10-min = 140 min):")
+    if result.mfi_value is not None:
+        print(f"    MFI: {result.mfi_value:.1f} (Oversold: {result.mfi_oversold})")
+    if result.williams_r_value is not None:
+        print(f"    Williams %R: {result.williams_r_value:.1f} (Oversold: {result.williams_r_oversold})")
     print(f"    Confirms: {result.oscillator_confirms}")
-    print(f"\n  MTF Aligned: {result.mtf_aligned}")
-    print(f"  Reclaim: {result.reclaim_detected}")
     print(f"\n  Reason: {result.reason}")

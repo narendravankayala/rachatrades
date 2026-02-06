@@ -17,12 +17,19 @@ class PositionStatus(Enum):
     CLOSED = "CLOSED"
 
 
+class PositionType(Enum):
+    """Position type."""
+    LONG = "LONG"
+    SHORT = "SHORT"
+
+
 @dataclass
 class Position:
     """Represents a trading position."""
     id: Optional[int]
     ticker: str
     status: PositionStatus
+    position_type: PositionType
     entry_time: datetime
     entry_price: float
     quantity: int = 1  # Virtual quantity for tracking
@@ -56,6 +63,7 @@ class PositionTracker:
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     ticker TEXT NOT NULL,
                     status TEXT NOT NULL,
+                    position_type TEXT NOT NULL DEFAULT 'LONG',
                     entry_time TEXT NOT NULL,
                     entry_price REAL NOT NULL,
                     quantity INTEGER DEFAULT 1,
@@ -117,10 +125,10 @@ class PositionTracker:
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
                 """
-                INSERT INTO positions (ticker, status, entry_time, entry_price, entry_reason)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO positions (ticker, status, position_type, entry_time, entry_price, entry_reason)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                (ticker, PositionStatus.OPEN.value, timestamp.isoformat(), price, reason),
+                (ticker, PositionStatus.OPEN.value, PositionType.LONG.value, timestamp.isoformat(), price, reason),
             )
             conn.commit()
 
@@ -128,12 +136,13 @@ class PositionTracker:
                 id=cursor.lastrowid,
                 ticker=ticker,
                 status=PositionStatus.OPEN,
+                position_type=PositionType.LONG,
                 entry_time=timestamp,
                 entry_price=price,
                 entry_reason=reason,
             )
 
-            logger.info(f"Opened position: {ticker} @ ${price:.2f}")
+            logger.info(f"Opened LONG position: {ticker} @ ${price:.2f}")
             return position
 
     def close_position(
@@ -156,14 +165,14 @@ class PositionTracker:
             The closed Position, or None if no open position found
         """
         with sqlite3.connect(self.db_path) as conn:
-            # Find the open position
+            # Find the open LONG position
             cursor = conn.execute(
                 """
                 SELECT id, entry_price, entry_time FROM positions
-                WHERE ticker = ? AND status = ?
+                WHERE ticker = ? AND status = ? AND position_type = ?
                 ORDER BY entry_time DESC LIMIT 1
                 """,
-                (ticker, PositionStatus.OPEN.value),
+                (ticker, PositionStatus.OPEN.value, PositionType.LONG.value),
             )
             row = cursor.fetchone()
 
@@ -201,6 +210,7 @@ class PositionTracker:
                 id=position_id,
                 ticker=ticker,
                 status=PositionStatus.CLOSED,
+                position_type=PositionType.LONG,
                 entry_time=datetime.fromisoformat(entry_time_str),
                 entry_price=entry_price,
                 exit_time=timestamp,
@@ -211,10 +221,118 @@ class PositionTracker:
             )
 
             logger.info(
-                f"Closed position: {ticker} @ ${price:.2f} "
+                f"Closed LONG position: {ticker} @ ${price:.2f} "
                 f"(P&L: ${pnl:.2f}, {pnl_percent:.2f}%)"
             )
             return position
+
+    def open_short_position(
+        self,
+        ticker: str,
+        price: float,
+        timestamp: datetime,
+        reason: str = "",
+    ) -> Position:
+        """Open a new SHORT position."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute(
+                """
+                INSERT INTO positions (ticker, status, position_type, entry_time, entry_price, entry_reason)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (ticker, PositionStatus.OPEN.value, PositionType.SHORT.value, timestamp.isoformat(), price, reason),
+            )
+            conn.commit()
+
+            position = Position(
+                id=cursor.lastrowid,
+                ticker=ticker,
+                status=PositionStatus.OPEN,
+                position_type=PositionType.SHORT,
+                entry_time=timestamp,
+                entry_price=price,
+                entry_reason=reason,
+            )
+
+            logger.info(f"Opened SHORT position: {ticker} @ ${price:.2f}")
+            return position
+
+    def close_short_position(
+        self,
+        ticker: str,
+        price: float,
+        timestamp: datetime,
+        reason: str = "",
+    ) -> Optional[Position]:
+        """Close a SHORT position (cover). P&L = entry - exit (profit when price drops)."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute(
+                """
+                SELECT id, entry_price, entry_time FROM positions
+                WHERE ticker = ? AND status = ? AND position_type = ?
+                ORDER BY entry_time DESC LIMIT 1
+                """,
+                (ticker, PositionStatus.OPEN.value, PositionType.SHORT.value),
+            )
+            row = cursor.fetchone()
+
+            if not row:
+                logger.warning(f"No open SHORT position found for {ticker}")
+                return None
+
+            position_id, entry_price, entry_time_str = row
+
+            # SHORT P&L: profit when price drops
+            pnl = entry_price - price
+            pnl_percent = (pnl / entry_price) * 100
+
+            conn.execute(
+                """
+                UPDATE positions
+                SET status = ?, exit_time = ?, exit_price = ?,
+                    pnl = ?, pnl_percent = ?, exit_reason = ?
+                WHERE id = ?
+                """,
+                (
+                    PositionStatus.CLOSED.value,
+                    timestamp.isoformat(),
+                    price,
+                    pnl,
+                    pnl_percent,
+                    reason,
+                    position_id,
+                ),
+            )
+            conn.commit()
+
+            position = Position(
+                id=position_id,
+                ticker=ticker,
+                status=PositionStatus.CLOSED,
+                position_type=PositionType.SHORT,
+                entry_time=datetime.fromisoformat(entry_time_str),
+                entry_price=entry_price,
+                exit_time=timestamp,
+                exit_price=price,
+                pnl=pnl,
+                pnl_percent=pnl_percent,
+                exit_reason=reason,
+            )
+
+            logger.info(
+                f"Closed SHORT position: {ticker} @ ${price:.2f} "
+                f"(P&L: ${pnl:.2f}, {pnl_percent:.2f}%)"
+            )
+            return position
+
+    def get_open_short_tickers(self) -> Set[str]:
+        """Get set of tickers with open SHORT positions."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute(
+                "SELECT DISTINCT ticker FROM positions WHERE status = ? AND position_type = ?",
+                (PositionStatus.OPEN.value, PositionType.SHORT.value),
+            )
+            return {row[0] for row in cursor.fetchall()}
 
     def get_open_positions(self) -> List[Position]:
         """Get all open positions."""
@@ -235,6 +353,7 @@ class PositionTracker:
                         id=row["id"],
                         ticker=row["ticker"],
                         status=PositionStatus(row["status"]),
+                        position_type=PositionType(row.get("position_type", "LONG") or "LONG"),
                         entry_time=datetime.fromisoformat(row["entry_time"]),
                         entry_price=row["entry_price"],
                         quantity=row["quantity"],

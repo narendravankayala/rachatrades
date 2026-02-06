@@ -3,11 +3,11 @@ name: Market Scanner
 on:
   # Run every 10 minutes during market hours (9:30 AM - 4:00 PM ET)
   # GitHub Actions uses UTC, so 9:30 AM ET = 14:30 UTC (EST) or 13:30 UTC (EDT)
-  # We'll run from 13:30 to 21:00 UTC to cover both EST and EDT
   schedule:
-    - cron: '30,40,50 13 * * 1-5'   # 9:30, 9:40, 9:50 AM ET
-    - cron: '0,10,20,30,40,50 14-20 * * 1-5'  # 10:00 AM - 4:50 PM ET
-    - cron: '0 21 * * 1-5'          # Market close 4:00 PM ET
+    - cron: '30 13 * * 1-5'                     # 9:30 AM ET (EDT)
+    - cron: '40,50 13 * * 1-5'                   # 9:40, 9:50 AM ET
+    - cron: '0,10,20,30,40,50 14-20 * * 1-5'    # 10:00 AM - 4:50 PM ET
+    - cron: '0 21 * * 1-5'                       # 5:00 PM ET (market close buffer)
 
   # Manual trigger for testing
   workflow_dispatch:
@@ -53,6 +53,10 @@ jobs:
             positions-
 
       - name: Run market scan
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          NOTIFY_EMAILS: ${{ secrets.NOTIFY_EMAILS }}
         run: |
           if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
             python -m src.main --force --dry-run

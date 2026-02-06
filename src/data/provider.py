@@ -1,9 +1,7 @@
-"""Data provider using yfinance for multi-timeframe OHLCV data.
+"""Data provider using yfinance for OHLCV data.
 
-Supports:
-- 10-minute bars for signal timeframe
-- 1-minute bars for entry timeframe
-- Multi-timeframe fetching for Rashemator strategy
+Fetches 1-min data from yfinance and resamples to true 10-min candles.
+yfinance doesn't support 10m intervals natively, so we build them from 1-min.
 """
 
 import logging
@@ -158,33 +156,36 @@ class DataProvider:
             return float(df["Close"].iloc[-1])
         return None
 
+    @staticmethod
+    def _resample_to_10min(df_1m: pd.DataFrame) -> Optional[pd.DataFrame]:
+        """Resample 1-minute OHLCV data to true 10-minute candles."""
+        if df_1m is None or df_1m.empty:
+            return None
+        df_10m = df_1m.resample("10min").agg({
+            "Open": "first",
+            "High": "max",
+            "Low": "min",
+            "Close": "last",
+            "Volume": "sum",
+        }).dropna()
+        return df_10m if not df_10m.empty else None
+
     def get_mtf_ohlcv(
         self,
         ticker: str,
         force_refresh: bool = False,
     ) -> MTFData:
         """
-        Fetch multi-timeframe OHLCV data for Rashemator strategy.
-        
-        Fetches both 15-min (signal) and 1-min (entry) data for the same ticker.
-        Note: yfinance doesn't support 10m, so we use 15m as the signal timeframe.
+        Fetch 1-min data and resample to true 10-min candles.
         
         Args:
             ticker: Stock ticker symbol
             force_refresh: Bypass cache and fetch fresh data
             
         Returns:
-            MTFData with df_10min (actually 15-min) and df_1min DataFrames
+            MTFData with df_10min (resampled from 1-min)
         """
-        # 15-min: 5d period for signal timeframe (using 15m since 10m not supported)
-        df_10min = self.get_ohlcv(
-            ticker, 
-            interval="15m", 
-            period="5d",
-            force_refresh=force_refresh,
-        )
-        
-        # 1-min: 7d period for 500 EMA stability
+        # Fetch 1-min data (7 days), then resample to true 10-min
         df_1min = self.get_ohlcv(
             ticker,
             interval="1m",
@@ -192,10 +193,12 @@ class DataProvider:
             force_refresh=force_refresh,
         )
         
+        df_10min = self._resample_to_10min(df_1min)
+        
         return MTFData(
             ticker=ticker,
             df_10min=df_10min,
-            df_1min=df_1min,
+            df_1min=None,
         )
 
     def get_batch_mtf_ohlcv(
@@ -203,7 +206,7 @@ class DataProvider:
         tickers: List[str],
     ) -> Dict[str, MTFData]:
         """
-        Fetch multi-timeframe data for multiple tickers.
+        Fetch 1-min data for multiple tickers and resample to 10-min.
         
         Args:
             tickers: List of stock ticker symbols
@@ -213,23 +216,19 @@ class DataProvider:
         """
         results: Dict[str, MTFData] = {}
         
-        # Fetch 15-min data in batch (signal timeframe)
-        data_10min = self.get_batch_ohlcv(tickers, interval="15m", period="5d")
-        
-        # Fetch 1-min data in batch (entry timeframe)
+        # Fetch 1-min data in batch, then resample each to true 10-min
         data_1min = self.get_batch_ohlcv(tickers, interval="1m", period="7d")
         
-        # Combine into MTFData objects
         for ticker in tickers:
-            df_10m = data_10min.get(ticker)
             df_1m = data_1min.get(ticker)
-            
-            if df_10m is not None or df_1m is not None:
-                results[ticker] = MTFData(
-                    ticker=ticker,
-                    df_10min=df_10m,
-                    df_1min=df_1m,
-                )
+            if df_1m is not None and not df_1m.empty:
+                df_10m = self._resample_to_10min(df_1m)
+                if df_10m is not None:
+                    results[ticker] = MTFData(
+                        ticker=ticker,
+                        df_10min=df_10m,
+                        df_1min=None,
+                    )
         
         return results
 
@@ -256,21 +255,12 @@ if __name__ == "__main__":
 
     provider = DataProvider()
     
-    # Test single timeframe
-    df = provider.get_ohlcv("AAPL", interval="10m", period="5d")
-    if df is not None:
-        print(f"Fetched {len(df)} 10-min bars for AAPL")
-        print(df.tail(3))
-    
-    # Test multi-timeframe
-    print("\n" + "=" * 60)
-    print("Testing Multi-Timeframe Data Fetch")
-    print("=" * 60)
-    
+    # Test: fetch 1-min and resample to 10-min
+    print("Fetching AAPL 1-min data and resampling to 10-min...")
     mtf = provider.get_mtf_ohlcv("AAPL")
     if mtf.df_10min is not None:
-        print(f"\n10-min: {len(mtf.df_10min)} bars")
-    if mtf.df_1min is not None:
-        print(f"1-min:  {len(mtf.df_1min)} bars")
-        print(f"\nLatest 1-min bar:")
-        print(mtf.df_1min.tail(1))
+        print(f"Got {len(mtf.df_10min)} true 10-min bars (resampled from 1-min)")
+        print(f"\nLatest 10-min bars:")
+        print(mtf.df_10min.tail(5))
+    else:
+        print("Failed to get data")
