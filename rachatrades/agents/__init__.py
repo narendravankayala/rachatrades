@@ -20,4 +20,10 @@ Future agents:
 
 from .base import BaseAgent, AgentConfig, AgentSignal
 
-__all__ = ["BaseAgent", "AgentConfig", "AgentSignal"]
+# Agent registry — maps agent name to its strategy class
+AGENT_REGISTRY = {
+    "rashemator": "rachatrades.agents.rashemator.EMACloudStrategy",
+    "orb": "rachatrades.agents.opening_range.ORBStrategy",
+}
+
+__all__ = ["BaseAgent", "AgentConfig", "AgentSignal", "AGENT_REGISTRY"]

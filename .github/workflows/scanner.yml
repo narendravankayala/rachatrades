@@ -64,6 +64,9 @@ jobs:
             python scripts/scan.py --force
           fi
 
+      - name: Generate track record data
+        run: python scripts/track_record.py --db data/positions.db --out data/track_record.json
+
       - name: Generate website
         run: python -m rachatrades.web.generate
 
@@ -80,6 +83,7 @@ jobs:
           path: |
             data/latest_scan.json
             data/positions.db
+            data/track_record.json
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -93,6 +97,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data/positions.db data/latest_scan.json || true
+          git add data/positions.db data/latest_scan.json data/track_record.json || true
           git diff --staged --quiet || git commit -m "Update positions after scan [skip ci]"
           git push || true

@@ -14,6 +14,7 @@ def generate_website(
     scan_results_path: str = "data/latest_scan.json",
     db_path: str = "data/positions.db",
     output_dir: str = "web/public",
+    track_record_path: str = "data/track_record.json",
 ):
     """
     Generate static website from scan results.
@@ -22,6 +23,7 @@ def generate_website(
         scan_results_path: Path to latest scan JSON
         db_path: Path to positions database
         output_dir: Output directory for HTML files
+        track_record_path: Path to track record JSON
     """
     from rachatrades.core.signals import PositionTracker
 
@@ -33,6 +35,12 @@ def generate_website(
     if Path(scan_results_path).exists():
         with open(scan_results_path) as f:
             scan_data = json.load(f)
+
+    # Load track record data
+    track_record = {}
+    if Path(track_record_path).exists():
+        with open(track_record_path) as f:
+            track_record = json.load(f)
 
     # Get position data
     tracker = PositionTracker(db_path)
@@ -52,6 +60,7 @@ def generate_website(
         closed_positions=closed_positions[:20],  # Last 20
         stats=stats,
         zone_counts=scan_data.get("zone_counts", {"LONG": 0, "FLAT": 0, "SHORT": 0}),
+        track_record=track_record,
         generated_at=datetime.now().isoformat(),
     )
 
