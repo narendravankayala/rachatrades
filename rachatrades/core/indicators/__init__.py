@@ -1,4 +1,4 @@
-"""Reusable technical indicators (EMA clouds, MFI, Williams %R, future: RSI, VWAP, etc.)."""
+"""Reusable technical indicators (EMA clouds, MFI, Williams %R, Order Blocks, etc.)."""
 
 from .ema_cloud import (
     Zone,
@@ -17,6 +17,12 @@ from .ema_cloud import (
 )
 from .mfi import calculate_mfi, get_mfi_signal
 from .williams_r import calculate_williams_r, get_williams_r_signal
+from .order_blocks import (
+    OBType,
+    OrderBlock,
+    OrderBlockSignal,
+    detect_order_blocks,
+)
 
 __all__ = [
     # Rashemator MTF
@@ -39,4 +45,9 @@ __all__ = [
     "get_mfi_signal",
     "calculate_williams_r",
     "get_williams_r_signal",
+    # Order Blocks
+    "OBType",
+    "OrderBlock",
+    "OrderBlockSignal",
+    "detect_order_blocks",
 ]

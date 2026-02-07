@@ -40,6 +40,7 @@ from rachatrades.core.indicators import (
     calculate_ema_cloud,
     get_ema_cloud_signal,
 )
+from rachatrades.core.indicators.order_blocks import detect_order_blocks, OrderBlockSignal
 from rachatrades.core.data import MTFData
 
 logger = logging.getLogger(__name__)
@@ -58,23 +59,57 @@ class Signal(Enum):
 
 @dataclass
 class StrategyConfig:
-    """Configuration for the Rashemator strategy."""
+    """Configuration for the Rashemator strategy.
     
-    # MFI settings (tight thresholds)
+    Feature flags control which filters are active. Toggle them on/off
+    to A/B test combinations in the simulator. The base strategy (cloud
+    flips + 34/50 trend filter) always runs.
+    """
+    
+    # ── Feature Flags ────────────────────────────────────────────────
+    # Each flag enables/disables an independent filter layer.
+    # Default: all OFF — only the core cloud flip logic is active.
+    
+    use_oscillator_filter: bool = False     # Require MFI/WR confirmation for entries
+    use_order_blocks: bool = False          # OB confluence: only enter near support/resistance
+    # Future flags:
+    # use_volume_filter: bool = False       # Require above-average volume
+    # use_vwap_filter: bool = False         # VWAP trend confirmation
+    # use_atr_stops: bool = False           # ATR-based stop loss
+    # use_rsi_filter: bool = False          # RSI divergence confirmation
+    
+    # ── Oscillator Settings ──────────────────────────────────────────
     mfi_period: int = 14
     mfi_oversold: float = 20.0
     mfi_overbought: float = 80.0
 
-    # Williams %R settings (tight thresholds)
     williams_r_period: int = 14
     williams_r_oversold: float = -80.0
     williams_r_overbought: float = -20.0
     
-    # Require oscillator confirmation for entries
+    # Require oscillator confirmation for entries (legacy, replaced by use_oscillator_filter)
     require_oscillator: bool = True
     
     # Use OR logic for oscillators (either MFI or WR confirms)
     oscillator_or_logic: bool = True
+    
+    # ── Order Block Settings ────────────────────────────────────────
+    ob_volume_pivot_length: int = 5      # Lookback for volume pivot detection
+    ob_mitigation_method: str = "wick"   # "wick" or "close"
+    ob_max_active: int = 10              # Max OBs to track per side
+    ob_proximity_pct: float = 0.3        # How close price must be to OB (%)
+    
+    # ── Config metadata ─────────────────────────────────────────────
+    name: str = "default"                # Config name for A/B comparison
+    
+    def describe(self) -> str:
+        """Human-readable summary of active features."""
+        flags = ["cloud_flip + 34/50_filter"]
+        if self.use_oscillator_filter:
+            flags.append("oscillator")
+        if self.use_order_blocks:
+            flags.append("order_blocks")
+        return f"[{self.name}] " + " + ".join(flags)
 
 
 @dataclass
@@ -130,6 +165,17 @@ class StrategyResult:
     
     # Combined oscillator confirmation
     oscillator_confirms: bool = False
+
+    # Order block state
+    near_bullish_ob: bool = False
+    near_bearish_ob: bool = False
+    inside_bullish_ob: bool = False
+    inside_bearish_ob: bool = False
+    nearest_support_price: Optional[float] = None
+    nearest_resistance_price: Optional[float] = None
+
+    # Which filters were active for this result
+    active_filters: str = ""
 
     # Reasoning
     reason: str = ""
@@ -270,6 +316,20 @@ class EMACloudStrategy:
         # Check overbought confirmation for shorts (OR logic: MFI > 80 OR WR > -20)
         overbought_confirms = self._check_overbought_confirmation(mfi_signal, williams_signal)
         
+        # ── Order Blocks (optional) ─────────────────────────────────
+        ob_signal: Optional[OrderBlockSignal] = None
+        if self.config.use_order_blocks:
+            try:
+                ob_signal = detect_order_blocks(
+                    df_10m,
+                    volume_pivot_length=self.config.ob_volume_pivot_length,
+                    mitigation_method=self.config.ob_mitigation_method,
+                    max_obs=self.config.ob_max_active,
+                )
+            except Exception as e:
+                logger.warning(f"Order block detection failed for {ticker}: {e}")
+                ob_signal = None
+        
         # Build result
         result = StrategyResult(
             ticker=ticker,
@@ -309,6 +369,19 @@ class EMACloudStrategy:
             williams_r_oversold=williams_signal["oversold"],
             williams_r_overbought=williams_signal["overbought"],
             oscillator_confirms=oscillator_confirms,
+            # Order blocks
+            near_bullish_ob=ob_signal.near_bullish_ob if ob_signal else False,
+            near_bearish_ob=ob_signal.near_bearish_ob if ob_signal else False,
+            inside_bullish_ob=ob_signal.inside_bullish_ob if ob_signal else False,
+            inside_bearish_ob=ob_signal.inside_bearish_ob if ob_signal else False,
+            nearest_support_price=(
+                ob_signal.nearest_support.avg if ob_signal and ob_signal.nearest_support else None
+            ),
+            nearest_resistance_price=(
+                ob_signal.nearest_resistance.avg if ob_signal and ob_signal.nearest_resistance else None
+            ),
+            # Active filters
+            active_filters=self.config.describe(),
             # Legacy
             ema_fast=rash_signal.cloud_50_120.ema_fast if rash_signal.cloud_50_120 else None,
             ema_slow=rash_signal.cloud_50_120.ema_slow if rash_signal.cloud_50_120 else None,
@@ -328,14 +401,32 @@ class EMACloudStrategy:
             if rash_signal.cloud_5_12_cross_up:
                 # Only go LONG if 34/50 major cloud confirms uptrend
                 if rash_signal.cloud_34_50 and rash_signal.cloud_34_50.bullish:
-                    result = self._evaluate_buy(result, rash_signal, oscillator_confirms)
+                    # ── Optional oscillator filter ──────────────────
+                    if self.config.use_oscillator_filter and not oscillator_confirms:
+                        result.signal = Signal.NO_POSITION
+                        result.reason = "5/12 flipped bullish + 34/50 bullish but oscillator not oversold"
+                    # ── Optional order block filter ─────────────────
+                    elif self.config.use_order_blocks and ob_signal and not (ob_signal.near_bullish_ob or ob_signal.inside_bullish_ob):
+                        result.signal = Signal.NO_POSITION
+                        result.reason = "5/12 flipped bullish but no bullish OB support nearby"
+                    else:
+                        result = self._evaluate_buy(result, rash_signal, oscillator_confirms)
                 else:
                     result.signal = Signal.NO_POSITION
                     result.reason = "5/12 flipped bullish but 34/50 bearish - no long against downtrend"
             elif rash_signal.cloud_5_12_cross_down:
                 # Only go SHORT if 34/50 major cloud confirms downtrend
                 if rash_signal.cloud_34_50 and rash_signal.cloud_34_50.bearish:
-                    result = self._evaluate_short(result, rash_signal, overbought_confirms)
+                    # ── Optional oscillator filter ──────────────────
+                    if self.config.use_oscillator_filter and not overbought_confirms:
+                        result.signal = Signal.NO_POSITION
+                        result.reason = "5/12 flipped bearish + 34/50 bearish but oscillator not overbought"
+                    # ── Optional order block filter ─────────────────
+                    elif self.config.use_order_blocks and ob_signal and not (ob_signal.near_bearish_ob or ob_signal.inside_bearish_ob):
+                        result.signal = Signal.NO_POSITION
+                        result.reason = "5/12 flipped bearish but no bearish OB resistance nearby"
+                    else:
+                        result = self._evaluate_short(result, rash_signal, overbought_confirms)
                 else:
                     result.signal = Signal.NO_POSITION
                     result.reason = "5/12 flipped bearish but 34/50 bullish - no short against uptrend"
