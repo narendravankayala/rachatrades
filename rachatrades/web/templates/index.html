@@ -439,18 +439,18 @@
             </a>
             <div class="nav-status">
                 <div class="status-dot"></div>
-                <span>MTF Scan: 10-min + 1-min</span>
+                <span>Cloud Flip Scanner — 10-min candles</span>
             </div>
         </div>
     </nav>
 
     <main class="container">
         <section class="hero">
-            <h1>Rashemator MTF Signals</h1>
-            <p>Multi-timeframe EMA cloud scanner monitoring top 100 US stocks. Buy pullbacks in LONG zones with oscillator confirmation.</p>
+            <h1>Rashemator Cloud Flip</h1>
+            <p>EMA cloud flip scanner on 10-min candles — 5/12 trend cloud with 34/50 major trend filter across ~100 US stocks.</p>
             <div class="strategy-badge">
                 <span>Strategy:</span>
-                <code>50/120 + 80/90 + 340/500 EMA Clouds + MFI + Williams %R</code>
+                <code>5/12 Cloud Flip + 34/50 Trend Filter (10-min candles)</code>
             </div>
         </section>
 
@@ -514,11 +514,12 @@
                     <div class="signal-info">
                         <h3>{{ signal.ticker }} <span style="font-size: 0.7em; color: var(--green);">{{ signal.zone|default('LONG') }}</span></h3>
                         <p class="signal-reason">{{ signal.reason }}</p>
+                        {% if signal.mfi or signal.williams_r %}
                         <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
-                            Pullback: {{ signal.pullback_type|default('—') }} | 
                             MFI: {{ "%.0f"|format(signal.mfi|default(0)) }} | 
                             WR: {{ "%.0f"|format(signal.williams_r|default(0)) }}
                         </p>
+                        {% endif %}
                     </div>
                     <div class="signal-price">
                         <div class="price">${{ "%.2f"|format(signal.price) }}</div>
@@ -531,11 +532,12 @@
                     <div class="signal-info">
                         <h3>{{ signal.ticker }} <span style="font-size: 0.7em; color: var(--red);">{{ signal.zone|default('SHORT') }}</span></h3>
                         <p class="signal-reason">{{ signal.reason }}</p>
+                        {% if signal.mfi or signal.williams_r %}
                         <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
-                            Rally: {{ signal.rally_type|default('—') }} | 
                             MFI: {{ "%.0f"|format(signal.mfi|default(0)) }} | 
                             WR: {{ "%.0f"|format(signal.williams_r|default(0)) }}
                         </p>
+                        {% endif %}
                     </div>
                     <div class="signal-price">
                         <div class="price">${{ "%.2f"|format(signal.price) }}</div>
@@ -658,7 +660,7 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-links">
-                <a href="https://github.com/lipsa-racha/rachatrades">GitHub</a>
+                <a href="https://github.com/narendravankayala/rachatrades">GitHub</a>
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
