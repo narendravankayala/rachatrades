@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --bg-primary: #0a0a0f;
@@ -426,6 +427,127 @@
         }
 
         .condition-box li::before { content: "→"; color: var(--text-muted); }
+
+        /* ── Track Record ────────────────────────────────── */
+        .track-record-section { margin: 60px 0; }
+
+        .track-record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .track-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .track-metrics { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .track-metric {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .track-metric .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .track-metric .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chart-container h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 280px;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .charts-row { grid-template-columns: 1fr; }
+        }
+
+        .agent-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 24px;
+        }
+
+        .agent-table .table-header {
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+        }
+
+        .agent-table .table-row {
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+        }
+
+        .agent-status {
+            display: inline-flex;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .agent-status.live { background: var(--green-bg); color: var(--green); }
+        .agent-status.testing { background: var(--yellow-bg); color: var(--yellow); }
+        .agent-status.planned { background: rgba(99, 102, 241, 0.1); color: var(--accent); }
+
+        @media (max-width: 700px) {
+            .agent-table .table-header,
+            .agent-table .table-row {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            .agent-table .table-header > *:nth-child(n+4),
+            .agent-table .table-row > *:nth-child(n+4) { display: none; }
+        }
+
+        .building-record {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .building-record .icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+        .building-record p { font-size: 1rem; }
+        .building-record .sub { font-size: 0.85rem; margin-top: 8px; color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -439,29 +561,29 @@
             </a>
             <div class="nav-status">
                 <div class="status-dot"></div>
-                <span>MTF Scan: 10-min + 1-min</span>
+                <span>Cloud Flip Scanner — 10-min candles</span>
             </div>
         </div>
     </nav>
 
     <main class="container">
         <section class="hero">
-            <h1>Rashemator MTF Signals</h1>
-            <p>Multi-timeframe EMA cloud scanner monitoring top 100 US stocks. Buy pullbacks in LONG zones with oscillator confirmation.</p>
+            <h1>Rashemator Cloud Flip</h1>
+            <p>EMA cloud flip scanner on 10-min candles — 5/12 trend cloud with 34/50 major trend filter across ~100 US stocks.</p>
             <div class="strategy-badge">
                 <span>Strategy:</span>
-                <code>50/120 + 80/90 + 340/500 EMA Clouds + MFI + Williams %R</code>
+                <code>5/12 Cloud Flip + 34/50 Trend Filter (10-min candles)</code>
             </div>
         </section>
 
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">54</div>
+                <div class="stat-value positive">52</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">38</div>
+                <div class="stat-value neutral">40</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
@@ -498,6 +620,88 @@
             </div>
         </section>
 
+        <!-- ── Track Record ──────────────────────────────────── -->
+        <section class="track-record-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <div class="section-icon">📊</div>
+                    Track Record
+                </h2>
+            </div>
+
+            
+            <div class="track-metrics">
+                <div class="track-metric">
+                    <div class="label">Trading Days</div>
+                    <div class="value neutral">3</div>
+                </div>
+                <div class="track-metric">
+                    <div class="label">Max Drawdown</div>
+                    <div class="value negative">$7.73</div>
+                </div>
+                <div class="track-metric">
+                    <div class="label">Best Trade</div>
+                    <div class="value positive">
+                        
+                            DE $+8.96
+                        
+                    </div>
+                </div>
+                <div class="track-metric">
+                    <div class="label">Worst Trade</div>
+                    <div class="value negative">
+                        
+                            AAPL $-1.47
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h3>Daily P&L</h3>
+                    <div class="chart-wrap">
+                        <canvas id="dailyPnlChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3>Cumulative P&L</h3>
+                    <div class="chart-wrap">
+                        <canvas id="cumulativePnlChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Comparison -->
+            
+            <div class="agent-table">
+                <div class="table-header">
+                    <div>Agent</div>
+                    <div>Status</div>
+                    <div>Trades</div>
+                    <div>Win Rate</div>
+                    <div>Total P&L</div>
+                    <div>Avg P&L</div>
+                </div>
+                
+                <div class="table-row">
+                    <div>
+                        <div class="ticker-cell">Rashemator</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">5/12 Cloud Flip + 34/50 Trend Filter</div>
+                    </div>
+                    <div><span class="agent-status live">live</span></div>
+                    <div>38</div>
+                    <div class="pnl-negative">42.1%</div>
+                    <div class="pnl-positive">$+7.72</div>
+                    <div class="pnl-positive">$+0.20</div>
+                </div>
+                
+            </div>
+            
+
+            
+        </section>
+
         <section class="signals-section">
             <div class="section-header">
                 <h2 class="section-title">
@@ -510,58 +714,26 @@
             <div class="signal-grid">
                 
                 
-                <div class="signal-card short">
-                    <div class="signal-type short">SHORT</div>
-                    <div class="signal-info">
-                        <h3>TMO <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
-                        <p class="signal-reason">SHORT: 5/12 cloud flipped bearish (zone: SHORT)</p>
-                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
-                            Rally: — | 
-                            MFI: 35 | 
-                            WR: -97
-                        </p>
-                    </div>
-                    <div class="signal-price">
-                        <div class="price">$542.80</div>
-                    </div>
-                </div>
-                
-                <div class="signal-card short">
-                    <div class="signal-type short">SHORT</div>
-                    <div class="signal-info">
-                        <h3>DHR <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
-                        <p class="signal-reason">SHORT: 5/12 cloud flipped bearish (zone: SHORT)</p>
-                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
-                            Rally: — | 
-                            MFI: 34 | 
-                            WR: -96
-                        </p>
-                    </div>
-                    <div class="signal-price">
-                        <div class="price">$216.51</div>
-                    </div>
-                </div>
-                
                 
                 <div class="signal-card sell">
                     <div class="signal-type sell">SELL</div>
                     <div class="signal-info">
-                        <h3>AXP</h3>
-                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</p>
+                        <h3>TMO</h3>
+                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: SHORT)</p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$359.14</div>
+                        <div class="price">$542.70</div>
                     </div>
                 </div>
                 
                 <div class="signal-card sell">
                     <div class="signal-type sell">SELL</div>
                     <div class="signal-info">
-                        <h3>GE</h3>
-                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</p>
+                        <h3>DHR</h3>
+                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: SHORT)</p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$320.81</div>
+                        <div class="price">$216.53</div>
                     </div>
                 </div>
                 
@@ -1171,13 +1343,120 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-links">
-                <a href="https://github.com/lipsa-racha/rachatrades">GitHub</a>
+                <a href="https://github.com/narendravankayala/rachatrades">GitHub</a>
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-06T21:07:01.956320 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-09T13:57:16.244095 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
+
+    
+    <script>
+    (function() {
+        const data = [{"cumulative_pnl": 1.64, "date": "2026-02-03", "long_pnl": 1.64, "long_trades": 1, "losers": 0, "pnl": 1.64, "pnl_pct": 0.59, "short_pnl": 0.0, "short_trades": 0, "trades": 1, "win_rate": 100.0, "winners": 1}, {"cumulative_pnl": -6.09, "date": "2026-02-05", "long_pnl": -7.73, "long_trades": 22, "losers": 16, "pnl": -7.73, "pnl_pct": -6.36, "short_pnl": 0.0, "short_trades": 0, "trades": 22, "win_rate": 27.3, "winners": 6}, {"cumulative_pnl": 7.72, "date": "2026-02-06", "long_pnl": 13.81, "long_trades": 15, "losers": 6, "pnl": 13.81, "pnl_pct": 3.69, "short_pnl": 0.0, "short_trades": 0, "trades": 15, "win_rate": 60.0, "winners": 9}];
+        const labels = data.map(d => d.date);
+        const pnl = data.map(d => d.pnl);
+        const cumPnl = data.map(d => d.cumulative_pnl);
+
+        const chartDefaults = {
+            color: '#a0a0b0',
+            borderColor: '#2a2a3a',
+            font: { family: 'Inter, sans-serif' },
+        };
+        Chart.defaults.color = chartDefaults.color;
+        Chart.defaults.font.family = chartDefaults.font.family;
+
+        // Daily P&L Bar Chart
+        new Chart(document.getElementById('dailyPnlChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily P&L ($)',
+                    data: pnl,
+                    backgroundColor: pnl.map(v => v >= 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.7)'),
+                    borderColor: pnl.map(v => v >= 0 ? '#10b981' : '#ef4444'),
+                    borderWidth: 1,
+                    borderRadius: 3,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: (ctx) => ctx[0].label,
+                            label: (ctx) => {
+                                const d = data[ctx.dataIndex];
+                                return [
+                                    `P&L: $${ctx.raw >= 0 ? '+' : ''}${ctx.raw.toFixed(2)}`,
+                                    `Trades: ${d.trades} (${d.winners}W / ${d.losers}L)`,
+                                    `Win Rate: ${d.win_rate}%`,
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(42, 42, 58, 0.5)' },
+                        ticks: { maxRotation: 45, font: { size: 10 } },
+                    },
+                    y: {
+                        grid: { color: 'rgba(42, 42, 58, 0.5)' },
+                        ticks: { callback: v => '$' + v.toFixed(0) },
+                    }
+                }
+            }
+        });
+
+        // Cumulative P&L Line Chart
+        new Chart(document.getElementById('cumulativePnlChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Cumulative P&L ($)',
+                    data: cumPnl,
+                    borderColor: cumPnl[cumPnl.length - 1] >= 0 ? '#10b981' : '#ef4444',
+                    backgroundColor: cumPnl[cumPnl.length - 1] >= 0
+                        ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `Cumulative: $${ctx.raw >= 0 ? '+' : ''}${ctx.raw.toFixed(2)}`,
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(42, 42, 58, 0.5)' },
+                        ticks: { maxRotation: 45, font: { size: 10 } },
+                    },
+                    y: {
+                        grid: { color: 'rgba(42, 42, 58, 0.5)' },
+                        ticks: { callback: v => '$' + v.toFixed(0) },
+                    }
+                }
+            }
+        });
+    })();
+    </script>
+    
 </body>
 </html>
