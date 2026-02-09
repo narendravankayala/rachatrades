@@ -14,6 +14,7 @@ rachatrades/
 │   ├── strategies/            # Rashemator MTF strategy logic
 │   ├── signals/               # Position tracking (SQLite)
 │   ├── scanner/               # Stock universe (Top 100 by market cap)
+│   ├── execution/             # Broker abstraction (Alpaca paper/live trading)
 │   ├── web/                   # Static site generator (Jinja2)
 │   ├── analyze.py             # Market analysis tool
 │   └── main.py                # Scanner entry point

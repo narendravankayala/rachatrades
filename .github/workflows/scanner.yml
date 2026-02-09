@@ -57,6 +57,9 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           NOTIFY_EMAILS: ${{ secrets.NOTIFY_EMAILS }}
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+          ALPACA_PAPER: "true"
         run: |
           if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
             python scripts/scan.py --force --dry-run

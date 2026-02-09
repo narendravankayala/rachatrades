@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import pytz
 
 from rachatrades.core.data import DataProvider
+from rachatrades.core.execution import AlpacaBroker
 from rachatrades.notifications import EmailNotifier
 from rachatrades.scanner import get_universe
 from rachatrades.core.signals import PositionTracker
@@ -79,11 +80,23 @@ def run_scan(
     tracker = PositionTracker(db_path)
     strategy = EMACloudStrategy()
     notifier = EmailNotifier()
+    broker = AlpacaBroker()
 
     if notifier.is_configured:
         logger.info("Email notifications: ENABLED")
     else:
         logger.info("Email notifications: DISABLED (set SMTP_USER, SMTP_PASSWORD, NOTIFY_EMAILS)")
+
+    if broker.is_configured:
+        mode = "PAPER" if broker.paper else "LIVE"
+        logger.info(f"Alpaca execution: ENABLED ({mode})")
+        if broker.is_connected():
+            acct = broker.get_account_info()
+            logger.info(f"  Account equity: ${acct.get('equity', 0):,.2f}  |  Buying power: ${acct.get('buying_power', 0):,.2f}")
+        else:
+            logger.warning("Alpaca broker configured but connection failed")
+    else:
+        logger.info("Alpaca execution: DISABLED (set ALPACA_API_KEY, ALPACA_SECRET_KEY)")
 
     # Get universe and open positions
     universe = get_universe()
@@ -124,6 +137,10 @@ def run_scan(
                     timestamp=scan_time,
                     reason=result.reason,
                 )
+                # Execute via broker
+                if broker.is_configured:
+                    order = broker.execute_buy(result.ticker)
+                    logger.info(f"  Alpaca: {order}")
                 notifier.send_trade_alert(
                     signal_type="BUY",
                     ticker=result.ticker,
@@ -143,6 +160,10 @@ def run_scan(
                     timestamp=scan_time,
                     reason=result.reason,
                 )
+                # Execute via broker
+                if broker.is_configured:
+                    order = broker.execute_sell(result.ticker)
+                    logger.info(f"  Alpaca: {order}")
                 pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
                 notifier.send_trade_alert(
                     signal_type="SELL",
@@ -163,6 +184,10 @@ def run_scan(
                     timestamp=scan_time,
                     reason=result.reason,
                 )
+                # Execute via broker
+                if broker.is_configured:
+                    order = broker.execute_short(result.ticker)
+                    logger.info(f"  Alpaca: {order}")
                 notifier.send_trade_alert(
                     signal_type="SHORT",
                     ticker=result.ticker,
@@ -182,6 +207,10 @@ def run_scan(
                     timestamp=scan_time,
                     reason=result.reason,
                 )
+                # Execute via broker
+                if broker.is_configured:
+                    order = broker.execute_cover(result.ticker)
+                    logger.info(f"  Alpaca: {order}")
                 pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
                 notifier.send_trade_alert(
                     signal_type="COVER",

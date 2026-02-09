@@ -79,7 +79,7 @@ At 500K users with same distribution: **$170M ARR → $1.7B valuation at 10x rev
 | **VWAP Scalper** | VWAP pullback entries on open | 1-min | 🔜 |
 | **Gap Filler** | Trade opening gaps using pre-market data | First 30 min | 📋 |
 | **Power Hour** | Last 30 min momentum patterns | Last 30 min | 📋 |
-| **Opening Range** | First hour breakout/breakdown | First 60 min | 📋 |
+| **Opening Range** | First hour breakout/breakdown | First 60 min | ✅ Built |
 | **Overnight Futures** | ES/NQ futures during Asian/European session | 24/7 | 📋 |
 | **News Reactor** | Trade on earnings, CPI, Fed events | Event-driven | 📋 |
 | **Options Flow** | Follow unusual options activity | Real-time | 📋 |
@@ -104,9 +104,9 @@ At 500K users with same distribution: **$170M ARR → $1.7B valuation at 10x rev
 **Goal**: Auditable 90-day track record with real paper trading
 
 What to build:
-- [ ] Connect to **Alpaca paper trading API** (free, no money at risk)
+- [ ] Connect to **Alpaca paper trading API** (free, no money at risk) ✅
 - [ ] Run Rashemator agent live with paper trades for 90 days
-- [ ] Build track record page on rachatrades.com (daily P&L, cumulative return, max drawdown)
+- [ ] Build track record page on rachatrades.com (daily P&L, cumulative return, max drawdown) ✅
 - [ ] Multi-day backtester (simulate.py across a date range, not just one day)
 - [ ] Find best config via A/B testing → lock it in for the 90-day run
 - [ ] Add 2-3 more simple agents (Momentum Rider, Mean Reverter) and paper trade those too
@@ -188,6 +188,8 @@ What to build:
 4. **Bar-by-bar simulator** — Backtest any config on any date, compare side-by-side
 5. **Zero-cost infra** — GitHub Actions + Pages. No server costs until we need them
 6. **Real-time pipeline** — yfinance → resample → indicators → signal → notify. Runs every 10 min
+7. **Broker execution layer** — BaseBroker ABC + AlpacaBroker. Paper trading ready, live trading one toggle away
+8. **Track record page** — Daily P&L chart + cumulative equity curve + agent comparison table on rachatrades.com
 
 ---
 
@@ -195,10 +197,10 @@ What to build:
 
 Priority order — each one builds on the last:
 
-1. **Alpaca paper trading integration** — Connect to Alpaca's free API, execute trades from signals
-2. **Track record page** — Daily P&L chart on rachatrades.com showing paper trading results
+1. **Alpaca paper trading integration** — Connect to Alpaca's free API, execute trades from signals ✅
+2. **Track record page** — Daily P&L chart on rachatrades.com showing paper trading results ✅
 3. **Multi-day backtester** — Extend simulate.py to run across a date range (e.g., last 30 days)
-4. **Second agent: Opening Range Breakout** — Simple, proven strategy. Shows the platform is multi-agent
+4. **Second agent: Opening Range Breakout** — Simple, proven strategy. Shows the platform is multi-agent ✅
 5. **Lock best config** — Run multi-day backtest across all configs, pick the best one for live paper trading
 
 ---

@@ -3,6 +3,9 @@ yfinance>=0.2.36
 pandas>=2.0.0
 numpy>=1.24.0
 
+# Broker execution
+alpaca-py>=0.30.0
+
 # Scheduling
 schedule>=1.2.0
 exchange-calendars>=4.2.0
