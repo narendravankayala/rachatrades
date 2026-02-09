@@ -579,15 +579,15 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">37</div>
+                <div class="stat-value positive">45</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">45</div>
+                <div class="stat-value neutral">36</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
-                <div class="stat-value negative">16</div>
+                <div class="stat-value negative">17</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
@@ -598,24 +598,24 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Trades</div>
-                <div class="stat-value neutral">49</div>
+                <div class="stat-value neutral">50</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Win Rate</div>
                 <div class="stat-value negative">
-                    36.7%
+                    38.0%
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Total P&L</div>
                 <div class="stat-value negative">
-                    $-11.90
+                    $-11.03
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Avg P&L</div>
                 <div class="stat-value negative">
-                    $-0.24
+                    $-0.22
                 </div>
             </div>
         </section>
@@ -637,7 +637,7 @@
                 </div>
                 <div class="track-metric">
                     <div class="label">Max Drawdown</div>
-                    <div class="value negative">$19.62</div>
+                    <div class="value negative">$18.75</div>
                 </div>
                 <div class="track-metric">
                     <div class="label">Best Trade</div>
@@ -690,10 +690,10 @@
                         <div style="font-size: 0.8rem; color: var(--text-muted);">5/12 Cloud Flip + 34/50 Trend Filter</div>
                     </div>
                     <div><span class="agent-status live">live</span></div>
-                    <div>49</div>
-                    <div class="pnl-negative">36.7%</div>
-                    <div class="pnl-negative">$-11.90</div>
-                    <div class="pnl-negative">$-0.24</div>
+                    <div>50</div>
+                    <div class="pnl-negative">38.0%</div>
+                    <div class="pnl-negative">$-11.03</div>
+                    <div class="pnl-negative">$-0.22</div>
                 </div>
                 
             </div>
@@ -713,16 +713,33 @@
             
             <div class="signal-grid">
                 
+                <div class="signal-card buy">
+                    <div class="signal-type buy">BUY</div>
+                    <div class="signal-info">
+                        <h3>AEP <span style="font-size: 0.7em; color: var(--green);">LONG</span></h3>
+                        <p class="signal-reason">BUY: 5/12 cloud flipped bullish (zone: LONG)</p>
+                        
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            MFI: 55 | 
+                            WR: -5
+                        </p>
+                        
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$120.85</div>
+                    </div>
+                </div>
+                
                 
                 
                 <div class="signal-card sell">
                     <div class="signal-type sell">SELL</div>
                     <div class="signal-info">
-                        <h3>INTU</h3>
-                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: SHORT)</p>
+                        <h3>EOG</h3>
+                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</p>
                     </div>
                     <div class="signal-price">
-                        <div class="price">$437.77</div>
+                        <div class="price">$114.22</div>
                     </div>
                 </div>
                 
@@ -747,6 +764,14 @@
                     <div>Entry Time</div>
                     <div>Status</div>
                     <div>Reason</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">AEP</div>
+                    <div>$120.85</div>
+                    <div>Feb 09, 14:39</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">BUY: 5/12 cloud flipped bullish (zone: LONG)</div>
                 </div>
                 
                 <div class="table-row">
@@ -1062,14 +1087,6 @@
                 </div>
                 
                 <div class="table-row">
-                    <div class="ticker-cell">EOG</div>
-                    <div>$113.36</div>
-                    <div>Feb 06, 09:33</div>
-                    <div><span class="status-badge open">HOLDING</span></div>
-                    <div class="signal-reason">BUY: 5/12 cloud flipped bullish (zone: LONG)</div>
-                </div>
-                
-                <div class="table-row">
                     <div class="ticker-cell">VLO</div>
                     <div>$197.04</div>
                     <div>Feb 06, 09:33</div>
@@ -1145,6 +1162,16 @@
                     <div>Exit</div>
                     <div>P&L</div>
                     <div>Exit Reason</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">EOG</div>
+                    <div>$113.36</div>
+                    <div>$114.22</div>
+                    <div class="pnl-positive">
+                        +$0.86 (0.8%)
+                    </div>
+                    <div class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</div>
                 </div>
                 
                 <div class="table-row">
@@ -1337,16 +1364,6 @@
                     <div class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</div>
                 </div>
                 
-                <div class="table-row">
-                    <div class="ticker-cell">MPC</div>
-                    <div>$203.17</div>
-                    <div>$202.51</div>
-                    <div class="pnl-negative">
-                        $-0.65 (-0.3%)
-                    </div>
-                    <div class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: FLAT)</div>
-                </div>
-                
             </div>
             
         </section>
@@ -1360,7 +1377,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-02-09T18:38:28.304020 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-02-09T19:39:33.540586 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
@@ -1368,7 +1385,7 @@
     
     <script>
     (function() {
-        const data = [{"cumulative_pnl": 1.64, "date": "2026-02-03", "long_pnl": 1.64, "long_trades": 1, "losers": 0, "pnl": 1.64, "pnl_pct": 0.59, "short_pnl": 0.0, "short_trades": 0, "trades": 1, "win_rate": 100.0, "winners": 1}, {"cumulative_pnl": -6.09, "date": "2026-02-05", "long_pnl": -7.73, "long_trades": 22, "losers": 16, "pnl": -7.73, "pnl_pct": -6.36, "short_pnl": 0.0, "short_trades": 0, "trades": 22, "win_rate": 27.3, "winners": 6}, {"cumulative_pnl": 7.72, "date": "2026-02-06", "long_pnl": 13.81, "long_trades": 15, "losers": 6, "pnl": 13.81, "pnl_pct": 3.69, "short_pnl": 0.0, "short_trades": 0, "trades": 15, "win_rate": 60.0, "winners": 9}, {"cumulative_pnl": -11.9, "date": "2026-02-09", "long_pnl": -19.62, "long_trades": 11, "losers": 9, "pnl": -19.62, "pnl_pct": -5.24, "short_pnl": 0.0, "short_trades": 0, "trades": 11, "win_rate": 18.2, "winners": 2}];
+        const data = [{"cumulative_pnl": 1.64, "date": "2026-02-03", "long_pnl": 1.64, "long_trades": 1, "losers": 0, "pnl": 1.64, "pnl_pct": 0.59, "short_pnl": 0.0, "short_trades": 0, "trades": 1, "win_rate": 100.0, "winners": 1}, {"cumulative_pnl": -6.09, "date": "2026-02-05", "long_pnl": -7.73, "long_trades": 22, "losers": 16, "pnl": -7.73, "pnl_pct": -6.36, "short_pnl": 0.0, "short_trades": 0, "trades": 22, "win_rate": 27.3, "winners": 6}, {"cumulative_pnl": 7.72, "date": "2026-02-06", "long_pnl": 13.81, "long_trades": 15, "losers": 6, "pnl": 13.81, "pnl_pct": 3.69, "short_pnl": 0.0, "short_trades": 0, "trades": 15, "win_rate": 60.0, "winners": 9}, {"cumulative_pnl": -11.03, "date": "2026-02-09", "long_pnl": -18.76, "long_trades": 12, "losers": 9, "pnl": -18.76, "pnl_pct": -4.47, "short_pnl": 0.0, "short_trades": 0, "trades": 12, "win_rate": 25.0, "winners": 3}];
         const labels = data.map(d => d.date);
         const pnl = data.map(d => d.pnl);
         const cumPnl = data.map(d => d.cumulative_pnl);
