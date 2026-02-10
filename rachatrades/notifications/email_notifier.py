@@ -29,10 +29,14 @@ class EmailNotifier:
             smtp_password: Gmail app password (or set SMTP_PASSWORD env var)
             recipients: List of email addresses to notify (or set NOTIFY_EMAILS env var, comma-separated)
         """
-        self.smtp_user = smtp_user or os.environ.get("SMTP_USER", "")
-        self.smtp_password = smtp_password or os.environ.get("SMTP_PASSWORD", "")
+        # Sanitize inputs: replace non-breaking spaces (\xa0) that sneak in via copy-paste
+        def _clean(s: str) -> str:
+            return s.replace("\xa0", " ").strip()
+
+        self.smtp_user = _clean(smtp_user or os.environ.get("SMTP_USER", ""))
+        self.smtp_password = (smtp_password or os.environ.get("SMTP_PASSWORD", "")).strip()
         self.recipients = recipients or [
-            e.strip() for e in os.environ.get("NOTIFY_EMAILS", "").split(",") if e.strip()
+            _clean(e) for e in os.environ.get("NOTIFY_EMAILS", "").split(",") if e.strip()
         ]
         self.smtp_host = "smtp.gmail.com"
         self.smtp_port = 587
@@ -239,6 +243,11 @@ Open: {stats.get('open_positions', 0)} | Trades: {stats.get('total_trades', 0)} 
     def _send_email(self, subject: str, html_body: str, plain_body: str) -> bool:
         """Send an email via Gmail SMTP."""
         try:
+            # Sanitize all non-breaking spaces from content
+            subject = subject.replace("\xa0", " ")
+            html_body = html_body.replace("\xa0", " ")
+            plain_body = plain_body.replace("\xa0", " ")
+
             msg = MIMEMultipart("alternative")
             msg["Subject"] = Header(subject, "utf-8")
             msg["From"] = self.smtp_user
