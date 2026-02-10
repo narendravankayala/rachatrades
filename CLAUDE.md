@@ -49,6 +49,14 @@ See `grand_vision_startup.txt` for full vision. Next priorities:
 6. ES/NQ futures expansion (needs IBKR integration)
 7. 90-day verified track record -> audience -> paid signals
 
+## Recent Session (2026-02-09)
+- Switched scanner from baseline to improved_no_stop config
+- Wired entry guards into scan.py (time-of-day, max positions, cooldown)
+- Fixed email notifications (UTF-8 encoding + non-breaking space sanitization)
+- Changed EOD close to smart close (only close losers, winners ride overnight)
+- Started 60-day backtest comparing all configs vs SPY (+1.85% over 60 days) — rerun: `python3 scripts/backtest.py --compare --top 20 --period 60d`
+- Repo should be made private (`gh repo edit --visibility private`)
+
 ## Coding Conventions
 - Python 3.9+, dataclasses for configs/models
 - Strategy configs use feature flags (StrategyConfig)
