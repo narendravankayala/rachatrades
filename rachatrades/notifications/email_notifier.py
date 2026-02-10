@@ -243,8 +243,8 @@ Open: {stats.get('open_positions', 0)} | Trades: {stats.get('total_trades', 0)} 
             msg["From"] = self.smtp_user
             msg["To"] = ", ".join(self.recipients)
 
-            msg.attach(MIMEText(plain_body, "plain"))
-            msg.attach(MIMEText(html_body, "html"))
+            msg.attach(MIMEText(plain_body, "plain", "utf-8"))
+            msg.attach(MIMEText(html_body, "html", "utf-8"))
 
             with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
                 server.starttls()
