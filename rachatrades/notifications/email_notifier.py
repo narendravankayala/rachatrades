@@ -4,6 +4,7 @@ import logging
 import os
 import smtplib
 from datetime import datetime
+from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import List, Optional
@@ -239,7 +240,7 @@ Open: {stats.get('open_positions', 0)} | Trades: {stats.get('total_trades', 0)} 
         """Send an email via Gmail SMTP."""
         try:
             msg = MIMEMultipart("alternative")
-            msg["Subject"] = subject
+            msg["Subject"] = Header(subject, "utf-8")
             msg["From"] = self.smtp_user
             msg["To"] = ", ".join(self.recipients)
 
