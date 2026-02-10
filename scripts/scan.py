@@ -126,53 +126,84 @@ def run_scan(
     logger.info(f"Open LONG positions ({len(open_long_positions)}): {open_long_positions}")
     logger.info(f"Open SHORT positions ({len(open_short_positions)}): {open_short_positions}")
 
-    # ── EOD CLOSE: flatten all positions near market close ──────────
+    # ── EOD CLOSE: close LOSING positions, let winners ride overnight ─
     if is_eod_close_time() and (open_long_positions or open_short_positions):
         logger.info("=" * 60)
-        logger.info("EOD CLOSE: Closing all positions before market close")
+        logger.info("EOD CLOSE: Closing losing positions — winners ride overnight")
         logger.info("=" * 60)
-        
+
         eod_sells = []
         eod_covers = []
-        
-        # Close all longs
+        eod_held = []
+
+        # Build entry price lookup from open positions
+        open_positions = tracker.get_open_positions()
+        entry_prices = {p.ticker: p for p in open_positions}
+
+        provider_eod = DataProvider(cache_minutes=0)
+
+        # Check longs: close losers, keep winners
         for ticker in list(open_long_positions):
             try:
-                provider_eod = DataProvider(cache_minutes=0)
                 price = provider_eod.get_latest_price(ticker)
-                if price and not dry_run:
-                    closed = tracker.close_position(
-                        ticker=ticker, price=price,
-                        timestamp=scan_time, reason="EOD close - flatten all positions",
-                    )
-                    if broker.is_configured:
-                        broker.execute_sell(ticker)
-                    pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
-                    logger.info(f"  EOD SELL {ticker} @ ${price:.2f}{pnl_info}")
-                    eod_sells.append({"ticker": ticker, "price": price})
+                if not price:
+                    continue
+                pos = entry_prices.get(ticker)
+                if not pos:
+                    continue
+                unrealized_pnl = price - pos.entry_price
+
+                if unrealized_pnl < 0:
+                    # Losing — close it
+                    if not dry_run:
+                        closed = tracker.close_position(
+                            ticker=ticker, price=price,
+                            timestamp=scan_time, reason=f"EOD close — losing (${unrealized_pnl:+.2f})",
+                        )
+                        if broker.is_configured:
+                            broker.execute_sell(ticker)
+                        pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
+                        logger.info(f"  EOD SELL {ticker} @ ${price:.2f}{pnl_info} — LOSING")
+                        eod_sells.append({"ticker": ticker, "price": price, "pnl": unrealized_pnl})
+                else:
+                    # Winning — let it ride
+                    logger.info(f"  EOD HOLD {ticker} @ ${price:.2f} (unrealized: ${unrealized_pnl:+.2f}) — WINNER rides overnight")
+                    eod_held.append({"ticker": ticker, "price": price, "pnl": unrealized_pnl})
             except Exception as e:
-                logger.error(f"  Failed to close LONG {ticker}: {e}")
-        
-        # Close all shorts
+                logger.error(f"  Failed to evaluate LONG {ticker}: {e}")
+
+        # Check shorts: close losers, keep winners
         for ticker in list(open_short_positions):
             try:
-                provider_eod = DataProvider(cache_minutes=0)
                 price = provider_eod.get_latest_price(ticker)
-                if price and not dry_run:
-                    closed = tracker.close_short_position(
-                        ticker=ticker, price=price,
-                        timestamp=scan_time, reason="EOD close - flatten all positions",
-                    )
-                    if broker.is_configured:
-                        broker.execute_cover(ticker)
-                    pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
-                    logger.info(f"  EOD COVER {ticker} @ ${price:.2f}{pnl_info}")
-                    eod_covers.append({"ticker": ticker, "price": price})
+                if not price:
+                    continue
+                pos = entry_prices.get(ticker)
+                if not pos:
+                    continue
+                unrealized_pnl = pos.entry_price - price  # SHORT: profit when price drops
+
+                if unrealized_pnl < 0:
+                    # Losing — close it
+                    if not dry_run:
+                        closed = tracker.close_short_position(
+                            ticker=ticker, price=price,
+                            timestamp=scan_time, reason=f"EOD close — losing (${unrealized_pnl:+.2f})",
+                        )
+                        if broker.is_configured:
+                            broker.execute_cover(ticker)
+                        pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
+                        logger.info(f"  EOD COVER {ticker} @ ${price:.2f}{pnl_info} — LOSING")
+                        eod_covers.append({"ticker": ticker, "price": price, "pnl": unrealized_pnl})
+                else:
+                    # Winning — let it ride
+                    logger.info(f"  EOD HOLD SHORT {ticker} @ ${price:.2f} (unrealized: ${unrealized_pnl:+.2f}) — WINNER rides overnight")
+                    eod_held.append({"ticker": ticker, "price": price, "pnl": unrealized_pnl})
             except Exception as e:
-                logger.error(f"  Failed to close SHORT {ticker}: {e}")
-        
-        logger.info(f"EOD: Closed {len(eod_sells)} longs, {len(eod_covers)} shorts")
-        
+                logger.error(f"  Failed to evaluate SHORT {ticker}: {e}")
+
+        logger.info(f"EOD: Closed {len(eod_sells)} losing longs, {len(eod_covers)} losing shorts, {len(eod_held)} winners riding overnight")
+
         # Skip normal scanning after EOD close
         return {
             "timestamp": scan_time.isoformat(),
@@ -180,6 +211,7 @@ def run_scan(
             "eod_close": True,
             "eod_sells": eod_sells,
             "eod_covers": eod_covers,
+            "eod_held": eod_held,
             "buys": [], "shorts": [], "sells": [], "covers": [], "holds": [],
             "stats": tracker.get_stats(),
             "zone_counts": {"LONG": 0, "SHORT": 0, "FLAT": 0},
