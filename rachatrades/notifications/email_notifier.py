@@ -3,6 +3,7 @@
 import logging
 import os
 import smtplib
+import traceback
 from datetime import datetime
 from email.header import Header
 from email.mime.multipart import MIMEMultipart
@@ -243,27 +244,35 @@ Open: {stats.get('open_positions', 0)} | Trades: {stats.get('total_trades', 0)} 
     def _send_email(self, subject: str, html_body: str, plain_body: str) -> bool:
         """Send an email via Gmail SMTP."""
         try:
-            # Sanitize all non-breaking spaces from content
+            # Nuclear sanitize: strip ALL non-ASCII from addresses and passwords
+            clean_user = self.smtp_user.encode("ascii", "ignore").decode("ascii").strip()
+            clean_pass = self.smtp_password.encode("ascii", "ignore").decode("ascii").strip()
+            clean_recipients = [
+                r.encode("ascii", "ignore").decode("ascii").strip()
+                for r in self.recipients
+            ]
+
+            # Sanitize non-breaking spaces from content
             subject = subject.replace("\xa0", " ")
             html_body = html_body.replace("\xa0", " ")
             plain_body = plain_body.replace("\xa0", " ")
 
             msg = MIMEMultipart("alternative")
             msg["Subject"] = Header(subject, "utf-8")
-            msg["From"] = self.smtp_user
-            msg["To"] = ", ".join(self.recipients)
+            msg["From"] = clean_user
+            msg["To"] = ", ".join(clean_recipients)
 
             msg.attach(MIMEText(plain_body, "plain", "utf-8"))
             msg.attach(MIMEText(html_body, "html", "utf-8"))
 
             with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
                 server.starttls()
-                server.login(self.smtp_user, self.smtp_password)
-                server.send_message(msg)
+                server.login(clean_user, clean_pass)
+                server.sendmail(clean_user, clean_recipients, msg.as_bytes())
 
             logger.info(f"Email sent: {subject}")
             return True
 
         except Exception as e:
-            logger.error(f"Failed to send email: {e}")
+            logger.error(f"Failed to send email: {e}\n{traceback.format_exc()}")
             return False
