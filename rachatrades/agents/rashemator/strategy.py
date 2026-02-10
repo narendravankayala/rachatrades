@@ -72,10 +72,11 @@ class StrategyConfig:
     
     use_oscillator_filter: bool = False     # Require MFI/WR confirmation for entries
     use_order_blocks: bool = False          # OB confluence: only enter near support/resistance
+    use_cloud_spread_filter: bool = False   # Require min EMA5/12 spread to avoid chop
+    use_stop_loss: bool = False             # Hard stop loss on open positions
     # Future flags:
     # use_volume_filter: bool = False       # Require above-average volume
     # use_vwap_filter: bool = False         # VWAP trend confirmation
-    # use_atr_stops: bool = False           # ATR-based stop loss
     # use_rsi_filter: bool = False          # RSI divergence confirmation
     
     # ── Oscillator Settings ──────────────────────────────────────────
@@ -99,6 +100,18 @@ class StrategyConfig:
     ob_max_active: int = 10              # Max OBs to track per side
     ob_proximity_pct: float = 0.3        # How close price must be to OB (%)
     
+    # ── Cloud Spread Settings ────────────────────────────────────────
+    min_cloud_spread_pct: float = 0.1        # Min |EMA5 - EMA12| as % of price
+    
+    # ── Stop Loss Settings ───────────────────────────────────────────
+    stop_loss_pct: float = 0.5               # Stop loss as % of entry price
+    
+    # ── Cooldown Settings (simulation-level) ─────────────────────────
+    cooldown_bars: int = 3                   # Bars to wait after exit before re-entry (10-min bars = 30 min)
+    max_positions: int = 5                   # Max concurrent positions
+    skip_first_minutes: int = 30             # Skip first N minutes of market open
+    skip_last_minutes: int = 30              # Skip last N minutes before close
+    
     # ── Config metadata ─────────────────────────────────────────────
     name: str = "default"                # Config name for A/B comparison
     
@@ -109,6 +122,10 @@ class StrategyConfig:
             flags.append("oscillator")
         if self.use_order_blocks:
             flags.append("order_blocks")
+        if self.use_cloud_spread_filter:
+            flags.append(f"spread>{self.min_cloud_spread_pct}%")
+        if self.use_stop_loss:
+            flags.append(f"stop{self.stop_loss_pct}%")
         return f"[{self.name}] " + " + ".join(flags)
 
 
@@ -273,6 +290,7 @@ class EMACloudStrategy:
         mtf_data: MTFData,
         has_open_position: bool = False,
         has_short_position: bool = False,
+        entry_price: float = 0.0,
     ) -> StrategyResult:
         """
         Evaluate using multi-timeframe Rashemator strategy.
@@ -392,15 +410,22 @@ class EMACloudStrategy:
         # Determine signal based on position state
         if has_open_position:
             # Currently long - sell when 5/12 flips bearish
-            result = self._evaluate_sell(result, rash_signal, mfi_signal, williams_signal)
+            result = self._evaluate_sell(result, rash_signal, mfi_signal, williams_signal, entry_price=entry_price)
         elif has_short_position:
             # Currently short - cover when 5/12 flips bullish
-            result = self._evaluate_cover(result, rash_signal, mfi_signal, williams_signal)
+            result = self._evaluate_cover(result, rash_signal, mfi_signal, williams_signal, entry_price=entry_price)
         else:
             # No position - check for cloud flips with 34/50 trend filter
             if rash_signal.cloud_5_12_cross_up:
                 # Only go LONG if 34/50 major cloud confirms uptrend
                 if rash_signal.cloud_34_50 and rash_signal.cloud_34_50.bullish:
+                    # ── Optional cloud spread filter ────────────────
+                    if self.config.use_cloud_spread_filter and rash_signal.cloud_5_12:
+                        spread_pct = abs(rash_signal.cloud_5_12.ema_fast - rash_signal.cloud_5_12.ema_slow) / rash_signal.price * 100
+                        if spread_pct < self.config.min_cloud_spread_pct:
+                            result.signal = Signal.NO_POSITION
+                            result.reason = f"5/12 spread too thin ({spread_pct:.3f}% < {self.config.min_cloud_spread_pct}%)"
+                            return result
                     # ── Optional oscillator filter ──────────────────
                     if self.config.use_oscillator_filter and not oscillator_confirms:
                         result.signal = Signal.NO_POSITION
@@ -417,6 +442,13 @@ class EMACloudStrategy:
             elif rash_signal.cloud_5_12_cross_down:
                 # Only go SHORT if 34/50 major cloud confirms downtrend
                 if rash_signal.cloud_34_50 and rash_signal.cloud_34_50.bearish:
+                    # ── Optional cloud spread filter ────────────────
+                    if self.config.use_cloud_spread_filter and rash_signal.cloud_5_12:
+                        spread_pct = abs(rash_signal.cloud_5_12.ema_fast - rash_signal.cloud_5_12.ema_slow) / rash_signal.price * 100
+                        if spread_pct < self.config.min_cloud_spread_pct:
+                            result.signal = Signal.NO_POSITION
+                            result.reason = f"5/12 spread too thin ({spread_pct:.3f}% < {self.config.min_cloud_spread_pct}%)"
+                            return result
                     # ── Optional oscillator filter ──────────────────
                     if self.config.use_oscillator_filter and not overbought_confirms:
                         result.signal = Signal.NO_POSITION
@@ -462,13 +494,26 @@ class EMACloudStrategy:
         rash_signal: RashematorSignal,
         mfi_signal: dict,
         williams_signal: dict,
+        entry_price: float = 0.0,
     ) -> StrategyResult:
-        """Evaluate SELL conditions: 5/12 cloud flips bearish."""
+        """Evaluate SELL conditions: 5/12 cloud flips bearish or stop loss hit."""
+        
+        # STOP LOSS: check first (highest priority exit)
+        if self.config.use_stop_loss and entry_price > 0:
+            loss_pct = (rash_signal.price - entry_price) / entry_price * 100
+            if loss_pct <= -self.config.stop_loss_pct:
+                result.signal = Signal.SELL
+                result.reason = f"SELL: stop loss hit ({loss_pct:.2f}% <= -{self.config.stop_loss_pct}%)"
+                return result
         
         # SELL: 5/12 cloud just flipped bearish
         if rash_signal.cloud_5_12_cross_down:
             result.signal = Signal.SELL
             result.reason = f"SELL: 5/12 cloud flipped bearish (zone: {rash_signal.zone.value})"
+        elif rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bearish:
+            # Catch-up: cloud already bearish but we missed the crossover bar
+            result.signal = Signal.SELL
+            result.reason = f"SELL: 5/12 cloud already bearish - missed crossover (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.HOLD
             result.reason = f"HOLD: {rash_signal.zone.value} zone, 5/12 still bullish"
@@ -500,13 +545,26 @@ class EMACloudStrategy:
         rash_signal: RashematorSignal,
         mfi_signal: dict,
         williams_signal: dict,
+        entry_price: float = 0.0,
     ) -> StrategyResult:
-        """Evaluate COVER conditions: 5/12 cloud flips bullish."""
+        """Evaluate COVER conditions: 5/12 cloud flips bullish or stop loss hit."""
+        
+        # STOP LOSS: check first (highest priority exit)
+        if self.config.use_stop_loss and entry_price > 0:
+            loss_pct = (entry_price - rash_signal.price) / entry_price * 100
+            if loss_pct <= -self.config.stop_loss_pct:
+                result.signal = Signal.COVER
+                result.reason = f"COVER: stop loss hit ({loss_pct:.2f}% <= -{self.config.stop_loss_pct}%)"
+                return result
         
         # COVER: 5/12 cloud just flipped bullish
         if rash_signal.cloud_5_12_cross_up:
             result.signal = Signal.COVER
             result.reason = f"COVER: 5/12 cloud flipped bullish (zone: {rash_signal.zone.value})"
+        elif rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bullish:
+            # Catch-up: cloud already bullish but we missed the crossover bar
+            result.signal = Signal.COVER
+            result.reason = f"COVER: 5/12 cloud already bullish - missed crossover (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.HOLD_SHORT
             result.reason = f"HOLD SHORT: {rash_signal.zone.value} zone, 5/12 still bearish"

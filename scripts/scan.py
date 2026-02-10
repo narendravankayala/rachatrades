@@ -18,6 +18,8 @@ from pathlib import Path
 # Ensure project root is on path when script is run directly
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from datetime import timedelta
+
 import pytz
 
 from rachatrades.core.data import DataProvider
@@ -53,6 +55,14 @@ def is_market_hours() -> bool:
     return market_open <= now <= market_close
 
 
+def is_eod_close_time() -> bool:
+    """Check if it's time to close all positions (3:50 PM ET or later)."""
+    now = datetime.now(ET)
+    eod_cutoff = now.replace(hour=15, minute=50, second=0, microsecond=0)
+    market_close = now.replace(hour=16, minute=0, second=0, microsecond=0)
+    return eod_cutoff <= now <= market_close
+
+
 def run_scan(
     db_path: str = "data/positions.db",
     dry_run: bool = False,
@@ -78,7 +88,16 @@ def run_scan(
     # Initialize components
     provider = DataProvider(cache_minutes=5)
     tracker = PositionTracker(db_path)
-    strategy = EMACloudStrategy()
+    strategy = EMACloudStrategy(StrategyConfig(
+        name="improved_no_stop",
+        use_cloud_spread_filter=True,
+        min_cloud_spread_pct=0.05,
+        use_stop_loss=False,
+        cooldown_bars=3,
+        max_positions=5,
+        skip_first_minutes=30,
+        skip_last_minutes=30,
+    ))
     notifier = EmailNotifier()
     broker = AlpacaBroker()
 
@@ -107,6 +126,65 @@ def run_scan(
     logger.info(f"Open LONG positions ({len(open_long_positions)}): {open_long_positions}")
     logger.info(f"Open SHORT positions ({len(open_short_positions)}): {open_short_positions}")
 
+    # ── EOD CLOSE: flatten all positions near market close ──────────
+    if is_eod_close_time() and (open_long_positions or open_short_positions):
+        logger.info("=" * 60)
+        logger.info("EOD CLOSE: Closing all positions before market close")
+        logger.info("=" * 60)
+        
+        eod_sells = []
+        eod_covers = []
+        
+        # Close all longs
+        for ticker in list(open_long_positions):
+            try:
+                provider_eod = DataProvider(cache_minutes=0)
+                price = provider_eod.get_latest_price(ticker)
+                if price and not dry_run:
+                    closed = tracker.close_position(
+                        ticker=ticker, price=price,
+                        timestamp=scan_time, reason="EOD close - flatten all positions",
+                    )
+                    if broker.is_configured:
+                        broker.execute_sell(ticker)
+                    pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
+                    logger.info(f"  EOD SELL {ticker} @ ${price:.2f}{pnl_info}")
+                    eod_sells.append({"ticker": ticker, "price": price})
+            except Exception as e:
+                logger.error(f"  Failed to close LONG {ticker}: {e}")
+        
+        # Close all shorts
+        for ticker in list(open_short_positions):
+            try:
+                provider_eod = DataProvider(cache_minutes=0)
+                price = provider_eod.get_latest_price(ticker)
+                if price and not dry_run:
+                    closed = tracker.close_short_position(
+                        ticker=ticker, price=price,
+                        timestamp=scan_time, reason="EOD close - flatten all positions",
+                    )
+                    if broker.is_configured:
+                        broker.execute_cover(ticker)
+                    pnl_info = f" (P&L: ${closed.pnl:+.2f})" if closed and closed.pnl else ""
+                    logger.info(f"  EOD COVER {ticker} @ ${price:.2f}{pnl_info}")
+                    eod_covers.append({"ticker": ticker, "price": price})
+            except Exception as e:
+                logger.error(f"  Failed to close SHORT {ticker}: {e}")
+        
+        logger.info(f"EOD: Closed {len(eod_sells)} longs, {len(eod_covers)} shorts")
+        
+        # Skip normal scanning after EOD close
+        return {
+            "timestamp": scan_time.isoformat(),
+            "scan_time": scan_time.strftime("%Y-%m-%d %H:%M:%S ET"),
+            "eod_close": True,
+            "eod_sells": eod_sells,
+            "eod_covers": eod_covers,
+            "buys": [], "shorts": [], "sells": [], "covers": [], "holds": [],
+            "stats": tracker.get_stats(),
+            "zone_counts": {"LONG": 0, "SHORT": 0, "FLAT": 0},
+        }
+
     # Fetch 1-min data and resample to true 10-min candles
     logger.info("Fetching 1-min data and resampling to 10-min candles...")
     mtf_data = provider.get_batch_mtf_ohlcv(universe)
@@ -126,9 +204,51 @@ def run_scan(
     covers = []
     holds = []
 
+    # ── Entry guards from config ─────────────────────────────────────
+    cfg = strategy.config
+
+    # Time-of-day filter: only allow new entries within trading window
+    now_et = datetime.now(ET)
+    now_minutes = now_et.hour * 60 + now_et.minute
+    market_open_min = 9 * 60 + 30   # 9:30 AM
+    market_close_min = 16 * 60      # 4:00 PM
+    entry_window_open = market_open_min + cfg.skip_first_minutes
+    entry_window_close = market_close_min - cfg.skip_last_minutes
+    in_entry_window = entry_window_open <= now_minutes < entry_window_close
+
+    if not in_entry_window:
+        logger.info(f"Outside entry window ({entry_window_open//60}:{entry_window_open%60:02d}-{entry_window_close//60}:{entry_window_close%60:02d}) — new entries blocked")
+
+    # Max positions cap
+    total_open = len(open_long_positions) + len(open_short_positions)
+    at_capacity = total_open >= cfg.max_positions
+    if at_capacity:
+        logger.info(f"At max positions ({total_open}/{cfg.max_positions}) — new entries blocked")
+
+    # Cooldown: time-based (cooldown_bars * 10 minutes)
+    cooldown_duration = timedelta(minutes=cfg.cooldown_bars * 10)
+
     for result in results:
         if result.signal == Signal.BUY:
+            # ── Entry guards ──
+            if not in_entry_window:
+                logger.info(f"  SKIP BUY {result.ticker} — outside entry window")
+                holds.append(result)
+                continue
+            if at_capacity:
+                logger.info(f"  SKIP BUY {result.ticker} — at max positions ({cfg.max_positions})")
+                holds.append(result)
+                continue
+            last_exit = tracker.get_last_exit_time(result.ticker)
+            if last_exit and (scan_time - last_exit) < cooldown_duration:
+                remaining = cooldown_duration - (scan_time - last_exit)
+                logger.info(f"  SKIP BUY {result.ticker} — cooldown ({remaining.seconds // 60}m remaining)")
+                holds.append(result)
+                continue
+
             buys.append(result)
+            total_open += 1
+            at_capacity = total_open >= cfg.max_positions
             logger.info(f">>> BUY {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
             if not dry_run:
                 tracker.open_position(
@@ -152,6 +272,8 @@ def run_scan(
 
         elif result.signal == Signal.SELL:
             sells.append(result)
+            total_open -= 1
+            at_capacity = total_open >= cfg.max_positions
             logger.info(f">>> SELL {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
             if not dry_run:
                 closed = tracker.close_position(
@@ -175,7 +297,25 @@ def run_scan(
                 )
 
         elif result.signal == Signal.SHORT:
+            # ── Entry guards ──
+            if not in_entry_window:
+                logger.info(f"  SKIP SHORT {result.ticker} — outside entry window")
+                holds.append(result)
+                continue
+            if at_capacity:
+                logger.info(f"  SKIP SHORT {result.ticker} — at max positions ({cfg.max_positions})")
+                holds.append(result)
+                continue
+            last_exit = tracker.get_last_exit_time(result.ticker)
+            if last_exit and (scan_time - last_exit) < cooldown_duration:
+                remaining = cooldown_duration - (scan_time - last_exit)
+                logger.info(f"  SKIP SHORT {result.ticker} — cooldown ({remaining.seconds // 60}m remaining)")
+                holds.append(result)
+                continue
+
             shorts.append(result)
+            total_open += 1
+            at_capacity = total_open >= cfg.max_positions
             logger.info(f">>> SHORT {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
             if not dry_run:
                 tracker.open_short_position(
@@ -199,6 +339,8 @@ def run_scan(
 
         elif result.signal == Signal.COVER:
             covers.append(result)
+            total_open -= 1
+            at_capacity = total_open >= cfg.max_positions
             logger.info(f">>> COVER {result.ticker} @ ${result.price:.2f} at {scan_time.strftime('%H:%M:%S')} - {result.reason}")
             if not dry_run:
                 closed = tracker.close_short_position(

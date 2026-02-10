@@ -749,6 +749,12 @@ Examples:
         help="Print detailed trade log",
     )
     parser.add_argument(
+        "--period",
+        type=str,
+        default="7d",
+        help="Data period: 7d (1-min data) or up to 60d (5-min data). Default: 7d",
+    )
+    parser.add_argument(
         "--compare",
         action="store_true",
         help="Run all predefined configs and show multi-day A/B comparison",
@@ -773,7 +779,7 @@ Examples:
     print(f"\n{'═' * 72}")
     print(f"  RASHEMATOR MULTI-DAY BACKTESTER")
     print(f"{'═' * 72}")
-    data_10m = load_data(tickers)
+    data_10m = load_data(tickers, period=args.period)
 
     if not data_10m:
         print("  No data loaded. Check tickers and network.\n")

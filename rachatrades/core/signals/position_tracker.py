@@ -454,6 +454,22 @@ class PositionTracker:
             )
             return cursor.fetchone()[0]
 
+    def get_last_exit_time(self, ticker: str) -> Optional[datetime]:
+        """Get the most recent exit time for a ticker (for cooldown checks)."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute(
+                """
+                SELECT exit_time FROM positions
+                WHERE ticker = ? AND status = ? AND exit_time IS NOT NULL
+                ORDER BY exit_time DESC LIMIT 1
+                """,
+                (ticker, PositionStatus.CLOSED.value),
+            )
+            row = cursor.fetchone()
+            if row and row[0]:
+                return datetime.fromisoformat(row[0])
+            return None
+
     def get_stats(self) -> dict:
         """Get overall trading statistics."""
         with sqlite3.connect(self.db_path) as conn:

@@ -49,6 +49,31 @@ CONFIGS: Dict[str, StrategyConfig] = {
         use_oscillator_filter=False,
         use_order_blocks=False,
     ),
+    "improved": StrategyConfig(
+        name="improved",
+        use_oscillator_filter=False,
+        use_order_blocks=False,
+        use_cloud_spread_filter=True,
+        min_cloud_spread_pct=0.05,
+        use_stop_loss=True,
+        stop_loss_pct=0.5,
+        cooldown_bars=3,          # 30 min cooldown after exit
+        max_positions=5,          # Max 5 concurrent positions
+        skip_first_minutes=30,    # Skip first 30 min
+        skip_last_minutes=30,     # Skip last 30 min
+    ),
+    "improved_no_stop": StrategyConfig(
+        name="improved_no_stop",
+        use_oscillator_filter=False,
+        use_order_blocks=False,
+        use_cloud_spread_filter=True,
+        min_cloud_spread_pct=0.05,
+        use_stop_loss=False,
+        cooldown_bars=3,
+        max_positions=5,
+        skip_first_minutes=30,
+        skip_last_minutes=30,
+    ),
     "oscillator": StrategyConfig(
         name="oscillator",
         use_oscillator_filter=True,
@@ -73,23 +98,41 @@ CONFIGS: Dict[str, StrategyConfig] = {
 
 def load_data(
     tickers: Optional[List[str]] = None,
+    period: str = "7d",
 ) -> Dict[str, pd.DataFrame]:
-    """Fetch 1-min data and return dict of ticker -> full 10-min resampled DF."""
+    """Fetch intraday data and return dict of ticker -> full 10-min resampled DF.
+    
+    For period <= 7d: fetches 1-min data, resamples to 10-min.
+    For period > 7d:  fetches 5-min data, resamples to 10-min.
+    
+    yfinance limits:
+      - 1m data: max 7 calendar days
+      - 5m data: max 60 calendar days (~40 trading days)
+    """
     provider = DataProvider(cache_minutes=0)
 
     if tickers is None:
         tickers = get_universe()
 
-    print(f"Fetching 1-min data for {len(tickers)} tickers (7 days)...")
-    raw_1m = provider.get_batch_ohlcv(tickers, interval="1m", period="7d")
-    print(f"Got data for {len(raw_1m)} tickers\n")
+    # Determine optimal source interval based on requested period
+    period_days = int(period.replace("d", "")) if period.endswith("d") else 7
+    if period_days <= 7:
+        src_interval = "1m"
+        src_period = period
+    else:
+        src_interval = "5m"
+        src_period = f"{min(period_days, 60)}d"
+
+    print(f"Fetching {src_interval} data for {len(tickers)} tickers ({src_period})...")
+    raw = provider.get_batch_ohlcv(tickers, interval=src_interval, period=src_period)
+    print(f"Got data for {len(raw)} tickers\n")
 
     result: Dict[str, pd.DataFrame] = {}
     for ticker in tickers:
-        df_1m = raw_1m.get(ticker)
-        if df_1m is None or df_1m.empty:
+        df = raw.get(ticker)
+        if df is None or df.empty:
             continue
-        df_10m = provider._resample_to_10min(df_1m)
+        df_10m = provider._resample_to_10min(df)
         if df_10m is not None and len(df_10m) >= 55:
             result[ticker] = df_10m
 
@@ -109,11 +152,28 @@ def run_simulation(
     """
     Run the strategy bar-by-bar for one day using a given config.
     Returns list of trade dicts.
+    
+    Supports:
+    - Cooldown timer: block re-entry for N bars after exit
+    - Max concurrent positions: cap total open positions
+    - Time-of-day filter: skip first/last N minutes of session
+    - Stop loss: pass entry price to strategy for stop loss evaluation
     """
+    if config is None:
+        config = StrategyConfig()
     strategy = EMACloudStrategy(config)
     all_trades: List[dict] = []
     open_longs: Dict[str, dict] = {}
     open_shorts: Dict[str, dict] = {}
+    
+    # Cooldown tracking: ticker -> bar index when cooldown expires
+    cooldown_until: Dict[str, int] = {}
+    
+    # Market hours for time-of-day filtering
+    market_open_minutes = 9 * 60 + 30   # 9:30 AM in minutes
+    market_close_minutes = 16 * 60       # 4:00 PM in minutes
+    skip_before = market_open_minutes + config.skip_first_minutes
+    skip_after = market_close_minutes - config.skip_last_minutes
 
     for ticker, df_10m_full in data_10m.items():
         # Localize to ET for date filtering
@@ -136,34 +196,62 @@ def run_simulation(
             if len(window) < 52:
                 continue
 
-            mtf = MTFData(ticker=ticker, df_10min=window, df_1min=None)
-            result = strategy.evaluate_mtf(
-                ticker, mtf,
-                has_open_position=has_long,
-                has_short_position=has_short,
-            )
-
             bar_time = df_10m_full.index[bar_idx]
             if hasattr(bar_time, "tz") and bar_time.tz is not None:
                 bar_time_et = bar_time.tz_convert("America/New_York")
             else:
                 bar_time_et = bar_time
 
+            # ── Time-of-day filter: skip entries outside allowed window ──
+            bar_minutes = bar_time_et.hour * 60 + bar_time_et.minute
+            in_trading_window = skip_before <= bar_minutes < skip_after
+            
+            # Get entry price for stop loss evaluation
+            entry_price = 0.0
+            if has_long and ticker in open_longs:
+                entry_price = open_longs[ticker]["entry_price"]
+            elif has_short and ticker in open_shorts:
+                entry_price = open_shorts[ticker]["entry_price"]
+
+            mtf = MTFData(ticker=ticker, df_10min=window, df_1min=None)
+            result = strategy.evaluate_mtf(
+                ticker, mtf,
+                has_open_position=has_long,
+                has_short_position=has_short,
+                entry_price=entry_price,
+            )
+
+            # ── Max positions cap: block new entries if at capacity ──
+            total_open = len(open_longs) + len(open_shorts)
+            at_capacity = total_open >= config.max_positions
+            
+            # ── Cooldown check: block re-entry if ticker on cooldown ──
+            on_cooldown = ticker in cooldown_until and bar_idx < cooldown_until[ticker]
+
             if result.signal == Signal.BUY and not has_long:
-                has_long = True
-                open_longs[ticker] = {
-                    "entry_price": result.price,
-                    "entry_time": bar_time_et,
-                    "reason": result.reason,
-                }
-                if verbose:
-                    print(f"  {bar_time_et.strftime('%H:%M')} BUY  {ticker:<6} @ ${result.price:.2f}  — {result.reason}")
+                if not in_trading_window:
+                    pass  # Skip entry outside time window
+                elif at_capacity:
+                    pass  # Skip entry when at max positions
+                elif on_cooldown:
+                    pass  # Skip entry during cooldown
+                else:
+                    has_long = True
+                    open_longs[ticker] = {
+                        "entry_price": result.price,
+                        "entry_time": bar_time_et,
+                        "reason": result.reason,
+                    }
+                    if verbose:
+                        print(f"  {bar_time_et.strftime('%H:%M')} BUY  {ticker:<6} @ ${result.price:.2f}  — {result.reason}")
 
             elif result.signal == Signal.SELL and has_long:
                 entry = open_longs.pop(ticker)
                 pnl = result.price - entry["entry_price"]
                 pnl_pct = (pnl / entry["entry_price"]) * 100
                 has_long = False
+                # Set cooldown
+                cooldown_until[ticker] = bar_idx + config.cooldown_bars
                 all_trades.append({
                     "ticker": ticker,
                     "type": "LONG",
@@ -180,20 +268,29 @@ def run_simulation(
                     print(f"  {bar_time_et.strftime('%H:%M')} SELL {ticker:<6} @ ${result.price:.2f}  P&L: ${pnl:+.2f} ({pnl_pct:+.1f}%)  — {result.reason}")
 
             elif result.signal == Signal.SHORT and not has_short:
-                has_short = True
-                open_shorts[ticker] = {
-                    "entry_price": result.price,
-                    "entry_time": bar_time_et,
-                    "reason": result.reason,
-                }
-                if verbose:
-                    print(f"  {bar_time_et.strftime('%H:%M')} SHORT {ticker:<6} @ ${result.price:.2f}  — {result.reason}")
+                if not in_trading_window:
+                    pass  # Skip entry outside time window
+                elif at_capacity:
+                    pass  # Skip entry when at max positions
+                elif on_cooldown:
+                    pass  # Skip entry during cooldown
+                else:
+                    has_short = True
+                    open_shorts[ticker] = {
+                        "entry_price": result.price,
+                        "entry_time": bar_time_et,
+                        "reason": result.reason,
+                    }
+                    if verbose:
+                        print(f"  {bar_time_et.strftime('%H:%M')} SHORT {ticker:<6} @ ${result.price:.2f}  — {result.reason}")
 
             elif result.signal == Signal.COVER and has_short:
                 entry = open_shorts.pop(ticker)
                 pnl = entry["entry_price"] - result.price
                 pnl_pct = (pnl / entry["entry_price"]) * 100
                 has_short = False
+                # Set cooldown
+                cooldown_until[ticker] = bar_idx + config.cooldown_bars
                 all_trades.append({
                     "ticker": ticker,
                     "type": "SHORT",
