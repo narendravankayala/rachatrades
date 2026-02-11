@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-02-11T09:07:14.877762-05:00",
-  "scan_time": "2026-02-11 09:07:14 ET",
+  "timestamp": "2026-02-11T09:23:40.885271-05:00",
+  "scan_time": "2026-02-11 09:23:40 ET",
   "buys": [],
   "shorts": [],
   "sells": [
     {
       "ticker": "GOOGL",
-      "price": 318.54998779296875,
+      "price": 318.5400085449219,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:07:14"
+      "time": "09:23:40"
     },
     {
       "ticker": "META",
-      "price": 670.969970703125,
+      "price": 670.75,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:07:14"
+      "time": "09:23:40"
     },
     {
       "ticker": "MA",
       "price": 540.3699951171875,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:07:14"
+      "time": "09:23:40"
     },
     {
       "ticker": "DIS",
       "price": 109.9749984741211,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "09:07:14"
+      "time": "09:23:40"
     }
   ],
   "covers": [],
   "holds": [
     {
       "ticker": "MSFT",
-      "price": 413.3399963378906,
+      "price": 413.32000732421875,
       "zone": "SHORT"
     },
     {
@@ -53,7 +53,7 @@
     },
     {
       "ticker": "TMO",
-      "price": 539.719970703125,
+      "price": 539.4199829101562,
       "zone": "SHORT"
     },
     {
@@ -73,7 +73,7 @@
     },
     {
       "ticker": "PEP",
-      "price": 166.96499633789062,
+      "price": 166.9600067138672,
       "zone": "FLAT"
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "ticker": "UNP",
-      "price": 261.25,
+      "price": 261.4700012207031,
       "zone": "LONG"
     },
     {
@@ -103,7 +103,7 @@
     },
     {
       "ticker": "INTU",
-      "price": 421.3900146484375,
+      "price": 421.3599853515625,
       "zone": "SHORT"
     },
     {
@@ -144,8 +144,8 @@
     "open_positions": 24
   },
   "zone_counts": {
-    "LONG": 19,
+    "LONG": 20,
     "SHORT": 43,
-    "FLAT": 36
+    "FLAT": 35
   }
 }
