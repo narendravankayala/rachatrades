@@ -1,132 +1,130 @@
 {
-  "timestamp": "2026-02-11T13:00:05.602536-05:00",
-  "scan_time": "2026-02-11 13:00:05 ET",
+  "timestamp": "2026-02-11T13:31:46.077175-05:00",
+  "scan_time": "2026-02-11 13:31:46 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "PEP",
-      "price": 169.0800018310547,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "13:00:05"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "MSFT",
-      "price": 403.1400146484375,
-      "zone": "SHORT"
+      "price": 403.94000244140625,
+      "zone": "FLAT"
     },
     {
       "ticker": "GOOGL",
-      "price": 311.2900085449219,
-      "zone": "SHORT"
+      "price": 311.9700012207031,
+      "zone": "FLAT"
     },
     {
       "ticker": "AMZN",
-      "price": 203.77999877929688,
+      "price": 204.41749572753906,
       "zone": "FLAT"
     },
     {
       "ticker": "META",
-      "price": 660.8701171875,
-      "zone": "SHORT"
+      "price": 667.4400024414062,
+      "zone": "FLAT"
     },
     {
       "ticker": "ORCL",
-      "price": 157.02999877929688,
+      "price": 156.94000244140625,
       "zone": "FLAT"
     },
     {
       "ticker": "ADBE",
-      "price": 258.260009765625,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MA",
-      "price": 538.3699951171875,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 524.844970703125,
+      "price": 257.8699951171875,
       "zone": "SHORT"
     },
     {
-      "ticker": "DHR",
-      "price": 218.9149932861328,
+      "ticker": "MA",
+      "price": 538.969970703125,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "TMO",
+      "price": 525.092529296875,
       "zone": "FLAT"
     },
     {
-      "ticker": "WMT",
-      "price": 129.58999633789062,
+      "ticker": "DHR",
+      "price": 219.2100067138672,
       "zone": "LONG"
+    },
+    {
+      "ticker": "WMT",
+      "price": 129.16439819335938,
+      "zone": "FLAT"
     },
     {
       "ticker": "KO",
-      "price": 78.91000366210938,
-      "zone": "LONG"
+      "price": 78.7300033569336,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "PEP",
+      "price": 168.30499267578125,
+      "zone": "FLAT"
     },
     {
       "ticker": "TGT",
-      "price": 113.7750015258789,
-      "zone": "LONG"
+      "price": 112.91000366210938,
+      "zone": "SHORT"
     },
     {
       "ticker": "MMM",
-      "price": 174.0500030517578,
-      "zone": "LONG"
+      "price": 172.72000122070312,
+      "zone": "SHORT"
     },
     {
       "ticker": "UNP",
-      "price": 263.17999267578125,
-      "zone": "LONG"
+      "price": 262.93499755859375,
+      "zone": "FLAT"
     },
     {
       "ticker": "CRM",
-      "price": 183.97999572753906,
+      "price": 184.57000732421875,
       "zone": "FLAT"
     },
     {
       "ticker": "NOW",
-      "price": 100.62989807128906,
+      "price": 101.00509643554688,
       "zone": "FLAT"
     },
     {
       "ticker": "INTU",
-      "price": 402.010009765625,
+      "price": 402.0,
       "zone": "FLAT"
     },
     {
       "ticker": "MU",
-      "price": 402.54998779296875,
+      "price": 403.70989990234375,
       "zone": "LONG"
     },
     {
       "ticker": "DIS",
-      "price": 109.02999877929688,
+      "price": 108.875,
       "zone": "FLAT"
     },
     {
       "ticker": "CMCSA",
-      "price": 32.775001525878906,
-      "zone": "LONG"
+      "price": 32.72999954223633,
+      "zone": "FLAT"
     },
     {
       "ticker": "T",
-      "price": 28.31999969482422,
+      "price": 28.384000778198242,
       "zone": "LONG"
     },
     {
       "ticker": "AMT",
-      "price": 179.35000610351562,
+      "price": 179.33999633789062,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 398.80499267578125,
-      "zone": "FLAT"
+      "price": 396.2900085449219,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -141,8 +139,8 @@
     "open_positions": 24
   },
   "zone_counts": {
-    "LONG": 40,
-    "SHORT": 26,
-    "FLAT": 32
+    "LONG": 24,
+    "SHORT": 24,
+    "FLAT": 50
   }
 }
