@@ -32,7 +32,7 @@ from rachatrades.core.indicators import (
     Zone,
     calculate_rashemator_clouds_10min,
 )
-from rachatrades.agents.rashemator import EMACloudStrategy, Signal
+from rachatrades.agents.rashemator import get_strategy, Signal
 from rachatrades.agents.rashemator.strategy import StrategyConfig
 from rachatrades.scanner import get_universe
 
@@ -44,49 +44,33 @@ ET = pytz.timezone("America/New_York")
 # ═══════════════════════════════════════════════════════════════════════
 
 CONFIGS: Dict[str, StrategyConfig] = {
-    "baseline": StrategyConfig(
-        name="baseline",
-        use_oscillator_filter=False,
-        use_order_blocks=False,
+    # ── V1: Cloud Flip (frozen baseline) ─────────────────────────
+    "v1_baseline": StrategyConfig(
+        name="v1_baseline", version="v1",
     ),
-    "improved": StrategyConfig(
-        name="improved",
-        use_oscillator_filter=False,
-        use_order_blocks=False,
-        use_cloud_spread_filter=True,
-        min_cloud_spread_pct=0.05,
-        use_stop_loss=True,
-        stop_loss_pct=0.5,
-        cooldown_bars=3,          # 30 min cooldown after exit
-        max_positions=5,          # Max 5 concurrent positions
-        skip_first_minutes=30,    # Skip first 30 min
-        skip_last_minutes=30,     # Skip last 30 min
+    "v1_improved": StrategyConfig(
+        name="v1_improved", version="v1",
+        use_cloud_spread_filter=True, min_cloud_spread_pct=0.05,
+        cooldown_bars=3, max_positions=5,
+        skip_first_minutes=30, skip_last_minutes=30,
     ),
-    "improved_no_stop": StrategyConfig(
-        name="improved_no_stop",
-        use_oscillator_filter=False,
-        use_order_blocks=False,
-        use_cloud_spread_filter=True,
-        min_cloud_spread_pct=0.05,
-        use_stop_loss=False,
-        cooldown_bars=3,
-        max_positions=5,
-        skip_first_minutes=30,
-        skip_last_minutes=30,
+
+    # ── V2: Pullback Reclaim (Rash's actual system) ──────────────
+    "v2_baseline": StrategyConfig(
+        name="v2_baseline", version="v2",
     ),
-    "oscillator": StrategyConfig(
-        name="oscillator",
+    "v2_spread": StrategyConfig(
+        name="v2_spread", version="v2",
+        use_cloud_spread_filter=True, min_cloud_spread_pct=0.05,
+        cooldown_bars=3, max_positions=5,
+        skip_first_minutes=30, skip_last_minutes=30,
+    ),
+    "v2_oscillator": StrategyConfig(
+        name="v2_oscillator", version="v2",
         use_oscillator_filter=True,
-        use_order_blocks=False,
     ),
-    "order_blocks": StrategyConfig(
-        name="order_blocks",
-        use_oscillator_filter=False,
-        use_order_blocks=True,
-    ),
-    "osc+ob": StrategyConfig(
-        name="osc+ob",
-        use_oscillator_filter=True,
+    "v2_ob": StrategyConfig(
+        name="v2_ob", version="v2",
         use_order_blocks=True,
     ),
 }
@@ -161,7 +145,7 @@ def run_simulation(
     """
     if config is None:
         config = StrategyConfig()
-    strategy = EMACloudStrategy(config)
+    strategy = get_strategy(config)
     all_trades: List[dict] = []
     open_longs: Dict[str, dict] = {}
     open_shorts: Dict[str, dict] = {}

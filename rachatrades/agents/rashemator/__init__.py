@@ -1,15 +1,22 @@
-"""Rashemator agent - EMA Cloud Flip Strategy.
+"""Rashemator agent — Versioned EMA Cloud Strategy.
 
-The first and flagship agent. Uses 5/12 EMA cloud flips on 10-min candles
-with 34/50 major cloud as trend filter.
+Strategy versions:
+  v1 (CloudFlipStrategy)  — Cloud crossover = entry. FROZEN baseline.
+  v2 (PullbackStrategy)   — Pullback reclaim = entry. Rash's actual system.
 
-Rules:
-- BUY: 5/12 flips bullish + 34/50 bullish
-- SELL: 5/12 flips bearish
-- SHORT: 5/12 flips bearish + 34/50 bearish
-- COVER: 5/12 flips bullish
+Use get_strategy(config) to create the right version based on config.version.
 """
 
-from .strategy import EMACloudStrategy, StrategyConfig, StrategyResult, Signal
+from .strategy import EMACloudStrategy, StrategyConfig, StrategyResult, Signal, get_strategy
+from .v1_cloud_flip import CloudFlipStrategy
+from .v2_pullback import PullbackStrategy
 
-__all__ = ["EMACloudStrategy", "StrategyConfig", "StrategyResult", "Signal"]
+__all__ = [
+    "get_strategy",
+    "EMACloudStrategy",  # backward compat alias
+    "CloudFlipStrategy",
+    "PullbackStrategy",
+    "StrategyConfig",
+    "StrategyResult",
+    "Signal",
+]

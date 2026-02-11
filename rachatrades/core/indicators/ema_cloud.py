@@ -86,10 +86,12 @@ class RashematorSignal:
     rally_1m: bool = False   # Rally detected on 1-min
     
     # Reclaim detection (bullish when price reclaims support)
-    reclaim_detected: bool = False
-    
+    reclaim_detected: bool = False       # 5/12 cloud reclaim (shallow pullback bounce)
+    deep_reclaim_detected: bool = False  # 34/50 cloud reclaim (deep pullback bounce)
+
     # Rejection detection (bearish when price rejects resistance)
-    rejection_detected: bool = False
+    rejection_detected: bool = False       # 5/12 cloud rejection (shallow rally reject)
+    deep_rejection_detected: bool = False  # 34/50 cloud rejection (deep rally reject)
     
     # Cloud flip detection (EMA crossover on current bar)
     cloud_5_12_cross_up: bool = False    # 5/12 just flipped bullish
@@ -379,11 +381,13 @@ def get_rashemator_signal_10min(df: pd.DataFrame) -> RashematorSignal:
         c34_50 and c34_50.bullish,
     ])
     
-    # Check reclaim (bullish)
+    # Check reclaim (bullish — price bounced off cloud support)
     reclaim = bool(latest.get("c5_12_reclaim", False))
-    
-    # Check rejection (bearish)
+    deep_reclaim = bool(latest.get("c34_50_reclaim", False))
+
+    # Check rejection (bearish — price rejected from cloud resistance)
     rejection = _detect_rejection(df_clouds, "c5_12")
+    deep_rejection = _detect_rejection(df_clouds, "c34_50")
     
     # Cloud flip detection (5/12 crossover on this bar)
     cross_up = bool(latest.get("c5_12_cross_up", False))
@@ -400,7 +404,9 @@ def get_rashemator_signal_10min(df: pd.DataFrame) -> RashematorSignal:
         rally_type=rally,
         rally_10m=(rally != RallyType.NONE),
         reclaim_detected=reclaim,
+        deep_reclaim_detected=deep_reclaim,
         rejection_detected=rejection,
+        deep_rejection_detected=deep_rejection,
         cloud_5_12_cross_up=cross_up,
         cloud_5_12_cross_down=cross_down,
         clouds_aligned_10m=clouds_aligned,

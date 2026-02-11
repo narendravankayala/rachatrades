@@ -27,7 +27,7 @@ from rachatrades.core.execution import AlpacaBroker
 from rachatrades.notifications import EmailNotifier
 from rachatrades.scanner import get_universe
 from rachatrades.core.signals import PositionTracker
-from rachatrades.agents.rashemator import EMACloudStrategy, Signal, StrategyConfig
+from rachatrades.agents.rashemator import get_strategy, Signal, StrategyConfig
 
 # Configure logging
 logging.basicConfig(
@@ -88,8 +88,9 @@ def run_scan(
     # Initialize components
     provider = DataProvider(cache_minutes=5)
     tracker = PositionTracker(db_path)
-    strategy = EMACloudStrategy(StrategyConfig(
-        name="improved_no_stop",
+    strategy = get_strategy(StrategyConfig(
+        name="v1_improved",
+        version="v1",
         use_cloud_spread_filter=True,
         min_cloud_spread_pct=0.05,
         use_stop_loss=False,
