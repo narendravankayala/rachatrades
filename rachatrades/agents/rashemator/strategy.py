@@ -74,6 +74,8 @@ class StrategyConfig:
     use_order_blocks: bool = False          # OB confluence: only enter near support/resistance
     use_cloud_spread_filter: bool = False   # Require min EMA5/12 spread to avoid chop
     use_stop_loss: bool = False             # Hard stop loss on open positions
+    use_squeeze_filter: bool = False        # Squeeze Momentum: enter on squeeze release
+    use_wavetrend_filter: bool = False      # WaveTrend: enter on OB/OS crossovers
     # Future flags:
     # use_volume_filter: bool = False       # Require above-average volume
     # use_vwap_filter: bool = False         # VWAP trend confirmation
@@ -100,6 +102,19 @@ class StrategyConfig:
     ob_max_active: int = 10              # Max OBs to track per side
     ob_proximity_pct: float = 0.3        # How close price must be to OB (%)
     
+    # ── Squeeze Momentum Settings ──────────────────────────────────────
+    sqz_bb_period: int = 20
+    sqz_bb_mult: float = 2.0
+    sqz_kc_period: int = 20
+    sqz_kc_mult: float = 1.5
+    sqz_mom_period: int = 20
+
+    # ── WaveTrend Settings ─────────────────────────────────────────────
+    wt_channel_period: int = 10
+    wt_avg_period: int = 21
+    wt_overbought: float = 60.0
+    wt_oversold: float = -60.0
+
     # ── Cloud Spread Settings ────────────────────────────────────────
     min_cloud_spread_pct: float = 0.1        # Min |EMA5 - EMA12| as % of price
     
@@ -128,6 +143,10 @@ class StrategyConfig:
             flags.append(f"spread>{self.min_cloud_spread_pct}%")
         if self.use_stop_loss:
             flags.append(f"stop{self.stop_loss_pct}%")
+        if self.use_squeeze_filter:
+            flags.append("squeeze")
+        if self.use_wavetrend_filter:
+            flags.append("wavetrend")
         return f"[{self.name}] " + " + ".join(flags)
 
 
@@ -192,6 +211,20 @@ class StrategyResult:
     inside_bearish_ob: bool = False
     nearest_support_price: Optional[float] = None
     nearest_resistance_price: Optional[float] = None
+
+    # Squeeze Momentum state
+    squeeze_on: bool = False
+    squeeze_releasing: bool = False
+    sqz_momentum: Optional[float] = None
+    sqz_momentum_bullish: bool = False
+
+    # WaveTrend state
+    wt1: Optional[float] = None
+    wt2: Optional[float] = None
+    wt_cross_up: bool = False
+    wt_cross_down: bool = False
+    wt_overbought: bool = False
+    wt_oversold: bool = False
 
     # Which filters were active for this result
     active_filters: str = ""

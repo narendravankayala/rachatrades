@@ -23,6 +23,8 @@ from .order_blocks import (
     OrderBlockSignal,
     detect_order_blocks,
 )
+from .squeeze_momentum import calculate_squeeze_momentum, get_squeeze_signal
+from .wavetrend import calculate_wavetrend, get_wavetrend_signal
 
 __all__ = [
     # Rashemator MTF
@@ -50,4 +52,10 @@ __all__ = [
     "OrderBlock",
     "OrderBlockSignal",
     "detect_order_blocks",
+    # Squeeze Momentum
+    "calculate_squeeze_momentum",
+    "get_squeeze_signal",
+    # WaveTrend
+    "calculate_wavetrend",
+    "get_wavetrend_signal",
 ]

@@ -27,6 +27,10 @@ from rachatrades.core.indicators import (
     calculate_williams_r,
     get_mfi_signal,
     get_williams_r_signal,
+    calculate_squeeze_momentum,
+    get_squeeze_signal,
+    calculate_wavetrend,
+    get_wavetrend_signal,
 )
 from rachatrades.core.indicators.order_blocks import detect_order_blocks, OrderBlockSignal
 from rachatrades.core.data import MTFData
@@ -71,6 +75,23 @@ class PullbackStrategy:
         result = df.copy()
         result = calculate_mfi(result, period=self.config.mfi_period)
         result = calculate_williams_r(result, period=self.config.williams_r_period)
+        if self.config.use_squeeze_filter:
+            result = calculate_squeeze_momentum(
+                result,
+                bb_period=self.config.sqz_bb_period,
+                bb_mult=self.config.sqz_bb_mult,
+                kc_period=self.config.sqz_kc_period,
+                kc_mult=self.config.sqz_kc_mult,
+                mom_period=self.config.sqz_mom_period,
+            )
+        if self.config.use_wavetrend_filter:
+            result = calculate_wavetrend(
+                result,
+                channel_period=self.config.wt_channel_period,
+                avg_period=self.config.wt_avg_period,
+                overbought=self.config.wt_overbought,
+                oversold=self.config.wt_oversold,
+            )
         return result
 
     def _get_oscillator_signals(self, df: pd.DataFrame) -> tuple:
@@ -84,7 +105,9 @@ class PullbackStrategy:
             oversold_threshold=self.config.williams_r_oversold,
             overbought_threshold=self.config.williams_r_overbought,
         )
-        return mfi_signal, williams_signal
+        sqz_signal = get_squeeze_signal(df) if self.config.use_squeeze_filter else None
+        wt_signal = get_wavetrend_signal(df) if self.config.use_wavetrend_filter else None
+        return mfi_signal, williams_signal, sqz_signal, wt_signal
 
     def evaluate_mtf(
         self,
@@ -105,7 +128,7 @@ class PullbackStrategy:
 
         # Calculate indicators
         df_10m_osc = self._calculate_oscillators(df_10m)
-        mfi_signal, williams_signal = self._get_oscillator_signals(df_10m_osc)
+        mfi_signal, williams_signal, sqz_signal, wt_signal = self._get_oscillator_signals(df_10m_osc)
         rash_signal = get_rashemator_signal_10min(df_10m)
 
         latest = df_10m.iloc[-1]
@@ -155,6 +178,16 @@ class PullbackStrategy:
             nearest_resistance_price=(
                 ob_signal.nearest_resistance.avg if ob_signal and ob_signal.nearest_resistance else None
             ),
+            squeeze_on=sqz_signal["squeeze_on"] if sqz_signal else False,
+            squeeze_releasing=sqz_signal["squeeze_releasing"] if sqz_signal else False,
+            sqz_momentum=sqz_signal["momentum"] if sqz_signal else None,
+            sqz_momentum_bullish=sqz_signal["momentum_bullish"] if sqz_signal else False,
+            wt1=wt_signal["wt1"] if wt_signal else None,
+            wt2=wt_signal["wt2"] if wt_signal else None,
+            wt_cross_up=wt_signal["cross_up"] if wt_signal else False,
+            wt_cross_down=wt_signal["cross_down"] if wt_signal else False,
+            wt_overbought=wt_signal["overbought"] if wt_signal else False,
+            wt_oversold=wt_signal["oversold"] if wt_signal else False,
             active_filters=self.config.describe(),
         )
 
@@ -164,7 +197,7 @@ class PullbackStrategy:
         elif has_short_position:
             result = self._evaluate_cover(result, rash_signal, entry_price)
         else:
-            result = self._evaluate_entry(result, rash_signal, ob_signal, mfi_signal, williams_signal)
+            result = self._evaluate_entry(result, rash_signal, ob_signal, mfi_signal, williams_signal, sqz_signal, wt_signal)
 
         return result
 
@@ -175,6 +208,8 @@ class PullbackStrategy:
         ob_signal: Optional[OrderBlockSignal],
         mfi_signal: dict,
         williams_signal: dict,
+        sqz_signal: Optional[dict] = None,
+        wt_signal: Optional[dict] = None,
     ) -> StrategyResult:
         """Evaluate entry conditions based on pullback reclaim / rally rejection."""
 
@@ -189,7 +224,7 @@ class PullbackStrategy:
                 and not rash_signal.cloud_5_12_cross_up):  # Not the crossover bar itself
 
             # Apply optional filters
-            if not self._passes_long_filters(rash_signal, ob_signal, mfi_signal, williams_signal):
+            if not self._passes_long_filters(rash_signal, ob_signal, mfi_signal, williams_signal, sqz_signal, wt_signal):
                 return result
 
             result.signal = Signal.BUY
@@ -201,7 +236,7 @@ class PullbackStrategy:
                 and rash_signal.deep_reclaim_detected
                 and not rash_signal.cloud_5_12_cross_up):
 
-            if not self._passes_long_filters(rash_signal, ob_signal, mfi_signal, williams_signal):
+            if not self._passes_long_filters(rash_signal, ob_signal, mfi_signal, williams_signal, sqz_signal, wt_signal):
                 return result
 
             result.signal = Signal.BUY
@@ -215,7 +250,7 @@ class PullbackStrategy:
                 and rash_signal.rejection_detected
                 and not rash_signal.cloud_5_12_cross_down):  # Not the crossover bar itself
 
-            if not self._passes_short_filters(rash_signal, ob_signal, mfi_signal, williams_signal):
+            if not self._passes_short_filters(rash_signal, ob_signal, mfi_signal, williams_signal, sqz_signal, wt_signal):
                 return result
 
             result.signal = Signal.SHORT
@@ -227,7 +262,7 @@ class PullbackStrategy:
                 and rash_signal.deep_rejection_detected
                 and not rash_signal.cloud_5_12_cross_down):
 
-            if not self._passes_short_filters(rash_signal, ob_signal, mfi_signal, williams_signal):
+            if not self._passes_short_filters(rash_signal, ob_signal, mfi_signal, williams_signal, sqz_signal, wt_signal):
                 return result
 
             result.signal = Signal.SHORT
@@ -253,6 +288,8 @@ class PullbackStrategy:
         ob_signal: Optional[OrderBlockSignal],
         mfi_signal: dict,
         williams_signal: dict,
+        sqz_signal: Optional[dict] = None,
+        wt_signal: Optional[dict] = None,
     ) -> bool:
         """Check optional filters for long entries. Returns False if filtered out."""
         # Cloud spread filter
@@ -272,6 +309,23 @@ class PullbackStrategy:
             if not (ob_signal.near_bullish_ob or ob_signal.inside_bullish_ob):
                 return False
 
+        # Squeeze Momentum filter: squeeze releasing with bullish momentum
+        if self.config.use_squeeze_filter and sqz_signal:
+            # Allow entry if squeeze is releasing OR momentum is bullish and increasing
+            sqz_ok = (sqz_signal["squeeze_releasing"] and sqz_signal["momentum_bullish"]) or \
+                     (sqz_signal["momentum_bullish"] and sqz_signal["momentum_increasing"])
+            if not sqz_ok:
+                return False
+
+        # WaveTrend filter: oversold crossover or bullish momentum
+        if self.config.use_wavetrend_filter and wt_signal:
+            # Allow if: oversold crossover (strongest), or oversold zone, or bullish crossover
+            wt_ok = (wt_signal["cross_up"] and wt_signal["oversold"]) or \
+                    wt_signal["oversold"] or \
+                    wt_signal["cross_up"]
+            if not wt_ok:
+                return False
+
         return True
 
     def _passes_short_filters(
@@ -280,6 +334,8 @@ class PullbackStrategy:
         ob_signal: Optional[OrderBlockSignal],
         mfi_signal: dict,
         williams_signal: dict,
+        sqz_signal: Optional[dict] = None,
+        wt_signal: Optional[dict] = None,
     ) -> bool:
         """Check optional filters for short entries. Returns False if filtered out."""
         if self.config.use_cloud_spread_filter and rash_signal.cloud_5_12:
@@ -294,6 +350,21 @@ class PullbackStrategy:
 
         if self.config.use_order_blocks and ob_signal:
             if not (ob_signal.near_bearish_ob or ob_signal.inside_bearish_ob):
+                return False
+
+        # Squeeze Momentum filter: squeeze releasing with bearish momentum
+        if self.config.use_squeeze_filter and sqz_signal:
+            sqz_ok = (sqz_signal["squeeze_releasing"] and not sqz_signal["momentum_bullish"]) or \
+                     (not sqz_signal["momentum_bullish"] and not sqz_signal["momentum_increasing"])
+            if not sqz_ok:
+                return False
+
+        # WaveTrend filter: overbought crossover or bearish momentum
+        if self.config.use_wavetrend_filter and wt_signal:
+            wt_ok = (wt_signal["cross_down"] and wt_signal["overbought"]) or \
+                    wt_signal["overbought"] or \
+                    wt_signal["cross_down"]
+            if not wt_ok:
                 return False
 
         return True

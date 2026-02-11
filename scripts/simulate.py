@@ -73,6 +73,18 @@ CONFIGS: Dict[str, StrategyConfig] = {
         name="v2_ob", version="v2",
         use_order_blocks=True,
     ),
+    "v2_squeeze": StrategyConfig(
+        name="v2_squeeze", version="v2",
+        use_squeeze_filter=True,
+    ),
+    "v2_wavetrend": StrategyConfig(
+        name="v2_wavetrend", version="v2",
+        use_wavetrend_filter=True,
+    ),
+    "v2_sqz_wt": StrategyConfig(
+        name="v2_sqz_wt", version="v2",
+        use_squeeze_filter=True, use_wavetrend_filter=True,
+    ),
 }
 
 
