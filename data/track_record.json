@@ -1,0 +1,107 @@
+{
+  "daily_pnl": [
+    {
+      "date": "2026-02-03",
+      "trades": 1,
+      "winners": 1,
+      "losers": 0,
+      "win_rate": 100.0,
+      "pnl": 1.64,
+      "pnl_pct": 0.59,
+      "cumulative_pnl": 1.64,
+      "long_trades": 1,
+      "short_trades": 0,
+      "long_pnl": 1.64,
+      "short_pnl": 0.0
+    },
+    {
+      "date": "2026-02-05",
+      "trades": 22,
+      "winners": 6,
+      "losers": 16,
+      "win_rate": 27.3,
+      "pnl": -7.73,
+      "pnl_pct": -6.36,
+      "cumulative_pnl": -6.09,
+      "long_trades": 22,
+      "short_trades": 0,
+      "long_pnl": -7.73,
+      "short_pnl": 0.0
+    },
+    {
+      "date": "2026-02-06",
+      "trades": 15,
+      "winners": 9,
+      "losers": 6,
+      "win_rate": 60.0,
+      "pnl": 13.81,
+      "pnl_pct": 3.69,
+      "cumulative_pnl": 7.72,
+      "long_trades": 15,
+      "short_trades": 0,
+      "long_pnl": 13.81,
+      "short_pnl": 0.0
+    },
+    {
+      "date": "2026-02-09",
+      "trades": 14,
+      "winners": 5,
+      "losers": 9,
+      "win_rate": 35.7,
+      "pnl": -17.5,
+      "pnl_pct": -2.84,
+      "cumulative_pnl": -9.77,
+      "long_trades": 14,
+      "short_trades": 0,
+      "long_pnl": -17.5,
+      "short_pnl": 0.0
+    },
+    {
+      "date": "2026-02-10",
+      "trades": 26,
+      "winners": 11,
+      "losers": 15,
+      "win_rate": 42.3,
+      "pnl": 36.87,
+      "pnl_pct": 2.26,
+      "cumulative_pnl": 27.09,
+      "long_trades": 26,
+      "short_trades": 0,
+      "long_pnl": 36.87,
+      "short_pnl": 0.0
+    }
+  ],
+  "agents": [
+    {
+      "name": "Rashemator",
+      "description": "5/12 Cloud Flip + 34/50 Trend Filter",
+      "trades": 78,
+      "win_rate": 41.0,
+      "total_pnl": 27.09,
+      "avg_pnl": 0.35,
+      "status": "live"
+    }
+  ],
+  "summary": {
+    "total_trades": 78,
+    "winners": 32,
+    "losers": 46,
+    "win_rate": 41.0,
+    "total_pnl": 27.09,
+    "total_pnl_pct": -2.67,
+    "avg_pnl": 0.35,
+    "avg_pnl_pct": -0.03,
+    "open_positions": 24,
+    "trading_days": 5,
+    "max_drawdown": 17.49,
+    "best_trade": {
+      "ticker": "EQIX",
+      "pnl": 27.31
+    },
+    "worst_trade": {
+      "ticker": "V",
+      "pnl": -9.36
+    },
+    "generated_at": "2026-02-11T13:58:27.650387"
+  }
+}

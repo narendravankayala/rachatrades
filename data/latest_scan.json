@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-02-11T08:58:10.432947-05:00",
+  "scan_time": "2026-02-11 08:58:10 ET",
+  "buys": [],
+  "shorts": [],
+  "sells": [
+    {
+      "ticker": "GOOGL",
+      "price": 318.54998779296875,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "08:58:10"
+    },
+    {
+      "ticker": "META",
+      "price": 670.969970703125,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "08:58:10"
+    },
+    {
+      "ticker": "MA",
+      "price": 540.3699951171875,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "08:58:10"
+    },
+    {
+      "ticker": "DIS",
+      "price": 109.9749984741211,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
+      "time": "08:58:10"
+    }
+  ],
+  "covers": [],
+  "holds": [
+    {
+      "ticker": "MSFT",
+      "price": 413.3399963378906,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "AMZN",
+      "price": 206.99000549316406,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "ORCL",
+      "price": 159.85000610351562,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "ADBE",
+      "price": 264.6199951171875,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "TMO",
+      "price": 539.719970703125,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "DHR",
+      "price": 219.74000549316406,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "WMT",
+      "price": 126.76000213623047,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "KO",
+      "price": 76.80999755859375,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "PEP",
+      "price": 166.96499633789062,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "TGT",
+      "price": 113.2300033569336,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MMM",
+      "price": 173.42999267578125,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "UNP",
+      "price": 261.25,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "CRM",
+      "price": 193.3800048828125,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "NOW",
+      "price": 106.4800033569336,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "INTU",
+      "price": 421.3900146484375,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MU",
+      "price": 373.1300048828125,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "CMCSA",
+      "price": 32.31999969482422,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "T",
+      "price": 27.395000457763672,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "AMT",
+      "price": 178.5,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "SPGI",
+      "price": 401.07000732421875,
+      "zone": "SHORT"
+    }
+  ],
+  "stats": {
+    "total_trades": 78,
+    "winning_trades": 32,
+    "losing_trades": 44,
+    "breakeven_trades": 2,
+    "win_rate": 41.02564102564102,
+    "total_pnl": 27.09275245666504,
+    "avg_pnl": 0.34734298021365434,
+    "avg_pnl_percent": -0.03418430035658296,
+    "open_positions": 24
+  },
+  "zone_counts": {
+    "LONG": 19,
+    "SHORT": 43,
+    "FLAT": 36
+  }
+}
