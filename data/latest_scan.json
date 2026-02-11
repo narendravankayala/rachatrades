@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-11T08:58:10.432947-05:00",
-  "scan_time": "2026-02-11 08:58:10 ET",
+  "timestamp": "2026-02-11T09:07:14.877762-05:00",
+  "scan_time": "2026-02-11 09:07:14 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,25 +8,25 @@
       "ticker": "GOOGL",
       "price": 318.54998779296875,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "08:58:10"
+      "time": "09:07:14"
     },
     {
       "ticker": "META",
       "price": 670.969970703125,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "08:58:10"
+      "time": "09:07:14"
     },
     {
       "ticker": "MA",
       "price": 540.3699951171875,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "08:58:10"
+      "time": "09:07:14"
     },
     {
       "ticker": "DIS",
       "price": 109.9749984741211,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "08:58:10"
+      "time": "09:07:14"
     }
   ],
   "covers": [],
