@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-11T09:47:30.329760-05:00",
-  "scan_time": "2026-02-11 09:47:30 ET",
+  "timestamp": "2026-02-11T10:13:18.344374-05:00",
+  "scan_time": "2026-02-11 10:13:18 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,133 +8,128 @@
   "holds": [
     {
       "ticker": "MSFT",
-      "price": 409.44000244140625,
+      "price": 404.739990234375,
       "zone": "SHORT"
     },
     {
       "ticker": "GOOGL",
-      "price": 317.4100036621094,
+      "price": 314.3399963378906,
       "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 205.5399932861328,
+      "price": 204.99000549316406,
       "zone": "SHORT"
     },
     {
       "ticker": "META",
-      "price": 667.02001953125,
+      "price": 663.4299926757812,
       "zone": "SHORT"
     },
     {
-      "ticker": "AVGO",
-      "price": 343.114990234375,
-      "zone": "LONG"
-    },
-    {
       "ticker": "ORCL",
-      "price": 160.08999633789062,
-      "zone": "FLAT"
+      "price": 155.9799041748047,
+      "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 257.6099853515625,
+      "price": 256.19000244140625,
       "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 535.510009765625,
+      "price": 535.010009765625,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "WFC",
+      "price": 91.30000305175781,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 530.7750244140625,
+      "price": 528.7249755859375,
       "zone": "SHORT"
     },
     {
       "ticker": "DHR",
-      "price": 217.80999755859375,
-      "zone": "SHORT"
+      "price": 218.3300018310547,
+      "zone": "FLAT"
     },
     {
       "ticker": "WMT",
-      "price": 128.14930725097656,
+      "price": 128.00999450683594,
       "zone": "LONG"
     },
     {
       "ticker": "KO",
-      "price": 77.0250015258789,
+      "price": 77.87000274658203,
       "zone": "LONG"
     },
     {
       "ticker": "PEP",
-      "price": 167.02000427246094,
+      "price": 168.93499755859375,
       "zone": "LONG"
     },
     {
       "ticker": "TGT",
-      "price": 113.44999694824219,
-      "zone": "FLAT"
+      "price": 112.94999694824219,
+      "zone": "SHORT"
     },
     {
       "ticker": "MMM",
-      "price": 174.18679809570312,
-      "zone": "LONG"
+      "price": 173.26499938964844,
+      "zone": "FLAT"
     },
     {
       "ticker": "UNP",
-      "price": 263.9100036621094,
+      "price": 262.94000244140625,
       "zone": "LONG"
     },
     {
       "ticker": "CRM",
-      "price": 186.94000244140625,
+      "price": 184.1699981689453,
       "zone": "SHORT"
     },
     {
-      "ticker": "AMD",
-      "price": 219.1699981689453,
-      "zone": "LONG"
-    },
-    {
       "ticker": "NOW",
-      "price": 102.23500061035156,
+      "price": 99.7750015258789,
       "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 410.4599914550781,
+      "price": 402.0400085449219,
       "zone": "SHORT"
     },
     {
       "ticker": "MU",
-      "price": 401.3800964355469,
-      "zone": "LONG"
+      "price": 392.43499755859375,
+      "zone": "FLAT"
     },
     {
       "ticker": "DIS",
-      "price": 109.05500030517578,
+      "price": 108.4800033569336,
       "zone": "SHORT"
     },
     {
       "ticker": "CMCSA",
-      "price": 32.439998626708984,
+      "price": 32.54499816894531,
       "zone": "LONG"
     },
     {
       "ticker": "T",
-      "price": 27.530000686645508,
+      "price": 28.31279945373535,
       "zone": "LONG"
     },
     {
       "ticker": "AMT",
-      "price": 175.97000122070312,
-      "zone": "SHORT"
+      "price": 178.2050018310547,
+      "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 403.010009765625,
-      "zone": "FLAT"
+      "price": 402.5400085449219,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -149,8 +144,8 @@
     "open_positions": 24
   },
   "zone_counts": {
-    "LONG": 43,
-    "SHORT": 34,
-    "FLAT": 21
+    "LONG": 28,
+    "SHORT": 42,
+    "FLAT": 28
   }
 }
