@@ -1,10 +1,10 @@
-# Data files (output directory only)
-/data/
-*.db
+# Data files (ignore contents, keep selected files)
+/data/*
+!/data/positions.db
+!/data/track_record.json
+!/data/latest_scan.json
+!/data/.gitkeep
 !rachatrades/core/data/
-
-# JSON output files
-/data/*.json
 
 # Python
 __pycache__/

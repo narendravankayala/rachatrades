@@ -510,10 +510,6 @@ class EMACloudStrategy:
         if rash_signal.cloud_5_12_cross_down:
             result.signal = Signal.SELL
             result.reason = f"SELL: 5/12 cloud flipped bearish (zone: {rash_signal.zone.value})"
-        elif rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bearish:
-            # Catch-up: cloud already bearish but we missed the crossover bar
-            result.signal = Signal.SELL
-            result.reason = f"SELL: 5/12 cloud already bearish - missed crossover (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.HOLD
             result.reason = f"HOLD: {rash_signal.zone.value} zone, 5/12 still bullish"
@@ -561,10 +557,6 @@ class EMACloudStrategy:
         if rash_signal.cloud_5_12_cross_up:
             result.signal = Signal.COVER
             result.reason = f"COVER: 5/12 cloud flipped bullish (zone: {rash_signal.zone.value})"
-        elif rash_signal.cloud_5_12 and rash_signal.cloud_5_12.bullish:
-            # Catch-up: cloud already bullish but we missed the crossover bar
-            result.signal = Signal.COVER
-            result.reason = f"COVER: 5/12 cloud already bullish - missed crossover (zone: {rash_signal.zone.value})"
         else:
             result.signal = Signal.HOLD_SHORT
             result.reason = f"HOLD SHORT: {rash_signal.zone.value} zone, 5/12 still bearish"
