@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-11T10:13:18.344374-05:00",
-  "scan_time": "2026-02-11 10:13:18 ET",
+  "timestamp": "2026-02-11T10:39:28.011456-05:00",
+  "scan_time": "2026-02-11 10:39:28 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,127 +8,127 @@
   "holds": [
     {
       "ticker": "MSFT",
-      "price": 404.739990234375,
+      "price": 404.6199951171875,
       "zone": "SHORT"
     },
     {
       "ticker": "GOOGL",
-      "price": 314.3399963378906,
+      "price": 312.4667053222656,
       "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 204.99000549316406,
-      "zone": "SHORT"
+      "price": 206.30499267578125,
+      "zone": "FLAT"
     },
     {
       "ticker": "META",
-      "price": 663.4299926757812,
+      "price": 665.127685546875,
       "zone": "SHORT"
     },
     {
       "ticker": "ORCL",
-      "price": 155.9799041748047,
+      "price": 155.1699981689453,
       "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 256.19000244140625,
+      "price": 257.42999267578125,
       "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 535.010009765625,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "WFC",
-      "price": 91.30000305175781,
-      "zone": "SHORT"
+      "price": 537.6400146484375,
+      "zone": "FLAT"
     },
     {
       "ticker": "TMO",
-      "price": 528.7249755859375,
+      "price": 530.1812744140625,
       "zone": "SHORT"
     },
     {
       "ticker": "DHR",
-      "price": 218.3300018310547,
-      "zone": "FLAT"
+      "price": 219.19500732421875,
+      "zone": "LONG"
     },
     {
       "ticker": "WMT",
-      "price": 128.00999450683594,
+      "price": 127.93000030517578,
       "zone": "LONG"
     },
     {
       "ticker": "KO",
-      "price": 77.87000274658203,
+      "price": 78.18499755859375,
       "zone": "LONG"
     },
     {
       "ticker": "PEP",
-      "price": 168.93499755859375,
+      "price": 169.57000732421875,
       "zone": "LONG"
     },
     {
       "ticker": "TGT",
-      "price": 112.94999694824219,
+      "price": 112.70999908447266,
       "zone": "SHORT"
     },
     {
       "ticker": "MMM",
-      "price": 173.26499938964844,
+      "price": 173.2707061767578,
       "zone": "FLAT"
     },
     {
       "ticker": "UNP",
-      "price": 262.94000244140625,
+      "price": 263.1099853515625,
       "zone": "LONG"
     },
     {
       "ticker": "CRM",
-      "price": 184.1699981689453,
+      "price": 184.51010131835938,
       "zone": "SHORT"
     },
     {
+      "ticker": "QCOM",
+      "price": 140.6199951171875,
+      "zone": "LONG"
+    },
+    {
       "ticker": "NOW",
-      "price": 99.7750015258789,
+      "price": 99.63999938964844,
       "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 402.0400085449219,
+      "price": 400.7300109863281,
       "zone": "SHORT"
     },
     {
       "ticker": "MU",
-      "price": 392.43499755859375,
-      "zone": "FLAT"
+      "price": 391.1700134277344,
+      "zone": "LONG"
     },
     {
       "ticker": "DIS",
-      "price": 108.4800033569336,
+      "price": 108.69999694824219,
       "zone": "SHORT"
     },
     {
       "ticker": "CMCSA",
-      "price": 32.54499816894531,
+      "price": 32.564998626708984,
       "zone": "LONG"
     },
     {
       "ticker": "T",
-      "price": 28.31279945373535,
+      "price": 28.364999771118164,
       "zone": "LONG"
     },
     {
       "ticker": "AMT",
-      "price": 178.2050018310547,
+      "price": 178.25,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 402.5400085449219,
+      "price": 399.4849853515625,
       "zone": "SHORT"
     }
   ],
@@ -144,8 +144,8 @@
     "open_positions": 24
   },
   "zone_counts": {
-    "LONG": 28,
+    "LONG": 37,
     "SHORT": 42,
-    "FLAT": 28
+    "FLAT": 19
   }
 }
