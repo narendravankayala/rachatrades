@@ -1,132 +1,130 @@
 {
-  "timestamp": "2026-02-11T15:16:12.889290-05:00",
-  "scan_time": "2026-02-11 15:16:12 ET",
+  "timestamp": "2026-02-11T15:32:56.307912-05:00",
+  "scan_time": "2026-02-11 15:32:56 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "INTU",
-      "price": 400.9599914550781,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "15:16:12"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "MSFT",
-      "price": 404.56500244140625,
-      "zone": "FLAT"
+      "price": 403.7349853515625,
+      "zone": "SHORT"
     },
     {
       "ticker": "GOOGL",
-      "price": 311.3299865722656,
-      "zone": "FLAT"
+      "price": 309.7799987792969,
+      "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 204.86000061035156,
-      "zone": "FLAT"
+      "price": 203.88999938964844,
+      "zone": "SHORT"
     },
     {
       "ticker": "META",
-      "price": 669.5800170898438,
+      "price": 669.39501953125,
       "zone": "LONG"
     },
     {
       "ticker": "ORCL",
-      "price": 157.19000244140625,
+      "price": 156.65499877929688,
       "zone": "FLAT"
     },
     {
       "ticker": "ADBE",
-      "price": 258.44500732421875,
-      "zone": "FLAT"
+      "price": 257.1400146484375,
+      "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 539.5650024414062,
+      "price": 539.8499755859375,
       "zone": "LONG"
     },
     {
       "ticker": "TMO",
-      "price": 525.3051147460938,
-      "zone": "SHORT"
+      "price": 525.52001953125,
+      "zone": "FLAT"
     },
     {
       "ticker": "DHR",
-      "price": 219.9949951171875,
+      "price": 219.77000427246094,
       "zone": "LONG"
     },
     {
       "ticker": "WMT",
-      "price": 128.7550048828125,
-      "zone": "FLAT"
+      "price": 129.11500549316406,
+      "zone": "LONG"
     },
     {
       "ticker": "KO",
-      "price": 78.48690032958984,
-      "zone": "FLAT"
+      "price": 78.75499725341797,
+      "zone": "LONG"
     },
     {
       "ticker": "PEP",
-      "price": 168.46499633789062,
-      "zone": "FLAT"
+      "price": 169.05999755859375,
+      "zone": "LONG"
     },
     {
       "ticker": "TGT",
-      "price": 114.21499633789062,
+      "price": 114.25,
       "zone": "LONG"
     },
     {
       "ticker": "MMM",
-      "price": 173.36000061035156,
+      "price": 173.22000122070312,
       "zone": "FLAT"
     },
     {
       "ticker": "UNP",
-      "price": 262.159912109375,
+      "price": 261.94000244140625,
       "zone": "FLAT"
     },
     {
       "ticker": "CRM",
-      "price": 185.19500732421875,
-      "zone": "FLAT"
+      "price": 184.38999938964844,
+      "zone": "SHORT"
     },
     {
       "ticker": "NOW",
-      "price": 101.69999694824219,
-      "zone": "FLAT"
+      "price": 100.80699920654297,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "INTU",
+      "price": 397.70001220703125,
+      "zone": "SHORT"
     },
     {
       "ticker": "MU",
-      "price": 411.3699951171875,
+      "price": 413.0751037597656,
       "zone": "LONG"
     },
     {
       "ticker": "DIS",
-      "price": 108.31999969482422,
-      "zone": "FLAT"
+      "price": 108.26000213623047,
+      "zone": "SHORT"
     },
     {
       "ticker": "CMCSA",
-      "price": 32.525001525878906,
-      "zone": "FLAT"
+      "price": 32.625,
+      "zone": "LONG"
     },
     {
       "ticker": "T",
-      "price": 28.229999542236328,
-      "zone": "FLAT"
+      "price": 28.40999984741211,
+      "zone": "LONG"
     },
     {
       "ticker": "AMT",
-      "price": 179.48500061035156,
+      "price": 179.77499389648438,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 395.80499267578125,
-      "zone": "FLAT"
+      "price": 394.4674987792969,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -141,8 +139,8 @@
     "open_positions": 24
   },
   "zone_counts": {
-    "LONG": 35,
-    "SHORT": 14,
-    "FLAT": 49
+    "LONG": 39,
+    "SHORT": 32,
+    "FLAT": 27
   }
 }
