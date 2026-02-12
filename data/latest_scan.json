@@ -1,62 +1,69 @@
 {
-  "timestamp": "2026-02-12T15:44:20.169719-05:00",
-  "scan_time": "2026-02-12 15:44:20 ET",
+  "timestamp": "2026-02-12T16:00:13.922619-05:00",
+  "scan_time": "2026-02-12 16:00:13 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "MA",
-      "price": 529.9600219726562,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "15:44:20"
-    },
-    {
-      "ticker": "UNP",
-      "price": 261.2850036621094,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "15:44:20"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 308.70001220703125,
-      "zone": "SHORT"
+      "price": 309.0899963378906,
+      "zone": "FLAT"
     },
     {
       "ticker": "AMZN",
-      "price": 198.8000030517578,
+      "price": 199.5399932861328,
       "zone": "FLAT"
     },
     {
       "ticker": "ADBE",
-      "price": 262.3399963378906,
+      "price": 262.5799865722656,
       "zone": "LONG"
     },
     {
+      "ticker": "MA",
+      "price": 527.6099853515625,
+      "zone": "SHORT"
+    },
+    {
       "ticker": "TMO",
-      "price": 510.2149963378906,
+      "price": 509.8999938964844,
       "zone": "FLAT"
     },
     {
+      "ticker": "HON",
+      "price": 239.8800048828125,
+      "zone": "SHORT"
+    },
+    {
       "ticker": "MMM",
-      "price": 174.91000366210938,
+      "price": 174.58999633789062,
       "zone": "SHORT"
     },
     {
       "ticker": "CRM",
-      "price": 184.52499389648438,
+      "price": 185.35000610351562,
       "zone": "LONG"
     },
     {
       "ticker": "INTU",
-      "price": 398.0,
+      "price": 397.9700012207031,
       "zone": "FLAT"
     },
     {
+      "ticker": "WBD",
+      "price": 28.110000610351562,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "PLD",
+      "price": 136.55999755859375,
+      "zone": "SHORT"
+    },
+    {
       "ticker": "SPGI",
-      "price": 396.9800109863281,
+      "price": 397.2038879394531,
       "zone": "FLAT"
     }
   ],
@@ -72,8 +79,8 @@
     "open_positions": 9
   },
   "zone_counts": {
-    "LONG": 7,
-    "SHORT": 46,
-    "FLAT": 45
+    "LONG": 9,
+    "SHORT": 65,
+    "FLAT": 24
   }
 }
