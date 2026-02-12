@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-12T11:41:17.414489-05:00",
-  "scan_time": "2026-02-12 11:41:17 ET",
+  "timestamp": "2026-02-12T12:12:12.836488-05:00",
+  "scan_time": "2026-02-12 12:12:12 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,53 +8,53 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 314.489990234375,
-      "zone": "LONG"
+      "price": 313.1600036621094,
+      "zone": "FLAT"
     },
     {
       "ticker": "AMZN",
-      "price": 198.16000366210938,
-      "zone": "SHORT"
+      "price": 199.0800018310547,
+      "zone": "FLAT"
     },
     {
       "ticker": "ADBE",
-      "price": 252.7899932861328,
+      "price": 252.4149932861328,
       "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 533.9000244140625,
+      "price": 532.9500122070312,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 497.2300109863281,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "MMM",
-      "price": 173.27000427246094,
+      "price": 498.0899963378906,
       "zone": "FLAT"
     },
     {
+      "ticker": "MMM",
+      "price": 175.21499633789062,
+      "zone": "LONG"
+    },
+    {
       "ticker": "UNP",
-      "price": 260.4599914550781,
-      "zone": "SHORT"
+      "price": 261.6700134277344,
+      "zone": "FLAT"
     },
     {
       "ticker": "CRM",
-      "price": 181.30999755859375,
+      "price": 180.55999755859375,
       "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 396.79998779296875,
-      "zone": "FLAT"
+      "price": 394.6499938964844,
+      "zone": "SHORT"
     },
     {
       "ticker": "SPGI",
-      "price": 385.0,
-      "zone": "SHORT"
+      "price": 387.7699890136719,
+      "zone": "FLAT"
     }
   ],
   "stats": {
@@ -69,8 +69,8 @@
     "open_positions": 10
   },
   "zone_counts": {
-    "LONG": 21,
-    "SHORT": 50,
-    "FLAT": 27
+    "LONG": 23,
+    "SHORT": 54,
+    "FLAT": 21
   }
 }
