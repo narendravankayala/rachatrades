@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-12T16:00:13.922619-05:00",
-  "scan_time": "2026-02-12 16:00:13 ET",
+  "timestamp": "2026-02-12T16:07:52.198372-05:00",
+  "scan_time": "2026-02-12 16:07:52 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,12 +8,12 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 309.0899963378906,
+      "price": 309.0799865722656,
       "zone": "FLAT"
     },
     {
       "ticker": "AMZN",
-      "price": 199.5399932861328,
+      "price": 199.4499969482422,
       "zone": "FLAT"
     },
     {
@@ -23,27 +23,27 @@
     },
     {
       "ticker": "MA",
-      "price": 527.6099853515625,
+      "price": 527.3900146484375,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 509.8999938964844,
+      "price": 509.7749938964844,
       "zone": "FLAT"
     },
     {
       "ticker": "HON",
-      "price": 239.8800048828125,
+      "price": 239.85499572753906,
       "zone": "SHORT"
     },
     {
       "ticker": "MMM",
-      "price": 174.58999633789062,
+      "price": 174.49000549316406,
       "zone": "SHORT"
     },
     {
       "ticker": "CRM",
-      "price": 185.35000610351562,
+      "price": 185.5,
       "zone": "LONG"
     },
     {
@@ -58,12 +58,12 @@
     },
     {
       "ticker": "PLD",
-      "price": 136.55999755859375,
+      "price": 136.34500122070312,
       "zone": "SHORT"
     },
     {
       "ticker": "SPGI",
-      "price": 397.2038879394531,
+      "price": 397.20001220703125,
       "zone": "FLAT"
     }
   ],
@@ -79,8 +79,8 @@
     "open_positions": 9
   },
   "zone_counts": {
-    "LONG": 9,
-    "SHORT": 65,
-    "FLAT": 24
+    "LONG": 7,
+    "SHORT": 68,
+    "FLAT": 23
   }
 }
