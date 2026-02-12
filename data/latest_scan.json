@@ -1,82 +1,70 @@
 {
-  "timestamp": "2026-02-12T09:20:21.116988-05:00",
-  "scan_time": "2026-02-12 09:20:21 ET",
+  "timestamp": "2026-02-12T09:40:19.646619-05:00",
+  "scan_time": "2026-02-12 09:40:19 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "MA",
-      "price": 537.4299926757812,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:20:21"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 310.79998779296875,
+      "price": 310.8599853515625,
       "zone": "FLAT"
     },
     {
       "ticker": "AMZN",
-      "price": 204.00999450683594,
+      "price": 203.00999450683594,
       "zone": "SHORT"
     },
     {
-      "ticker": "ADBE",
-      "price": 257.1300048828125,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 527.1500244140625,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MMM",
-      "price": 172.82000732421875,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "UNP",
-      "price": 262.70001220703125,
+      "ticker": "NVDA",
+      "price": 192.22000122070312,
       "zone": "LONG"
     },
     {
-      "ticker": "SLB",
-      "price": 51.540000915527344,
+      "ticker": "ADBE",
+      "price": 260.70001220703125,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MA",
+      "price": 541.6900024414062,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "TMO",
+      "price": 516.780029296875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MMM",
+      "price": 174.83999633789062,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "UNP",
+      "price": 264.6549987792969,
       "zone": "LONG"
     },
     {
       "ticker": "CRM",
-      "price": 184.9149932861328,
-      "zone": "FLAT"
+      "price": 187.65499877929688,
+      "zone": "LONG"
     },
     {
       "ticker": "INTU",
-      "price": 399.489990234375,
-      "zone": "SHORT"
+      "price": 404.17999267578125,
+      "zone": "FLAT"
     },
     {
-      "ticker": "NFLX",
-      "price": 79.5999984741211,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "EQIX",
-      "price": 866.0999755859375,
+      "ticker": "PLD",
+      "price": 141.63499450683594,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 390.75,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "COF",
-      "price": 214.3000030517578,
-      "zone": "SHORT"
+      "price": 393.5199890136719,
+      "zone": "FLAT"
     }
   ],
   "stats": {
@@ -91,8 +79,8 @@
     "open_positions": 10
   },
   "zone_counts": {
-    "LONG": 32,
-    "SHORT": 38,
-    "FLAT": 28
+    "LONG": 57,
+    "SHORT": 19,
+    "FLAT": 21
   }
 }
