@@ -1,62 +1,60 @@
 {
-  "timestamp": "2026-02-13T10:18:22.161892-05:00",
-  "scan_time": "2026-02-13 10:18:22 ET",
+  "timestamp": "2026-02-13T10:40:08.678029-05:00",
+  "scan_time": "2026-02-13 10:40:08 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "TMO",
-      "price": 506.07501220703125,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "10:18:22"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 306.0400085449219,
+      "price": 305.6199951171875,
       "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 198.0800018310547,
+      "price": 198.1199951171875,
       "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 260.8299865722656,
-      "zone": "LONG"
+      "price": 260.4800109863281,
+      "zone": "FLAT"
     },
     {
       "ticker": "MA",
-      "price": 522.5650024414062,
+      "price": 518.0499877929688,
       "zone": "SHORT"
+    },
+    {
+      "ticker": "TMO",
+      "price": 510.6449890136719,
+      "zone": "LONG"
     },
     {
       "ticker": "MMM",
-      "price": 171.9499969482422,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "KMI",
-      "price": 31.934999465942383,
-      "zone": "LONG"
+      "price": 173.22500610351562,
+      "zone": "FLAT"
     },
     {
       "ticker": "CRM",
-      "price": 191.125,
-      "zone": "LONG"
+      "price": 191.0800018310547,
+      "zone": "FLAT"
     },
     {
       "ticker": "INTU",
-      "price": 395.75,
-      "zone": "FLAT"
+      "price": 397.7900085449219,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AMT",
+      "price": 190.6199951171875,
+      "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 403.970703125,
-      "zone": "FLAT"
+      "price": 405.44500732421875,
+      "zone": "LONG"
     }
   ],
   "stats": {
@@ -71,8 +69,8 @@
     "open_positions": 9
   },
   "zone_counts": {
-    "LONG": 29,
-    "SHORT": 46,
-    "FLAT": 23
+    "LONG": 40,
+    "SHORT": 23,
+    "FLAT": 35
   }
 }
