@@ -1,66 +1,112 @@
 {
-  "timestamp": "2026-02-13T15:37:39.532854-05:00",
-  "scan_time": "2026-02-13 15:37:39 ET",
+  "timestamp": "2026-02-13T15:56:44.557697-05:00",
+  "scan_time": "2026-02-13 15:56:44 ET",
+  "eod_close": true,
+  "eod_sells": [
+    {
+      "ticker": "AMZN",
+      "price": 198.49000549316406,
+      "pnl": -8.319992065429688
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 305.0400085449219,
+      "pnl": -18.989990234375
+    },
+    {
+      "ticker": "SPGI",
+      "price": 409.7699890136719,
+      "pnl": -28.240020751953125
+    },
+    {
+      "ticker": "ADBE",
+      "price": 263.55999755859375,
+      "pnl": -4.779998779296875
+    },
+    {
+      "ticker": "INTU",
+      "price": 398.94000244140625,
+      "pnl": -38.94000244140625
+    },
+    {
+      "ticker": "MA",
+      "price": 518.5499877929688,
+      "pnl": -22.010009765625
+    },
+    {
+      "ticker": "TMO",
+      "price": 504.6549987792969,
+      "pnl": -38.144989013671875
+    }
+  ],
+  "eod_covers": [
+    {
+      "ticker": "CRM",
+      "price": 189.14999389648438,
+      "pnl": -0.30499267578125
+    }
+  ],
+  "eod_held": [
+    {
+      "ticker": "CRM",
+      "price": 189.14999389648438,
+      "pnl": 0.30499267578125
+    },
+    {
+      "ticker": "AMZN",
+      "price": 198.49000549316406,
+      "pnl": 8.319992065429688
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 305.0400085449219,
+      "pnl": 18.989990234375
+    },
+    {
+      "ticker": "ADBE",
+      "price": 263.55999755859375,
+      "pnl": 4.779998779296875
+    },
+    {
+      "ticker": "SPGI",
+      "price": 409.7699890136719,
+      "pnl": 28.240020751953125
+    },
+    {
+      "ticker": "INTU",
+      "price": 398.94000244140625,
+      "pnl": 38.94000244140625
+    },
+    {
+      "ticker": "MA",
+      "price": 518.5499877929688,
+      "pnl": 22.010009765625
+    },
+    {
+      "ticker": "TMO",
+      "price": 504.6549987792969,
+      "pnl": 38.144989013671875
+    }
+  ],
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [
-    {
-      "ticker": "GOOGL",
-      "price": 304.8699951171875,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "AMZN",
-      "price": 197.9250030517578,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "ADBE",
-      "price": 262.260009765625,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MA",
-      "price": 516.8200073242188,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 505.22491455078125,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "CRM",
-      "price": 188.6999969482422,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "INTU",
-      "price": 399.23699951171875,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "SPGI",
-      "price": 408.1351013183594,
-      "zone": "FLAT"
-    }
-  ],
+  "holds": [],
   "stats": {
-    "total_trades": 94,
+    "total_trades": 95,
     "winning_trades": 35,
-    "losing_trades": 57,
+    "losing_trades": 58,
     "breakeven_trades": 2,
-    "win_rate": 37.234042553191486,
-    "total_pnl": -51.6508674621582,
-    "avg_pnl": -0.549477313427215,
-    "avg_pnl_percent": -0.43302236588309134,
-    "open_positions": 8
+    "win_rate": 36.84210526315789,
+    "total_pnl": -51.95586013793945,
+    "avg_pnl": -0.5469037909256784,
+    "avg_pnl_percent": -0.43016428030167103,
+    "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 12,
-    "SHORT": 53,
-    "FLAT": 33
+    "LONG": 0,
+    "SHORT": 0,
+    "FLAT": 0
   }
 }
