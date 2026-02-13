@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-13T09:16:11.699712-05:00",
-  "scan_time": "2026-02-13 09:16:11 ET",
+  "timestamp": "2026-02-13T09:34:00.774466-05:00",
+  "scan_time": "2026-02-13 09:34:00 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,63 +8,78 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 309.0799865722656,
-      "zone": "FLAT"
+      "price": 306.885009765625,
+      "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 199.4499969482422,
-      "zone": "FLAT"
+      "price": 198.6300048828125,
+      "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 262.5799865722656,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "MA",
-      "price": 527.3900146484375,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 509.79998779296875,
+      "price": 259.6050109863281,
       "zone": "FLAT"
     },
     {
-      "ticker": "HON",
-      "price": 239.85499572753906,
-      "zone": "SHORT"
+      "ticker": "MA",
+      "price": 531.4500122070312,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "MRK",
+      "price": 122.33999633789062,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "TMO",
+      "price": 512.3099975585938,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "BA",
+      "price": 244.9949951171875,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "LMT",
+      "price": 648.1599731445312,
+      "zone": "LONG"
     },
     {
       "ticker": "MMM",
-      "price": 174.63999938964844,
+      "price": 172.61000061035156,
       "zone": "SHORT"
     },
     {
       "ticker": "CRM",
-      "price": 185.4499969482422,
+      "price": 187.5,
       "zone": "LONG"
     },
     {
       "ticker": "INTU",
-      "price": 397.9700012207031,
+      "price": 396.68011474609375,
       "zone": "FLAT"
     },
     {
-      "ticker": "WBD",
-      "price": 28.110000610351562,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "PLD",
-      "price": 136.39999389648438,
+      "ticker": "DIS",
+      "price": 102.11499786376953,
       "zone": "SHORT"
     },
     {
       "ticker": "SPGI",
-      "price": 397.3999938964844,
-      "zone": "FLAT"
+      "price": 402.2799987792969,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "BLK",
+      "price": 1055.31005859375,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "PNC",
+      "price": 227.77999877929688,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -79,8 +94,8 @@
     "open_positions": 9
   },
   "zone_counts": {
-    "LONG": 7,
-    "SHORT": 68,
-    "FLAT": 23
+    "LONG": 22,
+    "SHORT": 56,
+    "FLAT": 20
   }
 }
