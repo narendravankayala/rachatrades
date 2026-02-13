@@ -1,51 +1,49 @@
 {
-  "timestamp": "2026-02-13T14:30:25.478478-05:00",
-  "scan_time": "2026-02-13 14:30:25 ET",
+  "timestamp": "2026-02-13T14:49:33.436970-05:00",
+  "scan_time": "2026-02-13 14:49:33 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "SPGI",
-      "price": 407.20001220703125,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "14:30:25"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 307.4599914550781,
+      "price": 307.5400085449219,
       "zone": "FLAT"
     },
     {
       "ticker": "AMZN",
-      "price": 199.67269897460938,
+      "price": 199.77000427246094,
       "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 263.739990234375,
-      "zone": "FLAT"
+      "price": 263.7699890136719,
+      "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 519.8599853515625,
+      "price": 519.1849975585938,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 507.4700012207031,
-      "zone": "FLAT"
+      "price": 507.0,
+      "zone": "SHORT"
     },
     {
       "ticker": "CRM",
-      "price": 189.39999389648438,
+      "price": 189.83999633789062,
       "zone": "FLAT"
     },
     {
       "ticker": "INTU",
-      "price": 402.1600036621094,
+      "price": 399.5299987792969,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "SPGI",
+      "price": 406.70001220703125,
       "zone": "FLAT"
     }
   ],
@@ -61,8 +59,8 @@
     "open_positions": 8
   },
   "zone_counts": {
-    "LONG": 27,
-    "SHORT": 25,
-    "FLAT": 46
+    "LONG": 11,
+    "SHORT": 43,
+    "FLAT": 44
   }
 }
