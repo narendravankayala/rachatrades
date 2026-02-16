@@ -1,87 +1,47 @@
 {
-  "timestamp": "2026-02-16T15:50:32.691080-05:00",
-  "scan_time": "2026-02-16 15:50:32 ET",
-  "eod_close": true,
-  "eod_sells": [
-    {
-      "ticker": "SPGI",
-      "price": 410.0799865722656,
-      "pnl": -27.930023193359375
-    },
-    {
-      "ticker": "TMO",
-      "price": 504.82000732421875,
-      "pnl": -37.97998046875
-    },
-    {
-      "ticker": "ADBE",
-      "price": 263.9599914550781,
-      "pnl": -4.3800048828125
-    },
-    {
-      "ticker": "INTU",
-      "price": 399.4200134277344,
-      "pnl": -38.459991455078125
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 305.7200012207031,
-      "pnl": -18.30999755859375
-    },
-    {
-      "ticker": "AMZN",
-      "price": 198.77000427246094,
-      "pnl": -8.039993286132812
-    },
-    {
-      "ticker": "MA",
-      "price": 518.3900146484375,
-      "pnl": -22.16998291015625
-    }
-  ],
-  "eod_covers": [],
-  "eod_held": [
-    {
-      "ticker": "SPGI",
-      "price": 410.0799865722656,
-      "pnl": 27.930023193359375
-    },
-    {
-      "ticker": "TMO",
-      "price": 504.82000732421875,
-      "pnl": 37.97998046875
-    },
-    {
-      "ticker": "ADBE",
-      "price": 263.9599914550781,
-      "pnl": 4.3800048828125
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 305.7200012207031,
-      "pnl": 18.30999755859375
-    },
-    {
-      "ticker": "INTU",
-      "price": 399.4200134277344,
-      "pnl": 38.459991455078125
-    },
-    {
-      "ticker": "AMZN",
-      "price": 198.77000427246094,
-      "pnl": 8.039993286132812
-    },
-    {
-      "ticker": "MA",
-      "price": 518.3900146484375,
-      "pnl": 22.16998291015625
-    }
-  ],
+  "timestamp": "2026-02-16T16:05:22.335961-05:00",
+  "scan_time": "2026-02-16 16:05:22 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [],
+  "holds": [
+    {
+      "ticker": "GOOGL",
+      "price": 305.7200012207031,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "AMZN",
+      "price": 198.77000427246094,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "ADBE",
+      "price": 263.9599914550781,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MA",
+      "price": 518.3900146484375,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "TMO",
+      "price": 504.82000732421875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "INTU",
+      "price": 399.4200134277344,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "SPGI",
+      "price": 410.0799865722656,
+      "zone": "LONG"
+    }
+  ],
   "stats": {
     "total_trades": 95,
     "winning_trades": 35,
@@ -94,8 +54,8 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 0,
-    "SHORT": 0,
-    "FLAT": 0
+    "LONG": 31,
+    "SHORT": 28,
+    "FLAT": 39
   }
 }
