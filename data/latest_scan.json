@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-16T15:13:24.132209-05:00",
-  "scan_time": "2026-02-16 15:13:24 ET",
+  "timestamp": "2026-02-16T15:30:44.851310-05:00",
+  "scan_time": "2026-02-16 15:30:44 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -15,6 +15,11 @@
       "ticker": "AMZN",
       "price": 198.77000427246094,
       "zone": "FLAT"
+    },
+    {
+      "ticker": "ADBE",
+      "price": 263.9599914550781,
+      "zone": "LONG"
     },
     {
       "ticker": "MA",
@@ -49,7 +54,7 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 29,
+    "LONG": 31,
     "SHORT": 28,
     "FLAT": 39
   }
