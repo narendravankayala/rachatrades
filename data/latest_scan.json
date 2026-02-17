@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-17T09:18:33.171464-05:00",
-  "scan_time": "2026-02-17 09:18:33 ET",
+  "timestamp": "2026-02-17T09:37:43.355556-05:00",
+  "scan_time": "2026-02-17 09:37:43 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,37 +8,67 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 305.7200012207031,
+      "price": 304.2200012207031,
       "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 198.77000427246094,
-      "zone": "FLAT"
+      "price": 199.8800048828125,
+      "zone": "LONG"
     },
     {
       "ticker": "ADBE",
-      "price": 263.9599914550781,
+      "price": 263.739990234375,
       "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 518.3900146484375,
+      "price": 522.9000244140625,
       "zone": "FLAT"
+    },
+    {
+      "ticker": "LLY",
+      "price": 1056.719970703125,
+      "zone": "LONG"
     },
     {
       "ticker": "TMO",
-      "price": 504.82000732421875,
+      "price": 503.6449890136719,
       "zone": "SHORT"
     },
     {
+      "ticker": "COST",
+      "price": 1021.528076171875,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "QCOM",
+      "price": 142.5762939453125,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "NOW",
+      "price": 109.2699966430664,
+      "zone": "LONG"
+    },
+    {
       "ticker": "INTU",
-      "price": 399.4200134277344,
-      "zone": "FLAT"
+      "price": 394.0,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "WBD",
+      "price": 28.774999618530273,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "NEE",
+      "price": 94.70500183105469,
+      "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 410.0799865722656,
+      "price": 415.68499755859375,
       "zone": "LONG"
     }
   ],
@@ -54,8 +84,8 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 31,
-    "SHORT": 28,
-    "FLAT": 39
+    "LONG": 48,
+    "SHORT": 32,
+    "FLAT": 18
   }
 }
