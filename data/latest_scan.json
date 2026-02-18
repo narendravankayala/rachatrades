@@ -1,87 +1,59 @@
 {
-  "timestamp": "2026-02-18T15:55:00.503880-05:00",
-  "scan_time": "2026-02-18 15:55:00 ET",
-  "eod_close": true,
-  "eod_sells": [
-    {
-      "ticker": "TMO",
-      "price": 512.9299926757812,
-      "pnl": -29.8699951171875
-    },
-    {
-      "ticker": "SPGI",
-      "price": 419.8500061035156,
-      "pnl": -18.160003662109375
-    },
-    {
-      "ticker": "INTU",
-      "price": 389.6050109863281,
-      "pnl": -48.274993896484375
-    },
-    {
-      "ticker": "AMZN",
-      "price": 205.1699981689453,
-      "pnl": -1.6399993896484375
-    },
-    {
-      "ticker": "ADBE",
-      "price": 263.27899169921875,
-      "pnl": -5.061004638671875
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 303.8349914550781,
-      "pnl": -20.19500732421875
-    },
-    {
-      "ticker": "MA",
-      "price": 528.25,
-      "pnl": -12.30999755859375
-    }
-  ],
-  "eod_covers": [],
-  "eod_held": [
-    {
-      "ticker": "TMO",
-      "price": 512.9299926757812,
-      "pnl": 29.8699951171875
-    },
-    {
-      "ticker": "SPGI",
-      "price": 419.8500061035156,
-      "pnl": 18.160003662109375
-    },
-    {
-      "ticker": "INTU",
-      "price": 389.6050109863281,
-      "pnl": 48.274993896484375
-    },
-    {
-      "ticker": "AMZN",
-      "price": 205.1699981689453,
-      "pnl": 1.6399993896484375
-    },
-    {
-      "ticker": "ADBE",
-      "price": 263.27899169921875,
-      "pnl": 5.061004638671875
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 303.8349914550781,
-      "pnl": 20.19500732421875
-    },
-    {
-      "ticker": "MA",
-      "price": 528.25,
-      "pnl": 12.30999755859375
-    }
-  ],
+  "timestamp": "2026-02-18T16:10:43.657270-05:00",
+  "scan_time": "2026-02-18 16:10:43 ET",
   "buys": [],
   "shorts": [],
-  "sells": [],
+  "sells": [
+    {
+      "ticker": "SPGI",
+      "price": 419.3800048828125,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
+      "time": "16:10:43"
+    }
+  ],
   "covers": [],
-  "holds": [],
+  "holds": [
+    {
+      "ticker": "GOOGL",
+      "price": 303.2900085449219,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AMZN",
+      "price": 204.65499877929688,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "ADBE",
+      "price": 263.1700134277344,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MA",
+      "price": 527.8900146484375,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "TMO",
+      "price": 513.2899780273438,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "GE",
+      "price": 329.45001220703125,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "IBM",
+      "price": 260.8399963378906,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "INTU",
+      "price": 389.5400085449219,
+      "zone": "SHORT"
+    }
+  ],
   "stats": {
     "total_trades": 95,
     "winning_trades": 35,
@@ -94,8 +66,8 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 0,
-    "SHORT": 0,
-    "FLAT": 0
+    "LONG": 45,
+    "SHORT": 19,
+    "FLAT": 34
   }
 }
