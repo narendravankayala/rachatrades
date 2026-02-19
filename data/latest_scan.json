@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-19T08:54:49.758627-05:00",
-  "scan_time": "2026-02-19 08:54:49 ET",
+  "timestamp": "2026-02-19T09:05:47.619430-05:00",
+  "scan_time": "2026-02-19 09:05:47 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,7 +8,7 @@
       "ticker": "SPGI",
       "price": 419.3800048828125,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "08:54:49"
+      "time": "09:05:47"
     }
   ],
   "covers": [],
