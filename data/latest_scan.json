@@ -1,46 +1,44 @@
 {
-  "timestamp": "2026-02-19T11:07:53.448465-05:00",
-  "scan_time": "2026-02-19 11:07:53 ET",
+  "timestamp": "2026-02-19T11:30:56.632345-05:00",
+  "scan_time": "2026-02-19 11:30:56 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "GOOGL",
-      "price": 302.25,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "11:07:53"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
+      "ticker": "GOOGL",
+      "price": 304.8500061035156,
+      "zone": "LONG"
+    },
+    {
       "ticker": "AMZN",
-      "price": 204.5500030517578,
+      "price": 205.2949981689453,
       "zone": "LONG"
     },
     {
       "ticker": "ADBE",
-      "price": 258.5299987792969,
+      "price": 258.9200134277344,
       "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 517.6199951171875,
+      "price": 516.3800048828125,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 505.5474853515625,
+      "price": 506.3599853515625,
       "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 380.3699951171875,
+      "price": 380.4599914550781,
       "zone": "SHORT"
     },
     {
       "ticker": "SPGI",
-      "price": 412.739990234375,
+      "price": 412.7449951171875,
       "zone": "SHORT"
     }
   ],
@@ -56,8 +54,8 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 20,
-    "SHORT": 50,
-    "FLAT": 28
+    "LONG": 16,
+    "SHORT": 59,
+    "FLAT": 23
   }
 }
