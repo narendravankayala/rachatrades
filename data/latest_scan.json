@@ -1,56 +1,72 @@
 {
-  "timestamp": "2026-02-19T09:19:58.537140-05:00",
-  "scan_time": "2026-02-19 09:19:58 ET",
+  "timestamp": "2026-02-19T09:39:46.987109-05:00",
+  "scan_time": "2026-02-19 09:39:46 ET",
   "buys": [],
   "shorts": [],
   "sells": [
     {
-      "ticker": "SPGI",
-      "price": 419.3800048828125,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "09:19:58"
+      "ticker": "ADBE",
+      "price": 259.9599914550781,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "09:39:46"
+    },
+    {
+      "ticker": "TMO",
+      "price": 506.32000732421875,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "09:39:46"
     }
   ],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 303.2900085449219,
-      "zone": "LONG"
+      "price": 301.6600036621094,
+      "zone": "SHORT"
     },
     {
       "ticker": "AMZN",
-      "price": 204.65499877929688,
-      "zone": "FLAT"
+      "price": 203.06500244140625,
+      "zone": "SHORT"
     },
     {
-      "ticker": "ADBE",
-      "price": 263.1700134277344,
+      "ticker": "ORCL",
+      "price": 158.2899932861328,
       "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 527.9500122070312,
-      "zone": "FLAT"
+      "price": 523.9600219726562,
+      "zone": "SHORT"
     },
     {
-      "ticker": "TMO",
-      "price": 513.4000244140625,
-      "zone": "LONG"
+      "ticker": "LLY",
+      "price": 1011.4400024414062,
+      "zone": "SHORT"
     },
     {
-      "ticker": "GE",
-      "price": 329.45001220703125,
+      "ticker": "LOW",
+      "price": 278.8299865722656,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "LMT",
+      "price": 664.27001953125,
       "zone": "LONG"
     },
     {
       "ticker": "IBM",
-      "price": 260.8299865722656,
-      "zone": "LONG"
+      "price": 255.3000030517578,
+      "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 389.5400085449219,
+      "price": 380.5899963378906,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "SPGI",
+      "price": 416.6099853515625,
       "zone": "SHORT"
     }
   ],
@@ -66,8 +82,8 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 45,
-    "SHORT": 17,
-    "FLAT": 36
+    "LONG": 29,
+    "SHORT": 56,
+    "FLAT": 13
   }
 }
