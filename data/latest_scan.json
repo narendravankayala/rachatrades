@@ -1,98 +1,45 @@
 {
-  "timestamp": "2026-02-20T09:32:47.617053-05:00",
-  "scan_time": "2026-02-20 09:32:47 ET",
+  "timestamp": "2026-02-20T09:56:33.623139-05:00",
+  "scan_time": "2026-02-20 09:56:33 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "ADBE",
-      "price": 255.3800048828125,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:32:47"
-    },
-    {
-      "ticker": "SPGI",
-      "price": 412.7099914550781,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:32:47"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
-      "ticker": "MSFT",
-      "price": 395.7200012207031,
-      "zone": "SHORT"
-    },
-    {
       "ticker": "GOOGL",
-      "price": 306.1600036621094,
+      "price": 308.2349853515625,
       "zone": "LONG"
     },
     {
       "ticker": "AMZN",
-      "price": 205.43499755859375,
+      "price": 205.97999572753906,
       "zone": "LONG"
     },
     {
-      "ticker": "TSLA",
-      "price": 407.42498779296875,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "BRK-B",
-      "price": 494.385009765625,
-      "zone": "SHORT"
+      "ticker": "ADBE",
+      "price": 260.25,
+      "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 519.0650024414062,
-      "zone": "FLAT"
+      "price": 521.97998046875,
+      "zone": "LONG"
     },
     {
       "ticker": "TMO",
-      "price": 512.219970703125,
+      "price": 511.2200012207031,
       "zone": "FLAT"
-    },
-    {
-      "ticker": "LOW",
-      "price": 277.0,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "UPS",
-      "price": 114.98999786376953,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "MMM",
-      "price": 164.22000122070312,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "CRM",
-      "price": 184.71499633789062,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "IBM",
-      "price": 254.34959411621094,
-      "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 382.3349914550781,
+      "price": 387.989990234375,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "SPGI",
+      "price": 414.3450012207031,
       "zone": "FLAT"
-    },
-    {
-      "ticker": "DIS",
-      "price": 104.75,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "CMCSA",
-      "price": 30.93000030517578,
-      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -107,8 +54,8 @@
     "open_positions": 7
   },
   "zone_counts": {
-    "LONG": 23,
-    "SHORT": 55,
+    "LONG": 42,
+    "SHORT": 36,
     "FLAT": 20
   }
 }
