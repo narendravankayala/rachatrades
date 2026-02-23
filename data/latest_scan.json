@@ -1,77 +1,39 @@
 {
-  "timestamp": "2026-02-23T09:38:05.090391-05:00",
-  "scan_time": "2026-02-23 09:38:05 ET",
+  "timestamp": "2026-02-23T10:01:33.157984-05:00",
+  "scan_time": "2026-02-23 10:01:33 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "ADBE",
-      "price": 252.05999755859375,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:38:05"
-    },
-    {
-      "ticker": "MA",
-      "price": 520.2000122070312,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:38:05"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 318.239990234375,
+      "price": 316.2900085449219,
       "zone": "LONG"
     },
     {
-      "ticker": "TSLA",
-      "price": 405.6400146484375,
+      "ticker": "ADBE",
+      "price": 247.19000244140625,
       "zone": "SHORT"
     },
     {
-      "ticker": "ABBV",
-      "price": 229.2050018310547,
-      "zone": "LONG"
+      "ticker": "MA",
+      "price": 512.02001953125,
+      "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 511.7550048828125,
+      "price": 511.8450012207031,
       "zone": "LONG"
-    },
-    {
-      "ticker": "NKE",
-      "price": 63.91999816894531,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "IBM",
-      "price": 254.72500610351562,
-      "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 369.3450012207031,
+      "price": 359.5400085449219,
       "zone": "SHORT"
-    },
-    {
-      "ticker": "DIS",
-      "price": 104.00499725341797,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "SO",
-      "price": 95.31999969482422,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "AEP",
-      "price": 131.26499938964844,
-      "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 414.32000732421875,
+      "price": 408.7149963378906,
       "zone": "SHORT"
     }
   ],
@@ -87,8 +49,8 @@
     "open_positions": 6
   },
   "zone_counts": {
-    "LONG": 59,
-    "SHORT": 27,
-    "FLAT": 12
+    "LONG": 45,
+    "SHORT": 45,
+    "FLAT": 8
   }
 }
