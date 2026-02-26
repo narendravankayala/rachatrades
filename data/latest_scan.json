@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-26T16:01:42.805869-05:00",
-  "scan_time": "2026-02-26 16:01:42 ET",
+  "timestamp": "2026-02-26T16:09:17.777276-05:00",
+  "scan_time": "2026-02-26 16:09:17 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -54,8 +54,8 @@
     "open_positions": 6
   },
   "zone_counts": {
-    "LONG": 28,
-    "SHORT": 31,
-    "FLAT": 39
+    "LONG": 27,
+    "SHORT": 30,
+    "FLAT": 41
   }
 }
