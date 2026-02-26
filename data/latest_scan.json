@@ -1,40 +1,82 @@
 {
-  "timestamp": "2026-02-26T09:19:28.166011-05:00",
-  "scan_time": "2026-02-26 09:19:28 ET",
+  "timestamp": "2026-02-26T09:39:57.573214-05:00",
+  "scan_time": "2026-02-26 09:39:57 ET",
   "buys": [],
   "shorts": [],
-  "sells": [],
+  "sells": [
+    {
+      "ticker": "GOOGL",
+      "price": 308.239990234375,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "09:39:57"
+    }
+  ],
   "covers": [],
   "holds": [
     {
-      "ticker": "GOOGL",
-      "price": 313.0,
-      "zone": "LONG"
-    },
-    {
       "ticker": "ADBE",
-      "price": 257.8599853515625,
+      "price": 261.44000244140625,
       "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 509.510009765625,
-      "zone": "FLAT"
+      "price": 511.95001220703125,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AXP",
+      "price": 333.510009765625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MRK",
+      "price": 120.94000244140625,
+      "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 513.6900024414062,
+      "price": 513.5900268554688,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "BA",
+      "price": 228.5,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "XOM",
+      "price": 147.86500549316406,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "CVX",
+      "price": 182.92999267578125,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "OXY",
+      "price": 50.11000061035156,
       "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 381.2300109863281,
+      "price": 396.19500732421875,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 423.7200012207031,
-      "zone": "FLAT"
+      "price": 434.0799865722656,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "CB",
+      "price": 336.7149963378906,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "SCHW",
+      "price": 96.28500366210938,
+      "zone": "LONG"
     }
   ],
   "stats": {
@@ -49,8 +91,8 @@
     "open_positions": 6
   },
   "zone_counts": {
-    "LONG": 47,
-    "SHORT": 26,
-    "FLAT": 25
+    "LONG": 54,
+    "SHORT": 30,
+    "FLAT": 14
   }
 }
