@@ -1,45 +1,133 @@
 {
-  "timestamp": "2026-02-27T09:13:39.385861-05:00",
-  "scan_time": "2026-02-27 09:13:39 ET",
+  "timestamp": "2026-02-27T09:32:22.540363-05:00",
+  "scan_time": "2026-02-27 09:32:22 ET",
   "buys": [],
   "shorts": [],
-  "sells": [],
-  "covers": [],
-  "holds": [
+  "sells": [
     {
       "ticker": "GOOGL",
-      "price": 307.44000244140625,
-      "zone": "FLAT"
+      "price": 305.9549865722656,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "09:32:22"
     },
     {
       "ticker": "ADBE",
-      "price": 259.0899963378906,
-      "zone": "FLAT"
-    },
+      "price": 255.23500061035156,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "09:32:22"
+    }
+  ],
+  "covers": [],
+  "holds": [
     {
-      "ticker": "MA",
-      "price": 514.780029296875,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "MRK",
-      "price": 119.33999633789062,
+      "ticker": "AAPL",
+      "price": 269.9200134277344,
       "zone": "SHORT"
     },
     {
-      "ticker": "TMO",
-      "price": 520.1199951171875,
+      "ticker": "TSLA",
+      "price": 402.32000732421875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MA",
+      "price": 515.0,
       "zone": "LONG"
     },
     {
+      "ticker": "TMO",
+      "price": 516.3599853515625,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "KO",
+      "price": 81.06500244140625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MCD",
+      "price": 338.7200012207031,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "TGT",
+      "price": 112.37999725341797,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "LOW",
+      "price": 261.6300048828125,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "CAT",
+      "price": 745.5449829101562,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "XOM",
+      "price": 151.3000030517578,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "CVX",
+      "price": 185.94000244140625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "COP",
+      "price": 112.79000091552734,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "SLB",
+      "price": 51.900001525878906,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AMD",
+      "price": 198.89999389648438,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "INTC",
+      "price": 44.54159927368164,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "QCOM",
+      "price": 142.99000549316406,
+      "zone": "SHORT"
+    },
+    {
       "ticker": "INTU",
-      "price": 395.32000732421875,
+      "price": 397.9100036621094,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AMAT",
+      "price": 368.57000732421875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "NFLX",
+      "price": 91.68499755859375,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AEP",
+      "price": 132.51499938964844,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 437.54998779296875,
+      "price": 437.2950134277344,
       "zone": "FLAT"
+    },
+    {
+      "ticker": "BLK",
+      "price": 1063.2950439453125,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -54,8 +142,8 @@
     "open_positions": 6
   },
   "zone_counts": {
-    "LONG": 28,
-    "SHORT": 30,
-    "FLAT": 40
+    "LONG": 33,
+    "SHORT": 54,
+    "FLAT": 10
   }
 }
