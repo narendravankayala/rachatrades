@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-27T12:02:02.038019-05:00",
-  "scan_time": "2026-02-27 12:02:02 ET",
+  "timestamp": "2026-02-27T12:21:36.535559-05:00",
+  "scan_time": "2026-02-27 12:21:36 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,33 +8,33 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 307.9700012207031,
-      "zone": "FLAT"
+      "price": 307.6600036621094,
+      "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 260.1000061035156,
-      "zone": "LONG"
+      "price": 258.6300048828125,
+      "zone": "FLAT"
     },
     {
       "ticker": "MA",
-      "price": 516.280029296875,
-      "zone": "LONG"
+      "price": 515.4099731445312,
+      "zone": "FLAT"
     },
     {
       "ticker": "TMO",
-      "price": 515.125,
+      "price": 515.1799926757812,
       "zone": "FLAT"
     },
     {
       "ticker": "INTU",
-      "price": 402.05499267578125,
+      "price": 402.8900146484375,
       "zone": "LONG"
     },
     {
       "ticker": "SPGI",
-      "price": 441.4100036621094,
-      "zone": "LONG"
+      "price": 440.7449951171875,
+      "zone": "FLAT"
     }
   ],
   "stats": {
@@ -49,8 +49,8 @@
     "open_positions": 6
   },
   "zone_counts": {
-    "LONG": 46,
-    "SHORT": 24,
-    "FLAT": 28
+    "LONG": 28,
+    "SHORT": 38,
+    "FLAT": 32
   }
 }
