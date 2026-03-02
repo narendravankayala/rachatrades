@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-02-27T16:05:18.292664-05:00",
-  "scan_time": "2026-02-27 16:05:18 ET",
+  "timestamp": "2026-03-02T08:49:15.017293-05:00",
+  "scan_time": "2026-03-02 08:49:15 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -18,12 +18,12 @@
     },
     {
       "ticker": "MA",
-      "price": 517.0900268554688,
+      "price": 517.010009765625,
       "zone": "LONG"
     },
     {
       "ticker": "TMO",
-      "price": 521.239990234375,
+      "price": 521.0650024414062,
       "zone": "LONG"
     },
     {
@@ -49,8 +49,8 @@
     "open_positions": 5
   },
   "zone_counts": {
-    "LONG": 61,
-    "SHORT": 10,
-    "FLAT": 26
+    "LONG": 60,
+    "SHORT": 11,
+    "FLAT": 27
   }
 }
