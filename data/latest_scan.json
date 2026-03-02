@@ -1,40 +1,35 @@
 {
-  "timestamp": "2026-03-02T15:15:58.003721-05:00",
-  "scan_time": "2026-03-02 15:15:58 ET",
+  "timestamp": "2026-03-02T15:32:36.081354-05:00",
+  "scan_time": "2026-03-02 15:32:36 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
   "holds": [
     {
-      "ticker": "TSLA",
-      "price": 399.5799865722656,
+      "ticker": "GOOGL",
+      "price": 305.6400146484375,
       "zone": "SHORT"
     },
     {
       "ticker": "ADBE",
-      "price": 262.32000732421875,
+      "price": 262.0299987792969,
       "zone": "FLAT"
     },
     {
       "ticker": "MA",
-      "price": 522.0579833984375,
+      "price": 520.77001953125,
       "zone": "FLAT"
     },
     {
       "ticker": "TMO",
-      "price": 508.989990234375,
+      "price": 508.7550048828125,
       "zone": "SHORT"
     },
     {
       "ticker": "INTU",
-      "price": 422.2349853515625,
+      "price": 419.2449951171875,
       "zone": "FLAT"
-    },
-    {
-      "ticker": "AMAT",
-      "price": 369.9599914550781,
-      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -49,8 +44,8 @@
     "open_positions": 5
   },
   "zone_counts": {
-    "LONG": 11,
-    "SHORT": 47,
-    "FLAT": 39
+    "LONG": 16,
+    "SHORT": 41,
+    "FLAT": 41
   }
 }
