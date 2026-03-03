@@ -1,51 +1,82 @@
 {
-  "timestamp": "2026-03-03T15:35:47.844424-05:00",
-  "scan_time": "2026-03-03 15:35:47 ET",
+  "timestamp": "2026-03-03T15:50:35.774613-05:00",
+  "scan_time": "2026-03-03 15:50:35 ET",
+  "eod_close": true,
+  "eod_sells": [
+    {
+      "ticker": "TMO",
+      "price": 507.29998779296875,
+      "pnl": -35.5
+    },
+    {
+      "ticker": "MA",
+      "price": 523.052490234375,
+      "pnl": -17.50750732421875
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 302.6499938964844,
+      "pnl": -21.3800048828125
+    },
+    {
+      "ticker": "INTU",
+      "price": 430.4599914550781,
+      "pnl": -7.420013427734375
+    }
+  ],
+  "eod_covers": [
+    {
+      "ticker": "ADBE",
+      "price": 271.55499267578125,
+      "pnl": -3.214996337890625
+    }
+  ],
+  "eod_held": [
+    {
+      "ticker": "ADBE",
+      "price": 271.55499267578125,
+      "pnl": 3.214996337890625
+    },
+    {
+      "ticker": "TMO",
+      "price": 507.29998779296875,
+      "pnl": 35.5
+    },
+    {
+      "ticker": "MA",
+      "price": 523.052490234375,
+      "pnl": 17.50750732421875
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 302.6499938964844,
+      "pnl": 21.3800048828125
+    },
+    {
+      "ticker": "INTU",
+      "price": 430.4599914550781,
+      "pnl": 7.420013427734375
+    }
+  ],
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [
-    {
-      "ticker": "GOOGL",
-      "price": 303.114990234375,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "ADBE",
-      "price": 269.9100036621094,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MA",
-      "price": 523.9299926757812,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 508.1400146484375,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "INTU",
-      "price": 430.3949890136719,
-      "zone": "FLAT"
-    }
-  ],
+  "holds": [],
   "stats": {
-    "total_trades": 97,
+    "total_trades": 98,
     "winning_trades": 35,
-    "losing_trades": 60,
+    "losing_trades": 61,
     "breakeven_trades": 2,
-    "win_rate": 36.08247422680412,
-    "total_pnl": -58.8908576965332,
-    "avg_pnl": -0.6071222442941567,
-    "avg_pnl_percent": -0.4464979958357436,
-    "open_positions": 5
+    "win_rate": 35.714285714285715,
+    "total_pnl": -62.10585403442383,
+    "avg_pnl": -0.6337332044328962,
+    "avg_pnl_percent": -0.454167460479825,
+    "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 30,
-    "SHORT": 11,
-    "FLAT": 57
+    "LONG": 0,
+    "SHORT": 0,
+    "FLAT": 0
   }
 }
