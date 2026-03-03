@@ -1,68 +1,42 @@
 {
-  "timestamp": "2026-03-03T15:50:35.774613-05:00",
-  "scan_time": "2026-03-03 15:50:35 ET",
-  "eod_close": true,
-  "eod_sells": [
-    {
-      "ticker": "TMO",
-      "price": 507.29998779296875,
-      "pnl": -35.5
-    },
-    {
-      "ticker": "MA",
-      "price": 523.052490234375,
-      "pnl": -17.50750732421875
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 302.6499938964844,
-      "pnl": -21.3800048828125
-    },
-    {
-      "ticker": "INTU",
-      "price": 430.4599914550781,
-      "pnl": -7.420013427734375
-    }
-  ],
-  "eod_covers": [
-    {
-      "ticker": "ADBE",
-      "price": 271.55499267578125,
-      "pnl": -3.214996337890625
-    }
-  ],
-  "eod_held": [
-    {
-      "ticker": "ADBE",
-      "price": 271.55499267578125,
-      "pnl": 3.214996337890625
-    },
-    {
-      "ticker": "TMO",
-      "price": 507.29998779296875,
-      "pnl": 35.5
-    },
-    {
-      "ticker": "MA",
-      "price": 523.052490234375,
-      "pnl": 17.50750732421875
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 302.6499938964844,
-      "pnl": 21.3800048828125
-    },
-    {
-      "ticker": "INTU",
-      "price": 430.4599914550781,
-      "pnl": 7.420013427734375
-    }
-  ],
+  "timestamp": "2026-03-03T16:07:24.729309-05:00",
+  "scan_time": "2026-03-03 16:07:24 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [],
+  "holds": [
+    {
+      "ticker": "GOOGL",
+      "price": 303.5400085449219,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MA",
+      "price": 524.3099975585938,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "TMO",
+      "price": 508.0400085449219,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "BMY",
+      "price": 61.2400016784668,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MPC",
+      "price": 211.97000122070312,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "INTU",
+      "price": 433.3999938964844,
+      "zone": "FLAT"
+    }
+  ],
   "stats": {
     "total_trades": 98,
     "winning_trades": 35,
@@ -75,8 +49,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 0,
-    "SHORT": 0,
-    "FLAT": 0
+    "LONG": 22,
+    "SHORT": 38,
+    "FLAT": 38
   }
 }
