@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-04T08:47:38.976080-05:00",
-  "scan_time": "2026-03-04 08:47:38 ET",
+  "timestamp": "2026-03-04T09:02:12.233833-05:00",
+  "scan_time": "2026-03-04 09:02:12 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -13,22 +13,27 @@
     },
     {
       "ticker": "MA",
-      "price": 523.5650024414062,
-      "zone": "FLAT"
+      "price": 524.3200073242188,
+      "zone": "LONG"
     },
     {
       "ticker": "TMO",
-      "price": 507.42498779296875,
-      "zone": "FLAT"
+      "price": 508.0899963378906,
+      "zone": "LONG"
     },
     {
       "ticker": "BMY",
-      "price": 61.31999969482422,
+      "price": 61.23500061035156,
       "zone": "SHORT"
     },
     {
+      "ticker": "MPC",
+      "price": 211.9949951171875,
+      "zone": "LONG"
+    },
+    {
       "ticker": "INTU",
-      "price": 433.3800048828125,
+      "price": 433.3999938964844,
       "zone": "FLAT"
     }
   ],
@@ -44,8 +49,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 10,
-    "SHORT": 38,
-    "FLAT": 50
+    "LONG": 23,
+    "SHORT": 37,
+    "FLAT": 38
   }
 }
