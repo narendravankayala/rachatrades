@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-04T09:13:53.009369-05:00",
-  "scan_time": "2026-03-04 09:13:53 ET",
+  "timestamp": "2026-03-04T09:32:21.160389-05:00",
+  "scan_time": "2026-03-04 09:32:21 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,28 +8,73 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 303.5400085449219,
+      "price": 301.7040100097656,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "META",
+      "price": 663.9400024414062,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "ORCL",
+      "price": 152.5399932861328,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "ADBE",
+      "price": 272.8800048828125,
       "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 523.5650024414062,
+      "price": 521.6599731445312,
       "zone": "FLAT"
     },
     {
-      "ticker": "TMO",
-      "price": 507.42498779296875,
-      "zone": "FLAT"
+      "ticker": "C",
+      "price": 112.0,
+      "zone": "LONG"
     },
     {
-      "ticker": "BMY",
-      "price": 61.31999969482422,
+      "ticker": "JNJ",
+      "price": 244.88999938964844,
       "zone": "SHORT"
     },
     {
+      "ticker": "TMO",
+      "price": 511.69000244140625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "KO",
+      "price": 78.5999984741211,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "XOM",
+      "price": 150.8101043701172,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "PSX",
+      "price": 160.69000244140625,
+      "zone": "LONG"
+    },
+    {
       "ticker": "INTU",
-      "price": 433.3800048828125,
-      "zone": "FLAT"
+      "price": 433.8500061035156,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AEP",
+      "price": 131.11000061035156,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "SCHW",
+      "price": 96.41000366210938,
+      "zone": "LONG"
     }
   ],
   "stats": {
@@ -44,8 +89,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 10,
-    "SHORT": 38,
-    "FLAT": 49
+    "LONG": 41,
+    "SHORT": 39,
+    "FLAT": 18
   }
 }
