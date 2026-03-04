@@ -1,46 +1,72 @@
 {
-  "timestamp": "2026-03-04T15:31:13.024857-05:00",
-  "scan_time": "2026-03-04 15:31:13 ET",
+  "timestamp": "2026-03-04T15:50:34.381835-05:00",
+  "scan_time": "2026-03-04 15:50:34 ET",
+  "eod_close": true,
+  "eod_sells": [
+    {
+      "ticker": "TMO",
+      "price": 513.3599853515625,
+      "pnl": -29.44000244140625
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 302.6712951660156,
+      "pnl": -21.35870361328125
+    },
+    {
+      "ticker": "MA",
+      "price": 523.5750732421875,
+      "pnl": -16.98492431640625
+    }
+  ],
+  "eod_covers": [
+    {
+      "ticker": "INTU",
+      "price": 439.8800048828125,
+      "pnl": -2.0
+    }
+  ],
+  "eod_held": [
+    {
+      "ticker": "INTU",
+      "price": 439.8800048828125,
+      "pnl": 2.0
+    },
+    {
+      "ticker": "MA",
+      "price": 523.5750732421875,
+      "pnl": 16.98492431640625
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 302.6712951660156,
+      "pnl": 21.35870361328125
+    },
+    {
+      "ticker": "TMO",
+      "price": 513.3599853515625,
+      "pnl": 29.44000244140625
+    }
+  ],
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [
-    {
-      "ticker": "GOOGL",
-      "price": 302.94000244140625,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MA",
-      "price": 523.4149780273438,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 513.2449951171875,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "INTU",
-      "price": 439.67498779296875,
-      "zone": "FLAT"
-    }
-  ],
+  "holds": [],
   "stats": {
-    "total_trades": 98,
+    "total_trades": 99,
     "winning_trades": 35,
-    "losing_trades": 61,
+    "losing_trades": 62,
     "breakeven_trades": 2,
-    "win_rate": 35.714285714285715,
-    "total_pnl": -62.10585403442383,
-    "avg_pnl": -0.6337332044328962,
-    "avg_pnl_percent": -0.454167460479825,
-    "open_positions": 4
+    "win_rate": 35.35353535353536,
+    "total_pnl": -64.10585403442383,
+    "avg_pnl": -0.6475338791355942,
+    "avg_pnl_percent": -0.45419350770126027,
+    "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 45,
-    "SHORT": 13,
-    "FLAT": 40
+    "LONG": 0,
+    "SHORT": 0,
+    "FLAT": 0
   }
 }
