@@ -1,29 +1,91 @@
 {
-  "timestamp": "2026-03-05T09:15:54.024261-05:00",
-  "scan_time": "2026-03-05 09:15:54 ET",
+  "timestamp": "2026-03-05T09:35:10.378942-05:00",
+  "scan_time": "2026-03-05 09:35:10 ET",
   "buys": [],
   "shorts": [],
-  "sells": [],
+  "sells": [
+    {
+      "ticker": "TMO",
+      "price": 505.614990234375,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "09:35:10"
+    }
+  ],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 303.0299987792969,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MA",
-      "price": 522.75,
+      "price": 300.70001220703125,
       "zone": "SHORT"
     },
     {
-      "ticker": "TMO",
-      "price": 512.7000122070312,
-      "zone": "FLAT"
+      "ticker": "AVGO",
+      "price": 324.739990234375,
+      "zone": "LONG"
     },
     {
-      "ticker": "ABT",
-      "price": 113.05000305175781,
+      "ticker": "ORCL",
+      "price": 154.6999969482422,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "ADBE",
+      "price": 279.4801025390625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MA",
+      "price": 523.6500244140625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "JNJ",
+      "price": 241.38999938964844,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "LLY",
+      "price": 991.0050048828125,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "PFE",
+      "price": 26.350000381469727,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MRK",
+      "price": 118.06999969482422,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "PG",
+      "price": 156.24000549316406,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "MCD",
+      "price": 329.29998779296875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "NOW",
+      "price": 116.9749984741211,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "NFLX",
+      "price": 99.44999694824219,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "PLD",
+      "price": 137.6199951171875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "EQIX",
+      "price": 956.5399780273438,
       "zone": "SHORT"
     }
   ],
@@ -39,8 +101,8 @@
     "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 25,
-    "SHORT": 38,
-    "FLAT": 35
+    "LONG": 30,
+    "SHORT": 54,
+    "FLAT": 14
   }
 }
