@@ -1,27 +1,47 @@
 {
-  "timestamp": "2026-03-06T15:30:42.692706-05:00",
-  "scan_time": "2026-03-06 15:30:42 ET",
+  "timestamp": "2026-03-06T15:50:03.984589-05:00",
+  "scan_time": "2026-03-06 15:50:03 ET",
+  "eod_close": true,
+  "eod_sells": [
+    {
+      "ticker": "MA",
+      "price": 520.5050048828125,
+      "pnl": -20.05499267578125
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 298.5899963378906,
+      "pnl": -25.44000244140625
+    },
+    {
+      "ticker": "TMO",
+      "price": 501.2650146484375,
+      "pnl": -41.53497314453125
+    }
+  ],
+  "eod_covers": [],
+  "eod_held": [
+    {
+      "ticker": "MA",
+      "price": 520.5050048828125,
+      "pnl": 20.05499267578125
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 298.5899963378906,
+      "pnl": 25.44000244140625
+    },
+    {
+      "ticker": "TMO",
+      "price": 501.2650146484375,
+      "pnl": 41.53497314453125
+    }
+  ],
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [
-    {
-      "ticker": "GOOGL",
-      "price": 298.3500061035156,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "MA",
-      "price": 520.1500244140625,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "TMO",
-      "price": 502.42999267578125,
-      "zone": "SHORT"
-    }
-  ],
+  "holds": [],
   "stats": {
     "total_trades": 99,
     "winning_trades": 35,
@@ -34,8 +54,8 @@
     "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 41,
-    "SHORT": 29,
-    "FLAT": 28
+    "LONG": 0,
+    "SHORT": 0,
+    "FLAT": 0
   }
 }
