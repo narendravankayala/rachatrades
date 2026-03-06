@@ -1,202 +1,34 @@
 {
-  "timestamp": "2026-03-06T09:31:50.856948-05:00",
-  "scan_time": "2026-03-06 09:31:50 ET",
+  "timestamp": "2026-03-06T09:55:04.020413-05:00",
+  "scan_time": "2026-03-06 09:55:04 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "GOOGL",
-      "price": 296.5050048828125,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:31:50"
-    },
-    {
-      "ticker": "TMO",
-      "price": 509.864990234375,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "09:31:50"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
-      "ticker": "AAPL",
-      "price": 256.06500244140625,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "META",
-      "price": 639.5,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TSLA",
-      "price": 396.2550048828125,
+      "ticker": "GOOGL",
+      "price": 297.45001220703125,
       "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 520.3051147460938,
+      "price": 513.760009765625,
       "zone": "SHORT"
     },
     {
-      "ticker": "BAC",
-      "price": 47.97999954223633,
+      "ticker": "TMO",
+      "price": 505.0299987792969,
       "zone": "SHORT"
     },
     {
-      "ticker": "WFC",
-      "price": 79.02999877929688,
+      "ticker": "WMT",
+      "price": 122.22000122070312,
       "zone": "SHORT"
     },
     {
-      "ticker": "GS",
-      "price": 808.5999755859375,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "MS",
-      "price": 156.22999572753906,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "AXP",
-      "price": 300.80999755859375,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "C",
-      "price": 104.88500213623047,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "MRK",
-      "price": 114.58999633789062,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "DHR",
-      "price": 199.76499938964844,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "KO",
-      "price": 76.56749725341797,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "COST",
-      "price": 964.760009765625,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "LOW",
-      "price": 250.02499389648438,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "CAT",
-      "price": 681.5349731445312,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "HON",
-      "price": 235.2949981689453,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "DE",
-      "price": 585.2899780273438,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "MMM",
-      "price": 153.4250030517578,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "EOG",
-      "price": 133.1199951171875,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "QCOM",
-      "price": 134.27999877929688,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TXN",
-      "price": 193.77000427246094,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "NOW",
-      "price": 121.95999908447266,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "INTU",
-      "price": 472.0,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "AMAT",
-      "price": 331.92999267578125,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "WBD",
-      "price": 27.674999237060547,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "PLD",
-      "price": 134.64999389648438,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "PSA",
-      "price": 303.88470458984375,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "NEE",
-      "price": 90.30999755859375,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "BLK",
-      "price": 985.2899780273438,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "CB",
-      "price": 329.3901062011719,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "PNC",
-      "price": 206.5050048828125,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "USB",
-      "price": 52.26499938964844,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "SCHW",
-      "price": 93.58000183105469,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TFC",
-      "price": 46.78499984741211,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "COF",
-      "price": 186.98500061035156,
+      "ticker": "AEP",
+      "price": 130.73500061035156,
       "zone": "SHORT"
     }
   ],
@@ -212,8 +44,8 @@
     "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 14,
-    "SHORT": 76,
-    "FLAT": 8
+    "LONG": 6,
+    "SHORT": 83,
+    "FLAT": 9
   }
 }
