@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-09T13:16:55.379977-04:00",
-  "scan_time": "2026-03-09 13:16:55 ET",
+  "timestamp": "2026-03-09T13:37:04.872978-04:00",
+  "scan_time": "2026-03-09 13:37:04 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,23 +8,33 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 300.92999267578125,
+      "price": 300.8009948730469,
       "zone": "FLAT"
     },
     {
-      "ticker": "ORCL",
-      "price": 148.89999389648438,
+      "ticker": "MA",
+      "price": 510.80499267578125,
       "zone": "SHORT"
     },
     {
-      "ticker": "MA",
-      "price": 512.8400268554688,
+      "ticker": "GS",
+      "price": 807.6300048828125,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 501.3900146484375,
-      "zone": "FLAT"
+      "price": 498.7300109863281,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "QCOM",
+      "price": 135.75999450683594,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "AMAT",
+      "price": 326.3299865722656,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -39,8 +49,8 @@
     "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 14,
-    "SHORT": 35,
-    "FLAT": 48
+    "LONG": 3,
+    "SHORT": 59,
+    "FLAT": 36
   }
 }
