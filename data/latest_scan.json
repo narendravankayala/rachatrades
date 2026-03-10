@@ -1,29 +1,37 @@
 {
-  "timestamp": "2026-03-10T09:50:43.117706-04:00",
-  "scan_time": "2026-03-10 09:50:43 ET",
+  "timestamp": "2026-03-10T10:03:33.230383-04:00",
+  "scan_time": "2026-03-10 10:03:33 ET",
   "buys": [],
-  "shorts": [],
-  "sells": [],
+  "shorts": [
+    {
+      "ticker": "CCI",
+      "price": 89.12999725341797,
+      "reason": "SHORT: 5/12 cloud flipped bearish (zone: SHORT)",
+      "zone": "SHORT",
+      "time": "10:03:33",
+      "mfi": 48.259646065046724,
+      "williams_r": -85.38010913163167
+    }
+  ],
+  "sells": [
+    {
+      "ticker": "MA",
+      "price": 513.0750122070312,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "10:03:33"
+    },
+    {
+      "ticker": "TMO",
+      "price": 500.29998779296875,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "10:03:33"
+    }
+  ],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 307.239990234375,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "MA",
-      "price": 514.5250244140625,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "UNH",
-      "price": 281.39080810546875,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 504.6000061035156,
+      "price": 306.0400085449219,
       "zone": "FLAT"
     }
   ],
@@ -36,11 +44,11 @@
     "total_pnl": -64.10585403442383,
     "avg_pnl": -0.6475338791355942,
     "avg_pnl_percent": -0.45419350770126027,
-    "open_positions": 3
+    "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 26,
-    "SHORT": 44,
-    "FLAT": 28
+    "LONG": 24,
+    "SHORT": 35,
+    "FLAT": 39
   }
 }

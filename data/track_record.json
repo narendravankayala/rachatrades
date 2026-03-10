@@ -189,7 +189,7 @@
     "total_pnl_pct": -44.97,
     "avg_pnl": -0.65,
     "avg_pnl_pct": -0.45,
-    "open_positions": 3,
+    "open_positions": 4,
     "trading_days": 12,
     "max_drawdown": 93.13,
     "best_trade": {
@@ -200,6 +200,6 @@
       "ticker": "MU",
       "pnl": -30.49
     },
-    "generated_at": "2026-03-10T13:50:58.805494"
+    "generated_at": "2026-03-10T14:03:57.314812"
   }
 }
