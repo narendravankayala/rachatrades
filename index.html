@@ -579,19 +579,19 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">LONG Zone</div>
-                <div class="stat-value positive">26</div>
+                <div class="stat-value positive">24</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">FLAT Zone</div>
-                <div class="stat-value neutral">28</div>
+                <div class="stat-value neutral">39</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">SHORT Zone</div>
-                <div class="stat-value negative">44</div>
+                <div class="stat-value negative">35</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Open Positions</div>
-                <div class="stat-value neutral">3</div>
+                <div class="stat-value neutral">4</div>
             </div>
         </section>
 
@@ -711,11 +711,50 @@
             </div>
             
             
-            <div class="positions-table">
-                <div class="empty-state">
-                    <div class="icon">📊</div>
-                    <p>No new signals in the latest scan. Waiting for optimal entry conditions.</p>
+            <div class="signal-grid">
+                
+                
+                <div class="signal-card short">
+                    <div class="signal-type short">SHORT</div>
+                    <div class="signal-info">
+                        <h3>CCI <span style="font-size: 0.7em; color: var(--red);">SHORT</span></h3>
+                        <p class="signal-reason">SHORT: 5/12 cloud flipped bearish (zone: SHORT)</p>
+                        
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 4px;">
+                            MFI: 48 | 
+                            WR: -85
+                        </p>
+                        
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$89.13</div>
+                    </div>
                 </div>
+                
+                
+                <div class="signal-card sell">
+                    <div class="signal-type sell">SELL</div>
+                    <div class="signal-info">
+                        <h3>MA</h3>
+                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: SHORT)</p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$513.08</div>
+                    </div>
+                </div>
+                
+                <div class="signal-card sell">
+                    <div class="signal-type sell">SELL</div>
+                    <div class="signal-info">
+                        <h3>TMO</h3>
+                        <p class="signal-reason">SELL: 5/12 cloud flipped bearish (zone: SHORT)</p>
+                    </div>
+                    <div class="signal-price">
+                        <div class="price">$500.30</div>
+                    </div>
+                </div>
+                
+                
             </div>
             
         </section>
@@ -736,6 +775,14 @@
                     <div>Entry Time</div>
                     <div>Status</div>
                     <div>Reason</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="ticker-cell">CCI</div>
+                    <div>$89.13</div>
+                    <div>Mar 10, 10:03</div>
+                    <div><span class="status-badge open">HOLDING</span></div>
+                    <div class="signal-reason">SHORT: 5/12 cloud flipped bearish (zone: SHORT)</div>
                 </div>
                 
                 <div class="table-row">
@@ -997,7 +1044,7 @@
                 <a href="#">Documentation</a>
             </div>
             <div class="footer-note">
-                Last scan: 2026-03-10T13:50:58.917691 • Data from Yahoo Finance • Not financial advice
+                Last scan: 2026-03-10T14:03:57.426792 • Data from Yahoo Finance • Not financial advice
             </div>
         </div>
     </footer>
