@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-12T16:19:05.992271-04:00",
-  "scan_time": "2026-03-12 16:19:05 ET",
+  "timestamp": "2026-03-12T16:35:50.040323-04:00",
+  "scan_time": "2026-03-12 16:35:50 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,13 +8,13 @@
       "ticker": "GOOGL",
       "price": 303.510009765625,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "16:19:05"
+      "time": "16:35:50"
     },
     {
       "ticker": "TMO",
       "price": 475.7300109863281,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "16:19:05"
+      "time": "16:35:50"
     }
   ],
   "covers": [],
