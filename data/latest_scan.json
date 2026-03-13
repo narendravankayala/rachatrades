@@ -1,31 +1,29 @@
 {
-  "timestamp": "2026-03-13T10:56:56.922489-04:00",
-  "scan_time": "2026-03-13 10:56:56 ET",
+  "timestamp": "2026-03-13T11:18:43.286342-04:00",
+  "scan_time": "2026-03-13 11:18:43 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "CCI",
-      "price": 86.44000244140625,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "10:56:56"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 304.68499755859375,
-      "zone": "SHORT"
+      "price": 305.42999267578125,
+      "zone": "FLAT"
     },
     {
       "ticker": "MA",
-      "price": 497.6000061035156,
+      "price": 497.5050964355469,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 471.6099853515625,
+      "price": 472.6400146484375,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "CCI",
+      "price": 86.16999816894531,
       "zone": "SHORT"
     }
   ],
@@ -41,8 +39,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 14,
-    "SHORT": 54,
-    "FLAT": 30
+    "LONG": 19,
+    "SHORT": 39,
+    "FLAT": 40
   }
 }
