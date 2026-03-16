@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-16T16:44:24.228466-04:00",
-  "scan_time": "2026-03-16 16:44:24 ET",
+  "timestamp": "2026-03-16T17:02:18.161079-04:00",
+  "scan_time": "2026-03-16 17:02:18 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,7 +8,7 @@
       "ticker": "CCI",
       "price": 87.55000305175781,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "16:44:24"
+      "time": "17:02:18"
     }
   ],
   "covers": [],
