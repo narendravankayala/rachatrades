@@ -1,57 +1,47 @@
 {
-  "timestamp": "2026-03-20T15:58:27.586304-04:00",
-  "scan_time": "2026-03-20 15:58:27 ET",
-  "eod_close": true,
-  "eod_sells": [
-    {
-      "ticker": "TMO",
-      "price": 474.4200134277344,
-      "pnl": -68.37997436523438
-    },
-    {
-      "ticker": "CCI",
-      "price": 82.62000274658203,
-      "pnl": -6.5099945068359375
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 300.9200134277344,
-      "pnl": -23.1099853515625
-    },
-    {
-      "ticker": "MA",
-      "price": 497.260009765625,
-      "pnl": -43.29998779296875
-    }
-  ],
-  "eod_covers": [],
-  "eod_held": [
-    {
-      "ticker": "TMO",
-      "price": 474.4200134277344,
-      "pnl": 68.37997436523438
-    },
-    {
-      "ticker": "MA",
-      "price": 497.260009765625,
-      "pnl": 43.29998779296875
-    },
-    {
-      "ticker": "CCI",
-      "price": 82.62000274658203,
-      "pnl": 6.5099945068359375
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 300.9200134277344,
-      "pnl": 23.1099853515625
-    }
-  ],
+  "timestamp": "2026-03-20T16:13:52.077250-04:00",
+  "scan_time": "2026-03-20 16:13:52 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [],
+  "holds": [
+    {
+      "ticker": "GOOGL",
+      "price": 300.9700012207031,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "MA",
+      "price": 496.7300109863281,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "WFC",
+      "price": 77.69999694824219,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "TMO",
+      "price": 474.6600036621094,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "PG",
+      "price": 144.3699951171875,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "CCI",
+      "price": 82.41999816894531,
+      "zone": "SHORT"
+    },
+    {
+      "ticker": "SCHW",
+      "price": 94.66999816894531,
+      "zone": "LONG"
+    }
+  ],
   "stats": {
     "total_trades": 99,
     "winning_trades": 35,
@@ -64,8 +54,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 0,
-    "SHORT": 0,
-    "FLAT": 0
+    "LONG": 24,
+    "SHORT": 30,
+    "FLAT": 44
   }
 }
