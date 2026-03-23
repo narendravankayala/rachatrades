@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-23T16:54:15.750391-04:00",
-  "scan_time": "2026-03-23 16:54:15 ET",
+  "timestamp": "2026-03-23T17:09:14.707962-04:00",
+  "scan_time": "2026-03-23 17:09:14 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,7 +8,7 @@
       "ticker": "TMO",
       "price": 478.1199951171875,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "16:54:15"
+      "time": "17:09:14"
     }
   ],
   "covers": [],
