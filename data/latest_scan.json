@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-24T10:08:44.936676-04:00",
-  "scan_time": "2026-03-24 10:08:44 ET",
+  "timestamp": "2026-03-24T10:25:33.429605-04:00",
+  "scan_time": "2026-03-24 10:25:33 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,48 +8,28 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 297.239990234375,
+      "price": 295.5150146484375,
       "zone": "SHORT"
     },
     {
       "ticker": "MA",
-      "price": 495.5299987792969,
+      "price": 493.9949951171875,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 481.9599914550781,
+      "price": 482.04998779296875,
       "zone": "LONG"
     },
     {
-      "ticker": "KO",
-      "price": 75.68000030517578,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "NKE",
-      "price": 53.22999954223633,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "CAT",
-      "price": 707.0,
+      "ticker": "TGT",
+      "price": 115.26000213623047,
       "zone": "LONG"
     },
     {
       "ticker": "CCI",
-      "price": 81.0999984741211,
+      "price": 81.01499938964844,
       "zone": "FLAT"
-    },
-    {
-      "ticker": "AEP",
-      "price": 129.0399932861328,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "CB",
-      "price": 328.760009765625,
-      "zone": "LONG"
     }
   ],
   "stats": {
@@ -64,8 +44,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 45,
-    "SHORT": 31,
-    "FLAT": 22
+    "LONG": 44,
+    "SHORT": 33,
+    "FLAT": 21
   }
 }
