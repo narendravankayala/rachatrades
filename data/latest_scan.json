@@ -1,57 +1,39 @@
 {
-  "timestamp": "2026-03-30T15:52:24.560744-04:00",
-  "scan_time": "2026-03-30 15:52:24 ET",
-  "eod_close": true,
-  "eod_sells": [
-    {
-      "ticker": "MA",
-      "price": 493.7699890136719,
-      "pnl": -46.790008544921875
-    },
-    {
-      "ticker": "TMO",
-      "price": 481.885009765625,
-      "pnl": -60.91497802734375
-    },
-    {
-      "ticker": "CCI",
-      "price": 79.63999938964844,
-      "pnl": -9.489997863769531
-    },
-    {
-      "ticker": "GOOGL",
-      "price": 273.3500061035156,
-      "pnl": -50.67999267578125
-    }
-  ],
-  "eod_covers": [],
-  "eod_held": [
-    {
-      "ticker": "GOOGL",
-      "price": 273.3500061035156,
-      "pnl": 50.67999267578125
-    },
-    {
-      "ticker": "CCI",
-      "price": 79.63999938964844,
-      "pnl": 9.489997863769531
-    },
-    {
-      "ticker": "TMO",
-      "price": 481.885009765625,
-      "pnl": 60.91497802734375
-    },
-    {
-      "ticker": "MA",
-      "price": 493.7699890136719,
-      "pnl": 46.790008544921875
-    }
-  ],
+  "timestamp": "2026-03-30T16:11:36.701100-04:00",
+  "scan_time": "2026-03-30 16:11:36 ET",
   "buys": [],
   "shorts": [],
-  "sells": [],
+  "sells": [
+    {
+      "ticker": "TMO",
+      "price": 480.05999755859375,
+      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
+      "time": "16:11:36"
+    }
+  ],
   "covers": [],
-  "holds": [],
+  "holds": [
+    {
+      "ticker": "GOOGL",
+      "price": 273.510009765625,
+      "zone": "FLAT"
+    },
+    {
+      "ticker": "MA",
+      "price": 494.0188903808594,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "CRM",
+      "price": 185.0,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "CCI",
+      "price": 79.69000244140625,
+      "zone": "FLAT"
+    }
+  ],
   "stats": {
     "total_trades": 99,
     "winning_trades": 35,
@@ -64,8 +46,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 0,
-    "SHORT": 0,
-    "FLAT": 0
+    "LONG": 18,
+    "SHORT": 19,
+    "FLAT": 61
   }
 }
