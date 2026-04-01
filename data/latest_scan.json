@@ -1,32 +1,57 @@
 {
-  "timestamp": "2026-04-01T15:34:09.216903-04:00",
-  "scan_time": "2026-04-01 15:34:09 ET",
+  "timestamp": "2026-04-01T15:59:03.980092-04:00",
+  "scan_time": "2026-04-01 15:59:03 ET",
+  "eod_close": true,
+  "eod_sells": [
+    {
+      "ticker": "MA",
+      "price": 491.989990234375,
+      "pnl": -48.57000732421875
+    },
+    {
+      "ticker": "CCI",
+      "price": 80.93000030517578,
+      "pnl": -8.199996948242188
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 297.4599914550781,
+      "pnl": -26.57000732421875
+    },
+    {
+      "ticker": "TMO",
+      "price": 495.55499267578125,
+      "pnl": -47.2449951171875
+    }
+  ],
+  "eod_covers": [],
+  "eod_held": [
+    {
+      "ticker": "MA",
+      "price": 491.989990234375,
+      "pnl": 48.57000732421875
+    },
+    {
+      "ticker": "CCI",
+      "price": 80.93000030517578,
+      "pnl": 8.199996948242188
+    },
+    {
+      "ticker": "GOOGL",
+      "price": 297.4599914550781,
+      "pnl": 26.57000732421875
+    },
+    {
+      "ticker": "TMO",
+      "price": 495.55499267578125,
+      "pnl": 47.2449951171875
+    }
+  ],
   "buys": [],
   "shorts": [],
   "sells": [],
   "covers": [],
-  "holds": [
-    {
-      "ticker": "GOOGL",
-      "price": 297.17999267578125,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "MA",
-      "price": 492.2200012207031,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "TMO",
-      "price": 495.57000732421875,
-      "zone": "FLAT"
-    },
-    {
-      "ticker": "CCI",
-      "price": 81.0999984741211,
-      "zone": "LONG"
-    }
-  ],
+  "holds": [],
   "stats": {
     "total_trades": 99,
     "winning_trades": 35,
@@ -39,8 +64,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 39,
-    "SHORT": 11,
-    "FLAT": 48
+    "LONG": 0,
+    "SHORT": 0,
+    "FLAT": 0
   }
 }
