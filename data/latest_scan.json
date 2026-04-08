@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-08T15:46:27.558219-04:00",
-  "scan_time": "2026-04-08 15:46:27 ET",
+  "timestamp": "2026-04-08T16:05:38.562224-04:00",
+  "scan_time": "2026-04-08 16:05:38 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,22 +8,37 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 317.9100036621094,
-      "zone": "LONG"
+      "price": 317.25,
+      "zone": "FLAT"
     },
     {
       "ticker": "MA",
-      "price": 508.9599914550781,
+      "price": 507.2300109863281,
       "zone": "FLAT"
     },
     {
       "ticker": "TMO",
-      "price": 503.0299987792969,
+      "price": 503.69000244140625,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "AMAT",
+      "price": 385.6199951171875,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "MU",
+      "price": 406.8599853515625,
       "zone": "LONG"
     },
     {
       "ticker": "CCI",
-      "price": 85.83999633789062,
+      "price": 85.55999755859375,
+      "zone": "LONG"
+    },
+    {
+      "ticker": "PSA",
+      "price": 290.0899963378906,
       "zone": "LONG"
     }
   ],
