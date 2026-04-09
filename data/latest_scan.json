@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-09T11:48:15.771889-04:00",
-  "scan_time": "2026-04-09 11:48:15 ET",
+  "timestamp": "2026-04-09T12:19:32.816355-04:00",
+  "scan_time": "2026-04-09 12:19:32 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,32 +8,27 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 317.2650146484375,
+      "price": 318.8800048828125,
       "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 500.4700012207031,
-      "zone": "SHORT"
+      "price": 504.0050048828125,
+      "zone": "FLAT"
     },
     {
       "ticker": "TMO",
-      "price": 499.25,
+      "price": 502.489990234375,
       "zone": "LONG"
     },
     {
-      "ticker": "XOM",
-      "price": 155.94000244140625,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "VLO",
-      "price": 240.1300048828125,
-      "zone": "SHORT"
+      "ticker": "CHTR",
+      "price": 223.97500610351562,
+      "zone": "LONG"
     },
     {
       "ticker": "CCI",
-      "price": 87.32499694824219,
+      "price": 87.2699966430664,
       "zone": "LONG"
     }
   ],
@@ -49,8 +44,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 64,
-    "SHORT": 16,
-    "FLAT": 18
+    "LONG": 69,
+    "SHORT": 12,
+    "FLAT": 17
   }
 }
