@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-13T17:14:59.151626-04:00",
-  "scan_time": "2026-04-13 17:14:59 ET",
+  "timestamp": "2026-04-14T10:09:30.131981-04:00",
+  "scan_time": "2026-04-14 10:09:30 ET",
   "buys": [],
   "shorts": [],
   "sells": [],
@@ -8,43 +8,23 @@
   "holds": [
     {
       "ticker": "GOOGL",
-      "price": 321.3900146484375,
+      "price": 327.3988037109375,
       "zone": "LONG"
     },
     {
       "ticker": "MA",
-      "price": 508.510009765625,
+      "price": 509.7300109863281,
       "zone": "LONG"
     },
     {
       "ticker": "TMO",
-      "price": 514.25,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "CVX",
-      "price": 191.72000122070312,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "VLO",
-      "price": 242.0399932861328,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "INTU",
-      "price": 369.4599914550781,
-      "zone": "LONG"
-    },
-    {
-      "ticker": "AMT",
-      "price": 181.02999877929688,
+      "price": 523.260009765625,
       "zone": "LONG"
     },
     {
       "ticker": "CCI",
-      "price": 87.05000305175781,
-      "zone": "LONG"
+      "price": 85.69000244140625,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -59,8 +39,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 72,
-    "SHORT": 3,
-    "FLAT": 22
+    "LONG": 60,
+    "SHORT": 23,
+    "FLAT": 15
   }
 }
