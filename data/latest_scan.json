@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-15T16:08:51.275250-04:00",
-  "scan_time": "2026-04-15 16:08:51 ET",
+  "timestamp": "2026-04-15T16:28:41.309764-04:00",
+  "scan_time": "2026-04-15 16:28:41 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,7 +8,7 @@
       "ticker": "MA",
       "price": 519.9299926757812,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "16:08:51"
+      "time": "16:28:41"
     }
   ],
   "covers": [],
@@ -20,7 +20,7 @@
     },
     {
       "ticker": "TMO",
-      "price": 531.5700073242188,
+      "price": 531.6599731445312,
       "zone": "LONG"
     },
     {
@@ -41,8 +41,8 @@
     "open_positions": 4
   },
   "zone_counts": {
-    "LONG": 25,
-    "SHORT": 38,
+    "LONG": 26,
+    "SHORT": 37,
     "FLAT": 35
   }
 }
