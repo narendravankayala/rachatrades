@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-15T17:10:28.300594-04:00",
-  "scan_time": "2026-04-15 17:10:28 ET",
+  "timestamp": "2026-04-15T17:15:33.050605-04:00",
+  "scan_time": "2026-04-15 17:15:33 ET",
   "buys": [],
   "shorts": [],
   "sells": [
@@ -8,7 +8,7 @@
       "ticker": "MA",
       "price": 519.9299926757812,
       "reason": "SELL: 5/12 cloud flipped bearish (zone: FLAT)",
-      "time": "17:10:28"
+      "time": "17:15:33"
     }
   ],
   "covers": [],
