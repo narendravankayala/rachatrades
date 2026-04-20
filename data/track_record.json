@@ -167,31 +167,45 @@
       "short_trades": 1,
       "long_pnl": 0.0,
       "short_pnl": -2.0
+    },
+    {
+      "date": "2026-04-20",
+      "trades": 1,
+      "winners": 0,
+      "losers": 1,
+      "win_rate": 0.0,
+      "pnl": -13.42,
+      "pnl_pct": -4.14,
+      "cumulative_pnl": -77.53,
+      "long_trades": 0,
+      "short_trades": 1,
+      "long_pnl": 0.0,
+      "short_pnl": -13.42
     }
   ],
   "agents": [
     {
       "name": "Rashemator",
       "description": "5/12 Cloud Flip + 34/50 Trend Filter",
-      "trades": 99,
-      "win_rate": 35.4,
-      "total_pnl": -64.11,
-      "avg_pnl": -0.65,
+      "trades": 100,
+      "win_rate": 35.0,
+      "total_pnl": -77.53,
+      "avg_pnl": -0.78,
       "status": "live"
     }
   ],
   "summary": {
-    "total_trades": 99,
+    "total_trades": 100,
     "winners": 35,
-    "losers": 64,
-    "win_rate": 35.4,
-    "total_pnl": -64.11,
-    "total_pnl_pct": -44.97,
-    "avg_pnl": -0.65,
-    "avg_pnl_pct": -0.45,
-    "open_positions": 4,
-    "trading_days": 12,
-    "max_drawdown": 93.13,
+    "losers": 65,
+    "win_rate": 35.0,
+    "total_pnl": -77.53,
+    "total_pnl_pct": -49.11,
+    "avg_pnl": -0.78,
+    "avg_pnl_pct": -0.49,
+    "open_positions": 3,
+    "trading_days": 13,
+    "max_drawdown": 104.62,
     "best_trade": {
       "ticker": "EQIX",
       "pnl": 27.31
@@ -200,6 +214,6 @@
       "ticker": "MU",
       "pnl": -30.49
     },
-    "generated_at": "2026-04-20T19:35:40.933314"
+    "generated_at": "2026-04-20T19:59:59.746789"
   }
 }
