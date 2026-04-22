@@ -1,42 +1,25 @@
 {
-  "timestamp": "2026-04-22T10:33:05.924406-04:00",
-  "scan_time": "2026-04-22 10:33:05 ET",
+  "timestamp": "2026-04-22T11:02:30.294617-04:00",
+  "scan_time": "2026-04-22 11:02:30 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "CCI",
-      "price": 85.31999969482422,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "10:33:05"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
-      "ticker": "JPM",
-      "price": 313.17498779296875,
-      "zone": "SHORT"
-    },
-    {
       "ticker": "MA",
-      "price": 509.9649963378906,
-      "zone": "SHORT"
-    },
-    {
-      "ticker": "BAC",
-      "price": 53.380001068115234,
+      "price": 508.42498779296875,
       "zone": "SHORT"
     },
     {
       "ticker": "TMO",
-      "price": 521.7150268554688,
+      "price": 519.1199951171875,
       "zone": "SHORT"
     },
     {
-      "ticker": "VLO",
-      "price": 233.77000427246094,
-      "zone": "LONG"
+      "ticker": "CCI",
+      "price": 85.32499694824219,
+      "zone": "SHORT"
     }
   ],
   "stats": {
@@ -51,8 +34,8 @@
     "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 31,
-    "SHORT": 43,
-    "FLAT": 24
+    "LONG": 22,
+    "SHORT": 42,
+    "FLAT": 34
   }
 }
