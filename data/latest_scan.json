@@ -1,32 +1,25 @@
 {
-  "timestamp": "2026-04-22T11:39:06.459860-04:00",
-  "scan_time": "2026-04-22 11:39:06 ET",
+  "timestamp": "2026-04-22T12:06:36.768333-04:00",
+  "scan_time": "2026-04-22 12:06:36 ET",
   "buys": [],
   "shorts": [],
-  "sells": [
-    {
-      "ticker": "CCI",
-      "price": 85.41819763183594,
-      "reason": "SELL: 5/12 cloud flipped bearish (zone: SHORT)",
-      "time": "11:39:06"
-    }
-  ],
+  "sells": [],
   "covers": [],
   "holds": [
     {
       "ticker": "MA",
-      "price": 507.6300048828125,
-      "zone": "SHORT"
+      "price": 507.9501037597656,
+      "zone": "FLAT"
     },
     {
       "ticker": "TMO",
-      "price": 517.1699829101562,
+      "price": 517.75,
       "zone": "SHORT"
     },
     {
-      "ticker": "QCOM",
-      "price": 135.9571075439453,
-      "zone": "SHORT"
+      "ticker": "CCI",
+      "price": 85.62000274658203,
+      "zone": "FLAT"
     }
   ],
   "stats": {
@@ -41,8 +34,8 @@
     "open_positions": 3
   },
   "zone_counts": {
-    "LONG": 23,
-    "SHORT": 52,
-    "FLAT": 23
+    "LONG": 29,
+    "SHORT": 36,
+    "FLAT": 33
   }
 }
